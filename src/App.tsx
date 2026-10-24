@@ -679,7 +679,7 @@ export default function App() {
                     {config.bride.name}
                   </h1>
                   <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.brideParents || config.bride.introLineage || `Daughter of ${config.bride.fatherName} & ${config.bride.motherName}`}
+                    {config.heroSettings?.brideParents || `Daughter of ${config.bride.fatherName?.startsWith("Mr") ? config.bride.fatherName : `Mr. ${config.bride.fatherName || "Babul Nath"}`} & ${config.bride.motherName?.startsWith("Mrs") ? config.bride.motherName : `Mrs. ${config.bride.motherName || "Momi Devi"}`}`}
                   </p>
                   
                   {/* Separator */}
@@ -694,7 +694,7 @@ export default function App() {
                     {config.groom.name}
                   </h1>
                   <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.groomParents || config.groom.introLineage || `Son of ${config.groom.fatherName} & ${config.groom.motherName}`}
+                    {config.heroSettings?.groomParents || `Son of ${config.groom.fatherName?.startsWith("Mr") ? config.groom.fatherName : `Mr. ${config.groom.fatherName || "T.V. Ramesh"}`} & ${config.groom.motherName?.startsWith("Mrs") ? config.groom.motherName : `Mrs. ${config.groom.motherName || "Usha Ramesh"}`}`}
                   </p>
                 </>
               ) : (
@@ -704,7 +704,7 @@ export default function App() {
                     {config.groom.name}
                   </h1>
                   <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.groomParents || config.groom.introLineage || `Son of ${config.groom.fatherName} & ${config.groom.motherName}`}
+                    {config.heroSettings?.groomParents || `Son of ${config.groom.fatherName?.startsWith("Mr") ? config.groom.fatherName : `Mr. ${config.groom.fatherName || "T.V. Ramesh"}`} & ${config.groom.motherName?.startsWith("Mrs") ? config.groom.motherName : `Mrs. ${config.groom.motherName || "Usha Ramesh"}`}`}
                   </p>
                   
                   {/* Separator */}
@@ -719,7 +719,7 @@ export default function App() {
                     {config.bride.name}
                   </h1>
                   <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.brideParents || config.bride.introLineage || `Daughter of ${config.bride.fatherName} & ${config.bride.motherName}`}
+                    {config.heroSettings?.brideParents || `Daughter of ${config.bride.fatherName?.startsWith("Mr") ? config.bride.fatherName : `Mr. ${config.bride.fatherName || "Babul Nath"}`} & ${config.bride.motherName?.startsWith("Mrs") ? config.bride.motherName : `Mrs. ${config.bride.motherName || "Momi Devi"}`}`}
                   </p>
                 </>
               )}
@@ -1258,27 +1258,10 @@ export default function App() {
             className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
-              <div className="text-center mb-8">
-                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
-                  CELEBRATE WITH US
-                </span>
-                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
-                  {config.rsvpSection?.title || "Kindly RSVP"}
-                </h3>
-                <p className="font-serif-premium text-xs sm:text-sm text-[#765E52] mt-1 italic">
-                  {config.rsvpSection?.subtitle || "Your blessings and presence mean the world to Aditya & Pooja"}
-                </p>
-                {config.rsvpSection?.deadlineText && (
-                  <span className="inline-block mt-3 px-3.5 py-1 rounded-full bg-[#FFF9F3] border border-[#C9A45C]/40 text-[#641D2E] font-sans text-[10px] font-bold tracking-wide">
-                    ⏳ {config.rsvpSection.deadlineText}
-                  </span>
-                )}
-              </div>
-
-              {/* Centered GIVE YOUR RSVP Button Redirecting to Google Form */}
-              <div className="flex flex-col items-center justify-center text-center my-6">
+              {/* 1. GIVE YOUR RSVP Button (Redirects to Google Form) */}
+              <div className="flex flex-col items-center justify-center text-center mb-6">
                 <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header"
+                  href={config.rsvpSection?.googleFormUrl || "https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-8 py-3.5 rounded-full font-sans text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
@@ -1289,125 +1272,64 @@ export default function App() {
                 </a>
               </div>
 
-              {/* Form */}
-              <form onSubmit={handleRSVPSubmit} className="space-y-4">
-                {/* PRIORITY 1: Will You Attend? */}
-                <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4">
-                  <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide mb-2 text-center">
-                    Will You Attend? *
+              {/* 2. 'Will You Attend?' Column Box */}
+              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 max-w-sm mx-auto mb-4">
+                <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide mb-2.5 text-center">
+                  Will You Attend?
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setRsvpAttend(true)}
+                    className={`py-2.5 px-3 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                      rsvpAttend === true
+                        ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
+                        : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
+                    }`}
+                  >
+                    ✓ Attending
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRsvpAttend(false)}
+                    className={`py-2.5 px-3 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                      rsvpAttend === false
+                        ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
+                        : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
+                    }`}
+                  >
+                    ✕ Decline
+                  </button>
+                </div>
+              </div>
+
+              {/* 3. 'Number of Guests' Column Box */}
+              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 max-w-sm mx-auto mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide">
+                    Number of Guests
                   </label>
-                  <div className="grid grid-cols-2 gap-2.5 max-w-xs mx-auto">
+                  <span className="text-[10px] text-[#B94E2F] font-bold">Max 4 guests</span>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {[1, 2, 3, 4].map((num) => (
                     <button
+                      key={num}
                       type="button"
-                      onClick={() => setRsvpAttend(true)}
-                      className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
-                        rsvpAttend === true
-                          ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
+                      onClick={() => setRsvpGuests(num)}
+                      className={`py-2 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                        rsvpGuests === num
+                          ? "bg-[#B94E2F] text-white border-[#B94E2F] shadow-sm"
                           : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
                       }`}
                     >
-                      ✓ Attending
+                      {num}
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setRsvpAttend(false)}
-                      className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
-                        rsvpAttend === false
-                          ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
-                          : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
-                      }`}
-                    >
-                      ✕ Decline
-                    </button>
-                  </div>
-
-                  {rsvpAttend && (
-                    <div className="mt-3.5 pt-3 border-t border-[#C9A45C]/20 max-w-xs mx-auto">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide">
-                          Number of Guests
-                        </label>
-                        <span className="text-[10px] text-[#B94E2F] font-bold">Max 4 guests</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {[1, 2, 3, 4].map((num) => (
-                          <button
-                            key={num}
-                            type="button"
-                            onClick={() => setRsvpGuests(num)}
-                            className={`flex-1 py-1.5 rounded-xl text-xs font-sans font-bold transition-all border ${
-                              rsvpGuests === num
-                                ? "bg-[#B94E2F] text-white border-[#B94E2F]"
-                                : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
-                            }`}
-                          >
-                            {num}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  ))}
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
-                    Your Full Name *
-                  </label>
-                  <div className="relative">
-                    <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#C9A45C]" />
-                    <input 
-                      type="text" 
-                      required
-                      value={rsvpName}
-                      onChange={(e) => setRsvpName(e.target.value)}
-                      placeholder="e.g. Ramesh Kumar"
-                      className="w-full bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
-                    WhatsApp / Phone Number *
-                  </label>
-                  <div className="relative">
-                    <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#C9A45C]" />
-                    <input 
-                      type="tel" 
-                      required
-                      value={rsvpPhone}
-                      onChange={(e) => setRsvpPhone(e.target.value)}
-                      placeholder="+91 98765 43210"
-                      className="w-full bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
-                    Warm Wishes / Message for Couple
-                  </label>
-                  <div className="relative">
-                    <MessageSquare size={15} className="absolute left-3.5 top-3 text-[#C9A45C]" />
-                    <textarea 
-                      value={rsvpMessage}
-                      onChange={(e) => setRsvpMessage(e.target.value)}
-                      placeholder="Share your blessings and love..."
-                      rows={3}
-                      className="w-full bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F] resize-none"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-[#B94E2F] hover:bg-[#8F3B22] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-widest font-sans shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 mt-2"
-                >
-                  <Send size={15} />
-                  Submit RSVP
-                </button>
-              </form>
-
+              {/* 4. 'For RSVP assistance or queries:' Content */}
               <div className="mt-6 text-center border-t border-[#C9A45C]/20 pt-4">
                 <span className="text-[10px] text-[#765E52] font-sans block mb-1">
                   For RSVP assistance or queries:
