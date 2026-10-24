@@ -675,50 +675,50 @@ export default function App() {
               {config.priorityOrder === "bride" ? (
                 <>
                   {/* Bride First */}
-                  <h1 className="font-accent text-5xl md:text-6xl text-[#B94E2F] m-0 font-normal leading-[1.2] tracking-wide">
+                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-6 uppercase tracking-widest text-center">
+                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
                     {config.heroSettings?.brideParents || config.bride.introLineage || `Daughter of ${config.bride.fatherName} & ${config.bride.motherName}`}
                   </p>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-6">
+                  <div className="flex items-center justify-center gap-3 w-full mb-5">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-accent text-3xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Groom Second */}
-                  <h1 className="font-accent text-5xl md:text-6xl text-[#B94E2F] m-0 font-normal leading-[1.2] tracking-wide">
+                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center">
+                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
                     {config.heroSettings?.groomParents || config.groom.introLineage || `Son of ${config.groom.fatherName} & ${config.groom.motherName}`}
                   </p>
                 </>
               ) : (
                 <>
                   {/* Groom First (Default & Priority) */}
-                  <h1 className="font-accent text-5xl md:text-6xl text-[#B94E2F] m-0 font-normal leading-[1.2] tracking-wide">
+                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-6 uppercase tracking-widest text-center">
+                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
                     {config.heroSettings?.groomParents || config.groom.introLineage || `Son of ${config.groom.fatherName} & ${config.groom.motherName}`}
                   </p>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-6">
+                  <div className="flex items-center justify-center gap-3 w-full mb-5">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-accent text-3xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Bride Second */}
-                  <h1 className="font-accent text-5xl md:text-6xl text-[#B94E2F] m-0 font-normal leading-[1.2] tracking-wide">
+                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center">
+                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
                     {config.heroSettings?.brideParents || config.bride.introLineage || `Daughter of ${config.bride.fatherName} & ${config.bride.motherName}`}
                   </p>
                 </>
@@ -850,7 +850,7 @@ export default function App() {
                 className="mt-12 sm:mt-16 text-center overflow-hidden w-full"
               >
                 <div className="w-12 h-[1px] bg-[#C9A45C] mx-auto mb-8" />
-                <span className="font-accent text-3xl text-[#B94E2F] block mb-6">
+                <span className="font-display text-2xl sm:text-3xl text-[#B94E2F] font-semibold block mb-6">
                   The start of a beautiful journey...
                 </span>
                 <Countdown targetDate={config.weddingDate} />
@@ -876,7 +876,7 @@ export default function App() {
               <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
                 THE CELEBRATION UNFOLDS
               </span>
-              <h2 className="font-accent text-5xl md:text-6xl text-[#B94E2F] ">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#641D2E] font-bold uppercase tracking-[0.12em] leading-tight drop-shadow-sm">
                 Sacred<br/>Ceremonies
               </h2>
               <div className="flex items-center justify-center mt-6">
@@ -900,7 +900,7 @@ export default function App() {
                     <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#765E52] font-semibold mb-2">
                       {formatEventDate(event.time)}
                     </span>
-                    <h3 className="font-accent text-5xl md:text-6xl text-[#B94E2F] mb-6">
+                    <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider mb-5">
                       {event.eventName}
                     </h3>
                     
@@ -1253,7 +1253,7 @@ export default function App() {
                 <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   CELEBRATE WITH US
                 </span>
-                <h3 className="font-accent text-4xl sm:text-5xl text-[#B94E2F]">
+                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
                   {config.rsvpSection?.title || "Kindly RSVP"}
                 </h3>
                 <p className="font-serif-premium text-xs sm:text-sm text-[#765E52] mt-1 italic">
@@ -1430,7 +1430,7 @@ export default function App() {
                           setRsvpViewPwd(e.target.value);
                           setRsvpViewLoginError(false);
                         }}
-                        placeholder="Password (2580)"
+                        placeholder="Enter Password"
                         className="px-3 py-1.5 text-xs rounded-lg border border-[#C9A45C]/50 focus:outline-none focus:border-[#B94E2F] text-center w-32 bg-white font-mono"
                         autoFocus
                         onKeyDown={(e) => {
@@ -1479,7 +1479,7 @@ export default function App() {
                       </button>
                     </div>
                     {rsvpViewLoginError && (
-                      <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please enter 2580.</p>
+                      <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please try again.</p>
                     )}
                   </div>
                 )}
@@ -1505,7 +1505,7 @@ export default function App() {
               <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
                 JOIN THE CELEBRATION
               </span>
-              <h2 className="font-accent text-5xl md:text-6xl text-[#B94E2F] mb-4">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#B94E2F] font-bold uppercase tracking-wider mb-4">
                 Celebrate<br/>With Us
               </h2>
               <p className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed text-sm md:text-base px-4">
@@ -1527,12 +1527,12 @@ export default function App() {
               <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#C9A45C] mb-12" />
               
               {/* Couple Name in Closing (Groom Priority) */}
-              <h2 className="font-accent text-6xl md:text-7xl text-[#C9A45C] leading-[1.1] z-10 relative">
+              <h2 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#C9A45C] font-bold tracking-[0.06em] leading-[1.2] z-10 relative">
                 {config.priorityOrder === "bride" ? (
                   <>
                     {config.bride.name.split(" ")[0]}
                     <br/>
-                    <span className="text-4xl">&amp;</span>
+                    <span className="font-serif-premium italic text-3xl text-[#dec47f]">&amp;</span>
                     <br/>
                     {config.groom.name.split(" ")[0]}
                   </>
@@ -1540,7 +1540,7 @@ export default function App() {
                   <>
                     {config.groom.name.split(" ")[0]}
                     <br/>
-                    <span className="text-4xl">&amp;</span>
+                    <span className="font-serif-premium italic text-3xl text-[#dec47f]">&amp;</span>
                     <br/>
                     {config.bride.name.split(" ")[0]}
                   </>
@@ -1714,7 +1714,7 @@ export default function App() {
                     setEditPwd(e.target.value);
                     setEditLoginError(false);
                   }}
-                  placeholder="Password (2580)"
+                  placeholder="Enter Password"
                   className="px-3 py-1.5 text-xs rounded-lg border border-[#C9A45C]/50 focus:outline-none focus:border-[#B94E2F] text-center w-32 bg-white font-mono"
                   autoFocus
                   onKeyDown={(e) => {
@@ -1760,7 +1760,7 @@ export default function App() {
                   ✕
                 </button>
               </div>
-              {editLoginError && <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please enter 2580.</p>}
+              {editLoginError && <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please try again.</p>}
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2.5 bg-[#FFF9F3] p-5 rounded-2xl border-2 border-[#C9A45C]/40 shadow-xl max-w-xs mx-auto">
@@ -1775,7 +1775,7 @@ export default function App() {
                     setAdminPwd(e.target.value);
                     setAdminLoginError(false);
                   }}
-                  placeholder="Password (6396)"
+                  placeholder="Enter Password"
                   className="px-3 py-1.5 text-xs rounded-lg border border-[#C9A45C]/50 focus:outline-none focus:border-[#B94E2F] text-center w-32 bg-white font-mono"
                   autoFocus
                   onKeyDown={(e) => {
@@ -1821,7 +1821,7 @@ export default function App() {
                   ✕
                 </button>
               </div>
-              {adminLoginError && <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please enter 6396.</p>}
+              {adminLoginError && <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please try again.</p>}
             </div>
           )}
         </div>
