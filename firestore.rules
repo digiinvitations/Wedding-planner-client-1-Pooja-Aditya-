@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Dedicated isolated remix storage (Applet ID: 5e09f781-4da3-4952-b789-521e70e51b5c)
+    match /remix_websites/{remixId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    match /remix_wedding_clients/{clientId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    match /remix_fs_files/{fileId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    match /remix_rsvps/{rsvpId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Client partitions for multi-tenant isolation
+    match /clients/{clientId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    match /wedding_clients/{clientId} {
+      allow read, write: if true;
+      match /{allSubcollections=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Default match
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+

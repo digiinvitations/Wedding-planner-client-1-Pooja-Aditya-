@@ -1,0 +1,204 @@
+{
+  "entities": {
+    "WeddingConfig": {
+      "title": "WeddingConfig",
+      "description": "Configuration settings for the wedding e-invitation, customizable by the host",
+      "type": "object",
+      "properties": {
+        "heroImageUrl": { "type": "string" },
+        "bride": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "fatherName": { "type": "string" },
+            "motherName": { "type": "string" },
+            "imageUrl": { "type": "string" },
+            "bio": { "type": "string" }
+          },
+          "required": ["name", "fatherName", "motherName", "imageUrl", "bio"]
+        },
+        "groom": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "fatherName": { "type": "string" },
+            "motherName": { "type": "string" },
+            "imageUrl": { "type": "string" },
+            "bio": { "type": "string" }
+          },
+          "required": ["name", "fatherName", "motherName", "imageUrl", "bio"]
+        },
+        "weddingDate": { "type": "string" },
+        "displayDate": { "type": "string" },
+        "hashtag": { "type": "string" },
+        "musicUrl": { "type": "string" },
+        "youtubeEmbedUrl": { "type": "string" },
+        "heroTagline": { "type": "string" },
+        "gallerySubtitle": { "type": "string" },
+        "galleryImages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "caption": { "type": "string" }
+            },
+            "required": ["url", "caption"]
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "hindiName": { "type": "string" },
+              "date": { "type": "string" },
+              "time": { "type": "string" },
+              "venueName": { "type": "string" },
+              "venueAddress": { "type": "string" },
+              "mapEmbedUrl": { "type": "string" },
+              "mapDirectionsUrl": { "type": "string" },
+              "imageUrl": { "type": "string" },
+              "accentColor": { "type": "string" }
+            },
+            "required": ["id", "name", "date", "time", "venueName", "venueAddress", "imageUrl"]
+          }
+        },
+        "socialLinks": {
+          "type": "object",
+          "properties": {
+            "facebook": { "type": "string" },
+            "instagram": { "type": "string" }
+          },
+          "required": ["facebook", "instagram"]
+        },
+        "familyDetails": {
+          "type": "object",
+          "properties": {
+            "message": { "type": "string" },
+            "welcomingText": { "type": "string" },
+            "names": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["message", "welcomingText", "names"]
+        },
+        "welcomeMessage": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" },
+            "text": { "type": "string" }
+          },
+          "required": ["title", "subtitle", "text"]
+        }
+      },
+      "required": [
+        "heroImageUrl",
+        "bride",
+        "groom",
+        "weddingDate",
+        "displayDate",
+        "hashtag",
+        "heroTagline",
+        "galleryImages",
+        "events",
+        "familyDetails",
+        "welcomeMessage"
+      ]
+    },
+    "RSVP": {
+      "title": "RSVP",
+      "description": "Guest RSVP submission record",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "guestsCount": { "type": "integer" },
+        "attend": { "type": "boolean" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["name", "phone", "guestsCount", "attend", "timestamp"]
+    },
+    "ClientProfile": {
+      "title": "ClientProfile",
+      "description": "Remix client metadata profile for multi-tenant data isolation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name"]
+    },
+    "RemixWebsiteDoc": {
+      "title": "RemixWebsiteDoc",
+      "description": "Segregated remix document containing separate remix fields to prevent overlap with official site",
+      "type": "object",
+      "properties": {
+        "is_remix": { "type": "boolean" },
+        "remix_applet_id": { "type": "string" },
+        "remix_instance_id": { "type": "string" },
+        "remix_client_workspace": { "type": "string" },
+        "remix_safe_id": { "type": "string" },
+        "remix_wedding_config": { "$ref": "WeddingConfig" },
+        "remix_updated_at": { "type": "string" }
+      },
+      "required": ["is_remix", "remix_applet_id", "remix_instance_id", "remix_wedding_config"]
+    }
+  },
+  "firestore": {
+    "/remix_websites/{remixId}": {
+      "schema": "ClientProfile",
+      "description": "Remix website metadata"
+    },
+    "/remix_websites/{remixId}/workspaces/{workspaceId}": {
+      "schema": "RemixWebsiteDoc",
+      "description": "Isolated remix workspace configurations with separate fields"
+    },
+    "/remix_websites/{remixId}/workspaces/{workspaceId}/rsvps/{rsvpId}": {
+      "schema": "RSVP",
+      "description": "Guest RSVPs isolated to specific remix workspace"
+    },
+    "/remix_wedding_clients/{clientId}": {
+      "schema": "RemixWebsiteDoc",
+      "description": "Mirrored isolated remix wedding configuration"
+    },
+    "/remix_fs_files/{fileChunkId}": {
+      "schema": "object",
+      "description": "Remix uploaded media and image file chunks"
+    },
+    "/remix_rsvps/{rsvpId}": {
+      "schema": "RSVP",
+      "description": "Remix guest RSVP records"
+    },
+    "/clients/{clientId}": {
+      "schema": "ClientProfile",
+      "description": "Metadata profile for isolated client workspace"
+    },
+    "/clients/{clientId}/data/{dataId}": {
+      "schema": "WeddingConfig",
+      "description": "Isolated wedding config for specific client workspace"
+    },
+    "/clients/{clientId}/rsvps/{rsvpId}": {
+      "schema": "RSVP",
+      "description": "Isolated RSVP submissions for specific client workspace"
+    },
+    "/wedding_clients/{clientId}": {
+      "schema": "WeddingConfig",
+      "description": "Partitioned wedding document by client identifier"
+    },
+    "/settings/{settingId}": {
+      "schema": "WeddingConfig",
+      "description": "Customizable wedding website parameters"
+    },
+    "/rsvps/{rsvpId}": {
+      "schema": "RSVP",
+      "description": "Collection of RSVPs submitted by wedding guests"
+    }
+  }
+}

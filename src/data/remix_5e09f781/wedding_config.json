@@ -1,0 +1,148 @@
+{
+  "priorityOrder": "groom",
+  "weddingDate": "2027-01-18T17:00",
+  "displayDate": "Monday, 18th January 2027",
+  "hashtag": "#AdityaWedsPooja",
+  "heroTagline": "We Are Getting Married",
+  "groom": {
+    "name": "Aditya Ramesh",
+    "fatherName": "Mr T.V.Ramesh",
+    "motherName": "Mrs. Usha Ramesh",
+    "introLineage": "Son of Mr. & Mrs. Ramesh",
+    "imageUrl": "fsdb://fsdb_1783188128812_loip4lg",
+    "bio": "Son of Mr. & Mrs. Ramesh. Bringing the warmth and rich heritage of Kerala with big dreams and an open heart."
+  },
+  "bride": {
+    "name": "Pooja Devi",
+    "fatherName": "Mr. Babul Nath",
+    "motherName": "Mrs. Momi Devi",
+    "introLineage": "Daughter of Mr. & Mrs. Nath & Devi",
+    "imageUrl": "fsdb://fsdb_1783188141625_920kwyo",
+    "bio": "Daughter of Mr. & Mrs. Nath & Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room."
+  },
+  "heroSettings": {
+    "groomParents": "Son of Mrs. Usha Ramesh & Mr T.V.Ramesh",
+    "brideParents": "Daughter of Mrs. Momi Devi & Mr. Babul Nath",
+    "introText": "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of",
+    "shloka": "॥ श्री गणेशाय नमः ॥\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ\nनिर्विघ्नं कुरु मे देव\nसर्वकार्येषु सर्वदा ॥",
+    "showPetals": true,
+    "ganeshaIconUrl": "https://i.ibb.co/C5HDWDcL/1000012057-removebg-preview.png",
+    "bgVideoUrl": "https://www.image2url.com/r2/default/videos/1787648242785-df6b2cb3-3bd5-4ed7-bfc7-405356cf354c.mp4"
+  },
+  "invitationStory": {
+    "title": "DIFFERENT ROOTS • SAME DREAMS",
+    "theMeeting": "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful.",
+    "theJourney": "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together.",
+    "theForever": "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."
+  },
+  "welcomeMessage": {
+    "title": "DIFFERENT ROOTS • SAME DREAMS",
+    "subtitle": "Two Beautiful Cultures, One Sacred Union",
+    "text": "The Meeting\nLike a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful.\n\nThe Journey\nWhat started as friendship grew into love filled with laughter, long conversations, shared dreams and two beautiful cultures came together.\n\nThe Forever\nToday, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."
+  },
+  "familyDetails": {
+    "welcomingText": "Warmly Welcomed By:",
+    "message": "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
+    "names": [
+      "Ramesh Family",
+      "Nath Family",
+      "All Relatives and Friends"
+    ]
+  },
+  "weddingEvents": [
+    {
+      "eventName": "Wedding Ceremony (Muhurtham)",
+      "time": "2027-01-18",
+      "venueName": "Mountain Breeze Mahableshwar",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.758253149488!2d73.702283!3d17.925488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc265e31eb8c159%3A0xf82cf05c90b92b42!2sMountain%20Breeze%20Resort!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+      "thumbnailUrl": "https://www.image2url.com/r2/default/videos/1787593662183-9f53e455-7fc7-44b1-8733-fe6eee85c6a2.mp4"
+    },
+    {
+      "eventName": "Haldi & Sangeet Evening",
+      "time": "2027-01-17",
+      "venueName": "Mountain Breeze Lawn",
+      "venueAddress": "Mountain Breeze Resort, Panchgani - Mahabaleshwar Road, Mahabaleshwar",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.758253149488!2d73.702283!3d17.925488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc265e31eb8c159%3A0xf82cf05c90b92b42!2sMountain%20Breeze%20Resort!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+      "thumbnailUrl": "https://www.image2url.com/r2/default/videos/1787591383645-a6292e47-3d21-4503-96d7-dd0797ba9526.mp4"
+    }
+  ],
+  "dressCode": {
+    "enabled": true,
+    "themeTitle": "Kerala & Assamese Fusion Royalty",
+    "themeSubtitle": "Traditional Splendor with Royal Gold & Pastel Tones",
+    "description": "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.",
+    "colorPalette": [
+      { "name": "Kasavu Gold", "hex": "#D4AF37" },
+      { "name": "Muga Silk Ivory", "hex": "#FDF8EE" },
+      { "name": "Sunset Coral", "hex": "#E07A5F" },
+      { "name": "Assam Tea Green", "hex": "#819A7A" },
+      { "name": "Royal Maroon", "hex": "#641D2E" }
+    ],
+    "attireMen": "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.",
+    "attireWomen": "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.",
+    "note": "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions."
+  },
+  "hotelStay": {
+    "enabled": true,
+    "hotelName": "Mountain Breeze Resort, Mahabaleshwar",
+    "tagline": "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys",
+    "checkIn": "18th January 2027 • 12:00 PM",
+    "checkOut": "19th January 2027 • 11:00 AM",
+    "address": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+    "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
+    "amenities": [
+      "Complimentary Guest Rooms & Suites",
+      "Buffet Breakfast & Mountain Tea Service",
+      "Ample Valet Parking for Guests",
+      "Scenic Valley View Lawns & Heated Pool",
+      "24/7 Guest Hospitality & Concierge Desk"
+    ],
+    "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
+    "contactPerson": "Ramesh Hospitality Helpdesk",
+    "contactPhone": "+91 98765 43210",
+    "mapUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111"
+  },
+  "rsvpSection": {
+    "enabled": true,
+    "title": "Kindly RSVP",
+    "subtitle": "Your presence and blessings will make our celebration truly complete",
+    "deadlineText": "Please confirm your attendance by 10th January 2027",
+    "contactName": "Ramesh & Nath Families Hospitality",
+    "contactPhone": "+91 98765 43210"
+  },
+  "openingBackgroundImageUrl": "https://i.ibb.co/F4c3Rn4X/file-000000008b048211af9a46c0a2523455.png",
+  "openingSealImageUrl": "https://www.image2url.com/r2/default/images/1783181278121-9f63126d-669b-46e3-920c-2ea585dc28d7.png",
+  "openingVideoUrl": "https://www.image2url.com/r2/default/videos/1787736032087-bb97a04f-2775-4ab2-8812-d6b91ac9f91d.mp4",
+  "envelopeIconUrl": "fsdb://fsdb_1783192687294_4mhgeux",
+  "musicUrl": "https://www.image2url.com/r2/default/audio/1787668714348-1be87241-d799-46f1-be7c-f6a4a16b3b1c.mp3",
+  "heroImageUrl": "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?q=100&w=3840&auto=format&fit=crop",
+  "gallerySubtitle": "Glimpses of Our Journey",
+  "galleryImages": [
+    {
+      "caption": "Kerala Sunset & Assamese Breeze",
+      "url": "fsdb://fsdb_1783188196638_9hxd9t2"
+    },
+    {
+      "caption": "Two Hearts, One Journey",
+      "url": "fsdb://fsdb_1783188200036_uo10e9q"
+    },
+    {
+      "caption": "Shared Dreams & Laughter",
+      "url": "fsdb://fsdb_1783188208912_p0di8st"
+    },
+    {
+      "caption": "The Promise of Forever",
+      "url": "fsdb://fsdb_1783188238840_l9yo7wq"
+    }
+  ],
+  "socialLinks": {
+    "instagram": "https://instagram.com",
+    "facebook": "https://facebook.com"
+  },
+  "is_remix": true,
+  "remix_instance_id": "remix_5e09f781",
+  "remix_applet_id": "5e09f781-4da3-4952-b789-521e70e51b5c"
+}
