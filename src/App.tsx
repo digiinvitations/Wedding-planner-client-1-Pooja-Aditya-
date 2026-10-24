@@ -872,12 +872,12 @@ export default function App() {
             transition={{ duration: 0.8 }}
             className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
-            <div className="text-center mb-16">
-              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
+            <div className="text-center mb-16 flex flex-col items-center justify-center">
+              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block text-center">
                 THE CELEBRATION UNFOLDS
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#641D2E] font-bold uppercase tracking-[0.12em] leading-tight drop-shadow-sm">
-                Sacred<br/>Ceremonies
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#641D2E] font-bold uppercase tracking-[0.12em] text-center mx-auto leading-tight drop-shadow-sm">
+                Sacred Ceremonies
               </h2>
               <div className="flex items-center justify-center mt-6">
                 <div className="w-16 h-[1px] bg-[#C9A45C]/50" />
@@ -1037,77 +1037,81 @@ export default function App() {
             transition={{ duration: 0.8 }}
             className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
-            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden">
-              <div className="text-center mb-6">
+            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden text-center">
+              <div className="mb-6">
                 <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   STYLE &amp; CELEBRATION
                 </span>
-                <h3 className="font-accent text-4xl sm:text-5xl text-[#B94E2F]">
-                  {config.dressCode?.themeTitle || "Dress Code & Theme"}
+                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
+                  Dress Code
                 </h3>
-                {config.dressCode?.themeSubtitle && (
-                  <p className="font-serif-premium text-xs sm:text-sm text-[#765E52] mt-1 italic">
-                    {config.dressCode.themeSubtitle}
-                  </p>
-                )}
-              </div>
-
-              {config.dressCode?.description && (
-                <p className="text-center text-xs text-[#4B3A35] font-serif-premium mb-6 max-w-md mx-auto leading-relaxed">
-                  {config.dressCode.description}
-                </p>
-              )}
-
-              {/* Color Palette Swatches */}
-              {config.dressCode?.colorPalette && config.dressCode.colorPalette.length > 0 && (
-                <div className="mb-6">
-                  <div className="text-center font-sans text-[10px] uppercase tracking-widest text-[#765E52] font-semibold mb-3">
-                    Suggested Color Harmony
-                  </div>
-                  <div className="flex flex-wrap justify-center items-center gap-3">
-                    {config.dressCode.colorPalette.map((color, i) => (
-                      <div key={i} className="flex flex-col items-center gap-1 group">
-                        <div 
-                          className="w-10 h-10 rounded-full shadow-md border-2 border-white ring-1 ring-[#C9A45C]/30 transition-transform group-hover:scale-110" 
-                          style={{ backgroundColor: color.hex }}
-                        />
-                        <span className="text-[9px] font-sans text-[#765E52] text-center max-w-[60px] truncate">
-                          {color.name}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Attire Recommendations */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <TurbanIcon className="w-5 h-5 text-[#B94E2F]" />
-                    <span className="font-sans text-xs uppercase tracking-wider font-bold text-[#641D2E]">Gentlemen</span>
-                  </div>
-                  <p className="text-xs text-[#4B3A35] font-serif-premium leading-relaxed">
-                    {config.dressCode?.attireMen || "Traditional Kerala Mundu with Gold Zari, Kurta Pajama, or Nehru Jacket in ivory or pastel shades."}
-                  </p>
-                </div>
-                
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-2xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <BindiIcon className="w-5 h-5 text-[#B94E2F]" />
-                    <span className="font-sans text-xs uppercase tracking-wider font-bold text-[#641D2E]">Ladies</span>
-                  </div>
-                  <p className="text-xs text-[#4B3A35] font-serif-premium leading-relaxed">
-                    {config.dressCode?.attireWomen || "Traditional Kasavu Sarees, Assamese Mekhela Chador, Silk Sarees, or Lehengas in royal gold & warm hues."}
-                  </p>
+                <div className="flex items-center justify-center mt-3">
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                  <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
                 </div>
               </div>
 
-              {config.dressCode?.note && (
-                <p className="text-[11px] text-center text-[#765E52] italic bg-[#FFF9F3]/60 py-2 px-4 rounded-xl border border-[#C9A45C]/20">
-                  ✨ {config.dressCode.note}
-                </p>
-              )}
+              {/* Only the 3 Specific Ceremony Dress Codes */}
+              <div className="space-y-3.5 max-w-md mx-auto text-left">
+                {/* 1. On Juroon */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                    ✨
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                      On Juroon
+                    </span>
+                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                        <span>Avoid dark colour</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A45C] shrink-0" />
+                        <span>Wear gold or pastel</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 2. On Shadi */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                    🪔
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                      On Shadi
+                    </span>
+                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                        <span>Wear dark colors</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 3. On Reception */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                    🥂
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                      On Reception
+                    </span>
+                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                        <span>Avoid blue and black</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.section>
         )}
@@ -1191,23 +1195,7 @@ export default function App() {
                 </div>
               )}
 
-              {config.hotelStay?.amenities && config.hotelStay.amenities.length > 0 && (
-                <div className="mb-6">
-                  <div className="font-sans text-[10px] uppercase tracking-widest text-[#765E52] font-semibold mb-2.5 text-center">
-                    Hospitality Highlights
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {config.hotelStay.amenities.map((item, i) => (
-                      <div key={i} className="flex items-center gap-2 text-[11px] text-[#4B3A35] bg-[#FFF9F3]/60 px-3 py-1.5 rounded-xl border border-[#C9A45C]/20 font-serif-premium">
-                        <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Travel guide & Contact Helpline */}
+              {/* Travel guide */}
               {config.hotelStay?.travelGuide && (
                 <div className="text-[11px] text-[#765E52] bg-[#FFF9F3] p-3.5 rounded-2xl border border-[#C9A45C]/20 leading-relaxed mb-4">
                   <strong className="block text-[#641D2E] mb-1 font-sans text-[10px] uppercase tracking-wider">
@@ -1217,20 +1205,41 @@ export default function App() {
                 </div>
               )}
 
-              {config.hotelStay?.contactPhone && (
-                <div className="text-center pt-2">
-                  <span className="text-[10px] text-[#765E52] font-sans uppercase tracking-wider block mb-1">
-                    Hospitality Helpdesk
-                  </span>
-                  <a
-                    href={`tel:${config.hotelStay.contactPhone.replace(/\s+/g, '')}`}
-                    className="inline-flex items-center gap-2 text-xs font-bold text-[#B94E2F] hover:text-[#8F3B22] transition-colors"
-                  >
-                    <Phone size={13} />
-                    {config.hotelStay.contactPerson ? `${config.hotelStay.contactPerson}: ` : ""}{config.hotelStay.contactPhone}
-                  </a>
+              {/* Systematic Assistance Contacts */}
+              <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 mt-4 text-center shadow-xs">
+                <span className="font-sans text-[10px] sm:text-xs uppercase tracking-widest text-[#765E52] font-semibold block mb-3.5">
+                  For further assistance please reach out to:
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+                  {/* Contact 1: Mr. Vishal V */}
+                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
+                    <span className="font-serif-premium font-bold text-sm text-[#641D2E] block">
+                      Mr. Vishal V
+                    </span>
+                    <a
+                      href="tel:+917400052735"
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
+                    >
+                      <Phone size={12} className="text-[#B94E2F]" />
+                      <span>+91 7400052735</span>
+                    </a>
+                  </div>
+
+                  {/* Contact 2: Ms. Priti K */}
+                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
+                    <span className="font-serif-premium font-bold text-sm text-[#641D2E] block">
+                      Ms. Priti K
+                    </span>
+                    <a
+                      href="tel:+917208782729"
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
+                    >
+                      <Phone size={12} className="text-[#B94E2F]" />
+                      <span>+91 7208782729</span>
+                    </a>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </motion.section>
         )}
@@ -1266,8 +1275,80 @@ export default function App() {
                 )}
               </div>
 
+              {/* Centered GIVE YOUR RSVP Button Redirecting to Google Form */}
+              <div className="flex flex-col items-center justify-center text-center my-6">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-8 py-3.5 rounded-full font-sans text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
+                >
+                  <Send size={15} />
+                  <span>GIVE YOUR RSVP</span>
+                  <ExternalLink size={14} className="opacity-80" />
+                </a>
+              </div>
+
               {/* Form */}
               <form onSubmit={handleRSVPSubmit} className="space-y-4">
+                {/* PRIORITY 1: Will You Attend? */}
+                <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4">
+                  <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide mb-2 text-center">
+                    Will You Attend? *
+                  </label>
+                  <div className="grid grid-cols-2 gap-2.5 max-w-xs mx-auto">
+                    <button
+                      type="button"
+                      onClick={() => setRsvpAttend(true)}
+                      className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
+                        rsvpAttend === true
+                          ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
+                          : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
+                      }`}
+                    >
+                      ✓ Attending
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRsvpAttend(false)}
+                      className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
+                        rsvpAttend === false
+                          ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
+                          : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
+                      }`}
+                    >
+                      ✕ Decline
+                    </button>
+                  </div>
+
+                  {rsvpAttend && (
+                    <div className="mt-3.5 pt-3 border-t border-[#C9A45C]/20 max-w-xs mx-auto">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide">
+                          Number of Guests
+                        </label>
+                        <span className="text-[10px] text-[#B94E2F] font-bold">Max 4 guests</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {[1, 2, 3, 4].map((num) => (
+                          <button
+                            key={num}
+                            type="button"
+                            onClick={() => setRsvpGuests(num)}
+                            className={`flex-1 py-1.5 rounded-xl text-xs font-sans font-bold transition-all border ${
+                              rsvpGuests === num
+                                ? "bg-[#B94E2F] text-white border-[#B94E2F]"
+                                : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
+                            }`}
+                          >
+                            {num}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
                     Your Full Name *
@@ -1302,65 +1383,6 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
-                      Will You Attend? *
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setRsvpAttend(true)}
-                        className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
-                          rsvpAttend === true
-                            ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
-                            : "bg-[#FFF9F3] text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
-                        }`}
-                      >
-                        ✓ Attending
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setRsvpAttend(false)}
-                        className={`py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all border ${
-                          rsvpAttend === false
-                            ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
-                            : "bg-[#FFF9F3] text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
-                        }`}
-                      >
-                        Decline
-                      </button>
-                    </div>
-                  </div>
-
-                  {rsvpAttend && (
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide">
-                          Number of Guests
-                        </label>
-                        <span className="text-[10px] text-[#B94E2F] font-bold">Max 4 guests</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {[1, 2, 3, 4].map((num) => (
-                          <button
-                            key={num}
-                            type="button"
-                            onClick={() => setRsvpGuests(num)}
-                            className={`flex-1 py-2 rounded-xl text-xs font-sans font-bold transition-all border ${
-                              rsvpGuests === num
-                                ? "bg-[#B94E2F] text-white border-[#B94E2F]"
-                                : "bg-[#FFF9F3] text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
-                            }`}
-                          >
-                            {num}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
                 <div>
                   <label className="block text-[11px] font-semibold text-[#765E52] uppercase tracking-wide mb-1">
                     Warm Wishes / Message for Couple
@@ -1386,20 +1408,28 @@ export default function App() {
                 </button>
               </form>
 
-              {config.rsvpSection?.contactPhone && (
-                <div className="mt-6 text-center border-t border-[#C9A45C]/20 pt-4">
-                  <span className="text-[10px] text-[#765E52] font-sans block mb-1">
-                    For RSVP assistance or queries:
-                  </span>
+              <div className="mt-6 text-center border-t border-[#C9A45C]/20 pt-4">
+                <span className="text-[10px] text-[#765E52] font-sans block mb-1">
+                  For RSVP assistance or queries:
+                </span>
+                <div className="flex flex-wrap items-center justify-center gap-3">
                   <a
-                    href={`tel:${config.rsvpSection.contactPhone.replace(/\s+/g, '')}`}
+                    href="tel:+917400052735"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-[#641D2E] hover:text-[#B94E2F]"
                   >
                     <Phone size={12} />
-                    {config.rsvpSection.contactName ? `${config.rsvpSection.contactName}: ` : ""}{config.rsvpSection.contactPhone}
+                    Mr. Vishal V: +91 7400052735
+                  </a>
+                  <span className="text-[#C9A45C]">•</span>
+                  <a
+                    href="tel:+917208782729"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#641D2E] hover:text-[#B94E2F]"
+                  >
+                    <Phone size={12} />
+                    Ms. Priti K: +91 7208782729
                   </a>
                 </div>
-              )}
+              </div>
 
               {/* RSVP View Button Panel Just Below RSVP (Password 2580) */}
               <div className="mt-6 pt-5 border-t border-[#C9A45C]/25 text-center">

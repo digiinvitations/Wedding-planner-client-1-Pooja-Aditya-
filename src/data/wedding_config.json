@@ -21,8 +21,8 @@
     "bio": "Daughter of Mr. & Mrs. Nath & Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room."
   },
   "heroSettings": {
-    "groomParents": "Son of Mrs. Usha Ramesh & Mr T.V.Ramesh",
-    "brideParents": "Daughter of Mrs. Momi Devi & Mr. Babul Nath",
+    "groomParents": "Son of Mr T.V.Ramesh & Mrs. Usha Ramesh",
+    "brideParents": "Daughter of Mr. Babul Nath & Mrs. Momi Devi",
     "introText": "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of",
     "shloka": "॥ श्री गणेशाय नमः ॥\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ\nनिर्विघ्नं कुरु मे देव\nसर्वकार्येषु सर्वदा ॥",
     "showPetals": true,
@@ -71,19 +71,29 @@
   ],
   "dressCode": {
     "enabled": true,
-    "themeTitle": "Kerala & Assamese Fusion Royalty",
-    "themeSubtitle": "Traditional Splendor with Royal Gold & Pastel Tones",
-    "description": "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.",
-    "colorPalette": [
-      { "name": "Kasavu Gold", "hex": "#D4AF37" },
-      { "name": "Muga Silk Ivory", "hex": "#FDF8EE" },
-      { "name": "Sunset Coral", "hex": "#E07A5F" },
-      { "name": "Assam Tea Green", "hex": "#819A7A" },
-      { "name": "Royal Maroon", "hex": "#641D2E" }
-    ],
-    "attireMen": "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.",
-    "attireWomen": "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.",
-    "note": "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions."
+    "themeTitle": "Dress Code",
+    "themeSubtitle": "Guidance for Our Sacred Celebrations",
+    "events": [
+      {
+        "event": "On Juroon",
+        "instructions": [
+          "Avoid dark colour",
+          "Wear gold or pastel"
+        ]
+      },
+      {
+        "event": "On Shadi",
+        "instructions": [
+          "Wear dark colors"
+        ]
+      },
+      {
+        "event": "On Reception",
+        "instructions": [
+          "Avoid blue and black"
+        ]
+      }
+    ]
   },
   "hotelStay": {
     "enabled": true,
@@ -93,16 +103,13 @@
     "checkOut": "19th January 2027 • 11:00 AM",
     "address": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
     "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
-    "amenities": [
-      "Complimentary Guest Rooms & Suites",
-      "Buffet Breakfast & Mountain Tea Service",
-      "Ample Valet Parking for Guests",
-      "Scenic Valley View Lawns & Heated Pool",
-      "24/7 Guest Hospitality & Concierge Desk"
-    ],
     "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
-    "contactPerson": "Ramesh Hospitality Helpdesk",
-    "contactPhone": "+91 98765 43210",
+    "contactPerson": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735",
+    "assistanceContacts": [
+      { "name": "Mr. Vishal V", "phone": "+91 7400052735" },
+      { "name": "Ms. Priti K", "phone": "+91 7208782729" }
+    ],
     "mapUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111"
   },
   "rsvpSection": {
@@ -110,8 +117,9 @@
     "title": "Kindly RSVP",
     "subtitle": "Your presence and blessings will make our celebration truly complete",
     "deadlineText": "Please confirm your attendance by 10th January 2027",
-    "contactName": "Ramesh & Nath Families Hospitality",
-    "contactPhone": "+91 98765 43210"
+    "googleFormUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header",
+    "contactName": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735"
   },
   "openingBackgroundImageUrl": "https://i.ibb.co/F4c3Rn4X/file-000000008b048211af9a46c0a2523455.png",
   "openingSealImageUrl": "https://www.image2url.com/r2/default/images/1783181278121-9f63126d-669b-46e3-920c-2ea585dc28d7.png",

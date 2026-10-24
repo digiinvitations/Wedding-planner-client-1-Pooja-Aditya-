@@ -1,14 +1,25 @@
 import configData from './data/wedding_config.json';
 
+export interface DressCodeEvent {
+  event: string;
+  instructions: string[];
+}
+
 export interface DressCodeConfig {
   enabled: boolean;
-  themeTitle: string;
-  themeSubtitle: string;
-  description: string;
-  colorPalette: { name: string; hex: string }[];
-  attireMen: string;
-  attireWomen: string;
-  note: string;
+  themeTitle?: string;
+  themeSubtitle?: string;
+  description?: string;
+  events?: DressCodeEvent[];
+  colorPalette?: { name: string; hex: string }[];
+  attireMen?: string;
+  attireWomen?: string;
+  note?: string;
+}
+
+export interface HotelAssistanceContact {
+  name: string;
+  phone: string;
 }
 
 export interface HotelStayConfig {
@@ -18,22 +29,24 @@ export interface HotelStayConfig {
   checkIn: string;
   checkOut: string;
   address: string;
-  roomDetails: string;
-  amenities: string[];
-  travelGuide: string;
-  contactPerson: string;
-  contactPhone: string;
-  mapUrl: string;
+  roomDetails?: string;
+  amenities?: string[];
+  travelGuide?: string;
+  contactPerson?: string;
+  contactPhone?: string;
+  mapUrl?: string;
   imageUrl?: string;
+  assistanceContacts?: HotelAssistanceContact[];
 }
 
 export interface RsvpSectionConfig {
   enabled: boolean;
   title: string;
   subtitle: string;
-  deadlineText: string;
-  contactPhone: string;
-  contactName: string;
+  deadlineText?: string;
+  contactPhone?: string;
+  contactName?: string;
+  googleFormUrl?: string;
 }
 
 export interface StoryInvitationMessage {

@@ -771,119 +771,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </label>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Theme Title</label>
-                          <input 
-                            type="text" 
-                            value={editConfig.dressCode?.themeTitle || ''}
-                            onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, themeTitle: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Royal Heritage & Mountain Elegance"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Subtitle</label>
-                          <input 
-                            type="text" 
-                            value={editConfig.dressCode?.subtitle || ''}
-                            onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, subtitle: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Traditional Indian / Festive Ethnic"
-                          />
-                        </div>
-                      </div>
-
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Theme Description</label>
-                        <textarea 
-                          value={editConfig.dressCode?.description || ''}
-                          onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, description: e.target.value}}))}
-                          className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F] h-20"
-                        />
-                      </div>
-
-                      {/* Color Palette Manager */}
-                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/20 space-y-3">
-                        <label className="block text-[11px] font-bold text-[#641D2E] uppercase tracking-wide">Color Palette Swatches</label>
-                        <div className="flex flex-wrap gap-2.5">
-                          {editConfig.dressCode?.colorPalette?.map((swatch, idx) => (
-                            <div key={idx} className="flex items-center gap-2 bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-lg px-2.5 py-1.5 shadow-sm">
-                              <span className="w-4 h-4 rounded-full border border-black/20" style={{ backgroundColor: swatch.hex }} />
-                              <span className="text-xs font-semibold text-[#4B3A35]">{swatch.name}</span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = (editConfig.dressCode?.colorPalette || []).filter((_, i) => i !== idx);
-                                  setEditConfig(c => ({ ...c, dressCode: { ...c.dressCode, colorPalette: updated } }));
-                                }}
-                                className="text-red-400 hover:text-red-600 ml-1"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="flex gap-2 pt-2">
-                          <input 
-                            type="text" 
-                            value={newColorName} 
-                            onChange={e => setNewColorName(e.target.value)} 
-                            placeholder="Color Name (e.g. Royal Gold)" 
-                            className="flex-1 bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-lg px-3 py-1.5 text-xs focus:outline-none"
-                          />
-                          <input 
-                            type="color" 
-                            value={newColorHex} 
-                            onChange={e => setNewColorHex(e.target.value)} 
-                            className="w-9 h-8 rounded-lg cursor-pointer border border-[#C9A45C]/30 bg-transparent p-0"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (newColorName.trim()) {
-                                const updated = [...(editConfig.dressCode?.colorPalette || []), { name: newColorName.trim(), hex: newColorHex }];
-                                setEditConfig(c => ({ ...c, dressCode: { ...c.dressCode, colorPalette: updated } }));
-                                setNewColorName("");
-                              }
-                            }}
-                            className="bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                          >
-                            + Add Color
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Gentlemen's Attire Recommendation</label>
-                          <textarea 
-                            value={editConfig.dressCode?.menAttire || ''}
-                            onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, menAttire: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F] h-20"
-                            placeholder="Sherwani, Kurta Pajama with Nehru jacket, or Bandhgala suits."
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Ladies' Attire Recommendation</label>
-                          <textarea 
-                            value={editConfig.dressCode?.womenAttire || ''}
-                            onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, womenAttire: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F] h-20"
-                            placeholder="Lehenga Choli, Silk Sarees (Assamese Mekhela / Kanjivaram), or Anarkali suits."
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Footwear & Weather Advice</label>
+                        <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Section Title</label>
                         <input 
                           type="text" 
-                          value={editConfig.dressCode?.notes || ''}
-                          onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, notes: e.target.value}}))}
+                          value={editConfig.dressCode?.themeTitle || 'Dress Code'}
+                          onChange={e => setEditConfig(c => ({...c, dressCode: {...c.dressCode, themeTitle: e.target.value}}))}
                           className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                          placeholder="Evenings in Mahabaleshwar can be crisp and chilly. We recommend carrying a warm shawl or light jacket."
+                          placeholder="Dress Code"
                         />
+                      </div>
+
+                      {/* 1. On Juroon */}
+                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
+                          1. On Juroon
+                        </span>
+                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Avoid dark colour • Wear gold or pastel</p>
+                      </div>
+
+                      {/* 2. On Shadi */}
+                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
+                          2. On Shadi
+                        </span>
+                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Wear dark colors</p>
+                      </div>
+
+                      {/* 3. On Reception */}
+                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
+                          3. On Reception
+                        </span>
+                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Avoid blue and black</p>
                       </div>
                     </div>
                   </motion.div>
@@ -981,70 +901,22 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         />
                       </div>
 
-                      {/* Amenities List */}
-                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/20 space-y-3">
-                        <label className="block text-[11px] font-bold text-[#641D2E] uppercase tracking-wide">Resort Amenities</label>
-                        <div className="flex flex-wrap gap-2">
-                          {editConfig.hotelStay?.amenities?.map((amenity, idx) => (
-                            <span key={idx} className="flex items-center gap-1.5 bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-lg px-2.5 py-1 text-xs text-[#4B3A35]">
-                              {amenity}
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = (editConfig.hotelStay?.amenities || []).filter((_, i) => i !== idx);
-                                  setEditConfig(c => ({ ...c, hotelStay: { ...c.hotelStay, amenities: updated } }));
-                                }}
-                                className="text-red-400 hover:text-red-600 font-bold ml-1"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex gap-2">
-                          <input 
-                            type="text" 
-                            value={newAmenity} 
-                            onChange={e => setNewAmenity(e.target.value)} 
-                            placeholder="Add amenity (e.g. Free Valet Parking)" 
-                            className="flex-1 bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-lg px-3 py-1.5 text-xs focus:outline-none"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (newAmenity.trim()) {
-                                const updated = [...(editConfig.hotelStay?.amenities || []), newAmenity.trim()];
-                                setEditConfig(c => ({ ...c, hotelStay: { ...c.hotelStay, amenities: updated } }));
-                                setNewAmenity("");
-                              }
-                            }}
-                            className="bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                          >
-                            + Add Amenity
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Hospitality Coordinator Name</label>
-                          <input 
-                            type="text" 
-                            value={editConfig.hotelStay?.contactPerson || ''}
-                            onChange={e => setEditConfig(c => ({...c, hotelStay: {...c.hotelStay, contactPerson: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Hospitality Desk"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Concierge Phone / Helpline</label>
-                          <input 
-                            type="text" 
-                            value={editConfig.hotelStay?.contactPhone || ''}
-                            onChange={e => setEditConfig(c => ({...c, hotelStay: {...c.hotelStay, contactPhone: e.target.value}}))}
-                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="+91 98765 43210"
-                          />
+                      {/* Assistance Contacts */}
+                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-4">
+                        <label className="block text-[11px] font-bold text-[#641D2E] uppercase tracking-wide">
+                          Hospitality Assistance Contacts
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-[#FFF9F3]/60 p-3 rounded-lg border border-[#C9A45C]/20">
+                            <span className="text-xs font-bold text-[#641D2E] block mb-1">Contact 1</span>
+                            <span className="text-xs text-[#4B3A35] font-semibold block">Mr. Vishal V</span>
+                            <span className="text-xs text-[#B94E2F] font-mono">+91 7400052735</span>
+                          </div>
+                          <div className="bg-[#FFF9F3]/60 p-3 rounded-lg border border-[#C9A45C]/20">
+                            <span className="text-xs font-bold text-[#641D2E] block mb-1">Contact 2</span>
+                            <span className="text-xs text-[#4B3A35] font-semibold block">Ms. Priti K</span>
+                            <span className="text-xs text-[#B94E2F] font-mono">+91 7208782729</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1110,6 +982,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             onChange={e => setEditConfig(c => ({...c, rsvpSection: {...c.rsvpSection, contactPhone: e.target.value}}))}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                             placeholder="+91 98765 43210"
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Google Form RSVP URL</label>
+                          <input 
+                            type="text" 
+                            value={editConfig.rsvpSection?.googleFormUrl || ''}
+                            onChange={e => setEditConfig(c => ({...c, rsvpSection: {...c.rsvpSection, googleFormUrl: e.target.value}}))}
+                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
+                            placeholder="https://docs.google.com/forms/d/..."
                           />
                         </div>
                       </div>
