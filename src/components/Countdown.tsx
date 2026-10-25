@@ -48,14 +48,14 @@ export function Countdown({ targetDate }: CountdownProps) {
           transition={{ delay: index * 0.15 + 0.5, duration: 0.5, type: 'spring', bounce: 0.5 }}
           className="flex flex-col items-center"
         >
-          <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white/80 backdrop-blur-md rounded-2xl border border-gold-300/50 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] flex items-center justify-center mb-2 relative overflow-hidden">
+          <div className="w-16 h-16 sm:w-22 sm:h-22 bg-white/90 backdrop-blur-md rounded-2xl border border-[#C9A45C]/50 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] flex items-center justify-center mb-2.5 relative overflow-hidden">
             {/* Subtle inner reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-50" />
-            <span className="font-display text-2xl sm:text-3xl font-extrabold text-[#C9A45C] drop-shadow-sm relative z-10 tabular-nums tracking-tighter">
+            <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#B94E2F] drop-shadow-sm relative z-10 tabular-nums tracking-tight">
               {unit.value.toString().padStart(2, '0')}
             </span>
           </div>
-          <span className="font-sans text-[9px] sm:text-[11px] uppercase tracking-[0.2em] text-gold-700 font-bold drop-shadow-sm">
+          <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-[#641D2E] font-bold drop-shadow-sm">
             {unit.label}
           </span>
         </motion.div>

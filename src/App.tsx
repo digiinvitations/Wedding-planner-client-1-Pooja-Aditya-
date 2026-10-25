@@ -706,13 +706,13 @@ export default function App() {
 
             {/* Shloka */}
             {config.heroSettings?.shloka && (
-              <div className="mb-8 whitespace-pre-line text-xs text-[#C9A45C] font-semibold tracking-wider leading-relaxed">
+              <div className="mb-8 whitespace-pre-line text-sm sm:text-base md:text-lg text-[#C9A45C] font-semibold tracking-wider leading-relaxed">
                 {config.heroSettings.shloka}
               </div>
             )}
 
             {/* Intro Text */}
-            <p className="text-[#4B3A35] max-w-[95%] mx-auto text-[13px] md:text-sm leading-relaxed mb-10 italic">
+            <p className="text-[#4B3A35] max-w-[95%] mx-auto text-sm sm:text-base md:text-lg leading-relaxed mb-10 italic">
               {config.heroSettings?.introText || '"With the blessings of the Almighty & our respected elders,\nwe joyfully request your gracious presence on the wedding celebration of"'}
             </p>
 
@@ -721,50 +721,50 @@ export default function App() {
               {config.priorityOrder === "bride" ? (
                 <>
                   {/* Bride First */}
-                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
+                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-5 uppercase tracking-wider text-center">
+                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center">
                     {formatHeroBrideParents(config)}
                   </p>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-5">
+                  <div className="flex items-center justify-center gap-3 w-full mb-6">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-3xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Groom Second */}
-                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
+                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-2 uppercase tracking-wider text-center">
+                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center">
                     {formatHeroGroomParents(config)}
                   </p>
                 </>
               ) : (
                 <>
                   {/* Groom First (Default & Priority) */}
-                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
+                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-5 uppercase tracking-wider text-center">
+                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center">
                     {formatHeroGroomParents(config)}
                   </p>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-5">
+                  <div className="flex items-center justify-center gap-3 w-full mb-6">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-3xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Bride Second */}
-                  <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
+                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-2 uppercase tracking-wider text-center">
+                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center">
                     {formatHeroBrideParents(config)}
                   </p>
                 </>
@@ -804,13 +804,13 @@ export default function App() {
           className="min-h-[100dvh] w-full max-w-[calc(100dvh*9/16)] mx-auto flex flex-col justify-start pt-24 pb-20 items-center px-4 sm:px-6 relative z-10"
         >
           <div className="text-center mb-10 w-full">
-            <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
+            <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
               SAVE THE DATE
             </span>
-            <h2 className="font-accent text-5xl sm:text-6xl text-[#B94E2F] leading-tight ">
+            <h2 className="font-accent text-5xl sm:text-6xl md:text-7xl text-[#B94E2F] leading-tight">
               Reveal Our<br/>Big Day
             </h2>
-            <p className="font-serif-premium italic text-[#4B3A35] mt-4 text-sm md:text-base">
+            <p className="font-serif-premium italic text-[#4B3A35] mt-4 text-base sm:text-lg md:text-xl font-medium">
               Scratch the heart to reveal
             </p>
           </div>
@@ -896,7 +896,7 @@ export default function App() {
                 className="mt-12 sm:mt-16 text-center overflow-hidden w-full"
               >
                 <div className="w-12 h-[1px] bg-[#C9A45C] mx-auto mb-8" />
-                <span className="font-display text-2xl sm:text-3xl text-[#B94E2F] font-semibold block mb-6">
+                <span className="font-display text-2xl sm:text-3xl md:text-4xl text-[#B94E2F] font-semibold block mb-6">
                   The start of a beautiful journey...
                 </span>
                 <Countdown targetDate={config.weddingDate} />
@@ -919,10 +919,10 @@ export default function App() {
             className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto text-center"
           >
             <div className="mb-12">
-              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block">
+              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block">
                 OUR SACRED JOURNEY
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2">
                 {config.invitationStory?.title || "DIFFERENT ROOTS • SAME DREAMS"}
               </h2>
               <div className="flex items-center justify-center mt-5">
@@ -935,34 +935,34 @@ export default function App() {
             {/* Story Cards */}
             <div className="space-y-6 text-left">
               {/* Chapter 1: The Meeting */}
-              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
+              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 sm:p-7 rounded-3xl shadow-sm relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
-                  <Sparkles size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Meeting</span>
+                  <Sparkles size={18} />
+                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#641D2E]">The Meeting</span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
                   &quot;{config.invitationStory?.theMeeting || "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful."}&quot;
                 </p>
               </div>
 
               {/* Chapter 2: The Journey */}
-              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
+              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 sm:p-7 rounded-3xl shadow-sm relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
-                  <Heart size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Journey</span>
+                  <Heart size={18} />
+                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#641D2E]">The Journey</span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
                   &quot;{config.invitationStory?.theJourney || "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together."}&quot;
                 </p>
               </div>
 
               {/* Chapter 3: The Forever */}
-              <div className="bg-gradient-to-br from-[#FFF9F3] to-[#FFF0E6] border border-[#C9A45C]/60 p-6 rounded-3xl shadow-md relative overflow-hidden">
+              <div className="bg-gradient-to-br from-[#FFF9F3] to-[#FFF0E6] border border-[#C9A45C]/60 p-6 sm:p-7 rounded-3xl shadow-md relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#B94E2F]">
-                  <Flower2 size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#B94E2F]">The Forever</span>
+                  <Flower2 size={18} />
+                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#B94E2F]">The Forever</span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
                   &quot;{config.invitationStory?.theForever || "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."}&quot;
                 </p>
               </div>
@@ -984,7 +984,7 @@ export default function App() {
             className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="text-center mb-16 flex flex-col items-center justify-center">
-              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block text-center">
+              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block text-center">
                 THE CELEBRATION UNFOLDS
               </span>
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#641D2E] font-bold uppercase tracking-[0.12em] text-center mx-auto leading-tight drop-shadow-sm">
@@ -1008,10 +1008,10 @@ export default function App() {
                     transition={{ duration: 0.6 }}
                     className="flex flex-col items-center text-center"
                   >
-                    <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#765E52] font-semibold mb-2">
+                    <span className="font-sans text-sm sm:text-base uppercase tracking-[0.2em] text-[#641D2E] font-bold mb-3">
                       {formatEventDate(event.time)}
                     </span>
-                    <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider mb-5">
+                    <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider mb-6">
                       {event.eventName}
                     </h3>
                     
@@ -1040,7 +1040,7 @@ export default function App() {
 
                     {/* Venue & Location details (Removed from all events by default; only shown if unhidden via Admin Panel) */}
                     {config.showEventAddressAndMap && (event.venueName || event.venueAddress) && (
-                      <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base mb-4 px-4 font-medium">
+                      <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium">
                         {[event.venueName, event.venueAddress].filter(Boolean).join(", ")}
                       </p>
                     )}
@@ -1052,9 +1052,9 @@ export default function App() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={pauseMusic}
-                        className="inline-flex flex-row items-center gap-2 bg-[#B94E2F] text-white px-6 py-2.5 rounded-full font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-[#8F3B22] transition-colors shadow-md cursor-pointer mb-2"
+                        className="inline-flex flex-row items-center gap-2 bg-[#B94E2F] text-white px-6 py-3 rounded-full font-sans text-xs sm:text-sm uppercase tracking-[0.2em] font-bold hover:bg-[#8F3B22] transition-colors shadow-md cursor-pointer mb-2"
                       >
-                        <MapPin size={12} />
+                        <MapPin size={14} />
                         VIEW ON MAPS
                       </a>
                     )}
@@ -1088,11 +1088,11 @@ export default function App() {
             className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden text-center">
-              <div className="mb-6">
-                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+              <div className="mb-8">
+                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   STYLE &amp; CELEBRATION
                 </span>
-                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
+                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider">
                   Dress Code
                 </h3>
                 <div className="flex items-center justify-center mt-3">
@@ -1103,23 +1103,23 @@ export default function App() {
               </div>
 
               {/* Only the 3 Specific Ceremony Dress Codes */}
-              <div className="space-y-3.5 max-w-md mx-auto text-left">
+              <div className="space-y-4 max-w-md mx-auto text-left">
                 {/* 1. On Juroon */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
                     ✨
                   </div>
                   <div className="flex-1">
-                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
                       On Juroon
                     </span>
-                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
+                      <li className="flex items-center gap-2.5">
+                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
                         <span>Avoid dark colour</span>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A45C] shrink-0" />
+                      <li className="flex items-center gap-2.5">
+                        <span className="w-2 h-2 rounded-full bg-[#C9A45C] shrink-0" />
                         <span>Wear gold or pastel</span>
                       </li>
                     </ul>
@@ -1127,17 +1127,17 @@ export default function App() {
                 </div>
 
                 {/* 2. On Shadi */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
                     🪔
                   </div>
                   <div className="flex-1">
-                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
                       On Shadi
                     </span>
-                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
+                      <li className="flex items-center gap-2.5">
+                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
                         <span>Wear dark colors</span>
                       </li>
                     </ul>
@@ -1145,17 +1145,17 @@ export default function App() {
                 </div>
 
                 {/* 3. On Reception */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-3.5 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-base">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
                     🥂
                   </div>
                   <div className="flex-1">
-                    <span className="font-display text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wider block mb-1">
+                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
                       On Reception
                     </span>
-                    <ul className="space-y-1 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
-                      <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#B94E2F] shrink-0" />
+                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
+                      <li className="flex items-center gap-2.5">
+                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
                         <span>Avoid blue and black</span>
                       </li>
                     </ul>
@@ -1181,54 +1181,54 @@ export default function App() {
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden">
               {/* Transportation Disclaimer at Top */}
-              <div className="bg-[#FFF9F3] border-2 border-[#C9A45C]/50 rounded-2xl p-4 mb-6 text-center shadow-xs">
-                <span className="font-sans text-[10px] sm:text-[11px] font-bold text-[#B94E2F] uppercase tracking-wider block mb-1">
+              <div className="bg-[#FFF9F3] border-2 border-[#C9A45C]/50 rounded-2xl p-4 sm:p-5 mb-6 text-center shadow-xs">
+                <span className="font-sans text-xs sm:text-sm font-bold text-[#B94E2F] uppercase tracking-wider block mb-1.5">
                   Disclaimers
                 </span>
-                <p className="font-serif-premium text-xs sm:text-sm text-[#641D2E] font-bold leading-relaxed">
+                <p className="font-serif-premium text-sm sm:text-base md:text-lg text-[#641D2E] font-bold leading-relaxed">
                   Accommodation and transportation is only provided to guests coming from outside Maharashtra or India.
                 </p>
               </div>
 
               <div className="text-center mb-6">
-                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   ACCOMMODATION &amp; TRAVEL
                 </span>
-                <h3 className="font-accent text-4xl sm:text-5xl text-[#B94E2F]">
+                <h3 className="font-accent text-4xl sm:text-5xl md:text-6xl text-[#B94E2F]">
                   {config.hotelStay?.hotelName || "Mountain Breeze Mahableshwar"}
                 </h3>
                 {config.hotelStay?.tagline && (
-                  <p className="font-serif-premium text-xs sm:text-sm text-[#765E52] mt-1 italic">
+                  <p className="font-serif-premium text-sm sm:text-base md:text-lg text-[#765E52] mt-2 italic font-medium">
                     {config.hotelStay.tagline}
                   </p>
                 )}
               </div>
 
               {/* Check-In / Check-Out Badges */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-3.5 rounded-2xl text-center">
-                  <span className="block font-sans text-[9px] uppercase tracking-wider text-[#765E52] font-semibold">Check-In</span>
-                  <span className="font-serif-premium text-xs sm:text-sm font-bold text-[#641D2E] mt-1 block">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-4 rounded-2xl text-center">
+                  <span className="block font-sans text-xs uppercase tracking-wider text-[#765E52] font-semibold">Check-In</span>
+                  <span className="font-serif-premium text-sm sm:text-base md:text-lg font-bold text-[#641D2E] mt-1.5 block">
                     {config.hotelStay?.checkIn || "18 Jan 2027 • 12:00 PM"}
                   </span>
                 </div>
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-3.5 rounded-2xl text-center">
-                  <span className="block font-sans text-[9px] uppercase tracking-wider text-[#765E52] font-semibold">Check-Out</span>
-                  <span className="font-serif-premium text-xs sm:text-sm font-bold text-[#641D2E] mt-1 block">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-4 rounded-2xl text-center">
+                  <span className="block font-sans text-xs uppercase tracking-wider text-[#765E52] font-semibold">Check-Out</span>
+                  <span className="font-serif-premium text-sm sm:text-base md:text-lg font-bold text-[#641D2E] mt-1.5 block">
                     {config.hotelStay?.checkOut || "19 Jan 2027 • 11:00 AM"}
                   </span>
                 </div>
               </div>
 
               {/* Address with Map Link */}
-              <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-2xl p-4 mb-6">
+              <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-2xl p-4 sm:p-5 mb-6">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-[#B94E2F] shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#B94E2F] shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <span className="font-sans text-[10px] uppercase tracking-wider font-bold text-[#641D2E] block mb-1">
+                    <span className="font-sans text-xs sm:text-sm uppercase tracking-wider font-bold text-[#641D2E] block mb-1.5">
                       Resort Address
                     </span>
-                    <p className="text-xs text-[#4B3A35] font-serif-premium leading-relaxed mb-3">
+                    <p className="text-sm sm:text-base text-[#4B3A35] font-serif-premium leading-relaxed mb-3.5 font-medium">
                       {config.hotelStay?.address || "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806"}
                     </p>
                     {config.hotelStay?.mapUrl && (
@@ -1236,9 +1236,9 @@ export default function App() {
                         href={config.hotelStay.mapUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-4 py-1.5 rounded-full text-[10px] font-sans uppercase tracking-wider font-bold transition-colors shadow-sm"
+                        className="inline-flex items-center gap-2 bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-5 py-2 rounded-full text-xs sm:text-sm font-sans uppercase tracking-wider font-bold transition-colors shadow-sm"
                       >
-                        <Navigation size={12} />
+                        <Navigation size={14} />
                         Get Directions on Google Maps
                       </a>
                     )}
@@ -1249,7 +1249,7 @@ export default function App() {
               {/* Room details & Amenities */}
               {config.hotelStay?.roomDetails && (
                 <div className="mb-6">
-                  <p className="text-xs text-[#4B3A35] font-serif-premium leading-relaxed italic text-center">
+                  <p className="text-sm sm:text-base md:text-lg text-[#4B3A35] font-serif-premium leading-relaxed italic text-center font-medium">
                     &quot;{config.hotelStay.roomDetails}&quot;
                   </p>
                 </div>
@@ -1257,8 +1257,8 @@ export default function App() {
 
               {/* Travel guide */}
               {config.hotelStay?.travelGuide && (
-                <div className="text-[11px] text-[#765E52] bg-[#FFF9F3] p-3.5 rounded-2xl border border-[#C9A45C]/20 leading-relaxed mb-4">
-                  <strong className="block text-[#641D2E] mb-1 font-sans text-[10px] uppercase tracking-wider">
+                <div className="text-xs sm:text-sm md:text-base text-[#765E52] bg-[#FFF9F3] p-4 rounded-2xl border border-[#C9A45C]/20 leading-relaxed mb-5 font-medium">
+                  <strong className="block text-[#641D2E] mb-1.5 font-sans text-xs sm:text-sm uppercase tracking-wider font-bold">
                     🚗 Travel &amp; Transit Info
                   </strong>
                   {config.hotelStay.travelGuide}
@@ -1266,35 +1266,35 @@ export default function App() {
               )}
 
               {/* Systematic Assistance Contacts */}
-              <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 mt-4 text-center shadow-xs">
-                <span className="font-sans text-[10px] sm:text-xs uppercase tracking-widest text-[#765E52] font-semibold block mb-3.5">
+              <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 mt-4 text-center shadow-xs">
+                <span className="font-sans text-xs sm:text-sm md:text-base uppercase tracking-widest text-[#765E52] font-semibold block mb-4">
                   For further assistance please reach out to:
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-md mx-auto">
                   {/* Contact 1: Mr. Vishal V */}
-                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
-                    <span className="font-serif-premium font-bold text-sm text-[#641D2E] block">
+                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3.5 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
+                    <span className="font-serif-premium font-bold text-base sm:text-lg text-[#641D2E] block">
                       Mr. Vishal V
                     </span>
                     <a
                       href="tel:+917400052735"
-                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
+                      className="mt-2.5 inline-flex items-center gap-1.5 text-xs sm:text-sm font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3.5 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
                     >
-                      <Phone size={12} className="text-[#B94E2F]" />
+                      <Phone size={13} className="text-[#B94E2F]" />
                       <span>+91 7400052735</span>
                     </a>
                   </div>
 
                   {/* Contact 2: Ms. Priti K */}
-                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
-                    <span className="font-serif-premium font-bold text-sm text-[#641D2E] block">
+                  <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3.5 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
+                    <span className="font-serif-premium font-bold text-base sm:text-lg text-[#641D2E] block">
                       Ms. Priti K
                     </span>
                     <a
                       href="tel:+917208782729"
-                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
+                      className="mt-2.5 inline-flex items-center gap-1.5 text-xs sm:text-sm font-sans font-bold text-[#B94E2F] hover:text-[#8F3B22] bg-[#FFF9F3] hover:bg-[#F5EDD6] px-3.5 py-1.5 rounded-full border border-[#C9A45C]/40 transition-all active:scale-95 shadow-xs"
                     >
-                      <Phone size={12} className="text-[#B94E2F]" />
+                      <Phone size={13} className="text-[#B94E2F]" />
                       <span>+91 7208782729</span>
                     </a>
                   </div>
@@ -1319,29 +1319,29 @@ export default function App() {
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
               {/* 1. GIVE YOUR RSVP Button (Redirects to Google Form) */}
-              <div className="flex flex-col items-center justify-center text-center mb-6">
+              <div className="flex flex-col items-center justify-center text-center mb-7">
                 <a
                   href={config.rsvpSection?.googleFormUrl || "https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-8 py-3.5 rounded-full font-sans text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
+                  className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-9 py-4 rounded-full font-sans text-sm sm:text-base font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
                 >
-                  <Send size={15} />
+                  <Send size={18} />
                   <span>GIVE YOUR RSVP</span>
-                  <ExternalLink size={14} className="opacity-80" />
+                  <ExternalLink size={16} className="opacity-80" />
                 </a>
               </div>
 
               {/* 2. 'Will You Attend?' Column Box */}
-              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 max-w-sm mx-auto mb-4">
-                <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide mb-2.5 text-center">
+              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 max-w-sm mx-auto mb-5">
+                <label className="block text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wide mb-3 text-center">
                   Will You Attend?
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setRsvpAttend(true)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                    className={`py-3 px-4 rounded-xl text-sm sm:text-base font-sans font-bold transition-all border cursor-pointer ${
                       rsvpAttend === true
                         ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
                         : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
@@ -1352,7 +1352,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setRsvpAttend(false)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                    className={`py-3 px-4 rounded-xl text-sm sm:text-base font-sans font-bold transition-all border cursor-pointer ${
                       rsvpAttend === false
                         ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
                         : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
@@ -1364,20 +1364,20 @@ export default function App() {
               </div>
 
               {/* 3. 'Number of Guests' Column Box */}
-              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 max-w-sm mx-auto mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-bold text-[#641D2E] uppercase tracking-wide">
+              <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 max-w-sm mx-auto mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="block text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wide">
                     Number of Guests
                   </label>
-                  <span className="text-[10px] text-[#B94E2F] font-bold">Max 4 guests</span>
+                  <span className="text-xs sm:text-sm text-[#B94E2F] font-bold">Max 4 guests</span>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 gap-2.5">
                   {[1, 2, 3, 4].map((num) => (
                     <button
                       key={num}
                       type="button"
                       onClick={() => setRsvpGuests(num)}
-                      className={`py-2 rounded-xl text-xs font-sans font-bold transition-all border cursor-pointer ${
+                      className={`py-2.5 rounded-xl text-sm sm:text-base font-sans font-bold transition-all border cursor-pointer ${
                         rsvpGuests === num
                           ? "bg-[#B94E2F] text-white border-[#B94E2F] shadow-sm"
                           : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
@@ -1390,24 +1390,24 @@ export default function App() {
               </div>
 
               {/* 4. 'For RSVP assistance or queries:' Content */}
-              <div className="mt-6 text-center border-t border-[#C9A45C]/20 pt-4">
-                <span className="text-[10px] text-[#765E52] font-sans block mb-1">
+              <div className="mt-6 text-center border-t border-[#C9A45C]/20 pt-5">
+                <span className="text-xs sm:text-sm text-[#765E52] font-sans block mb-2 font-medium">
                   For RSVP assistance or queries:
                 </span>
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   <a
                     href="tel:+917400052735"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#641D2E] hover:text-[#B94E2F]"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm md:text-base font-bold text-[#641D2E] hover:text-[#B94E2F]"
                   >
-                    <Phone size={12} />
+                    <Phone size={14} />
                     Mr. Vishal V: +91 7400052735
                   </a>
                   <span className="text-[#C9A45C]">•</span>
                   <a
                     href="tel:+917208782729"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#641D2E] hover:text-[#B94E2F]"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm md:text-base font-bold text-[#641D2E] hover:text-[#B94E2F]"
                   >
-                    <Phone size={12} />
+                    <Phone size={14} />
                     Ms. Priti K: +91 7208782729
                   </a>
                 </div>
@@ -1423,16 +1423,16 @@ export default function App() {
                       setRsvpViewLoginError(false);
                       setRsvpViewPwd("");
                     }}
-                    className="inline-flex items-center gap-2 bg-[#FFF9F3] hover:bg-[#F5EDD6] text-[#641D2E] border border-[#C9A45C]/50 px-4 py-2 rounded-xl text-xs font-sans font-bold shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                    className="inline-flex items-center gap-2 bg-[#FFF9F3] hover:bg-[#F5EDD6] text-[#641D2E] border border-[#C9A45C]/50 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-sans font-bold shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
                     title="View RSVP Submissions"
                   >
-                    <Lock size={13} className="text-[#B94E2F]" />
+                    <Lock size={14} className="text-[#B94E2F]" />
                     <span>View RSVP Submissions</span>
                   </button>
                 ) : (
                   <div className="max-w-xs mx-auto bg-[#FFF9F3] p-4 rounded-2xl border-2 border-[#C9A45C]/40 shadow-md space-y-2.5">
-                    <p className="text-[11px] font-bold text-[#641D2E] uppercase tracking-wider flex items-center justify-center gap-1.5">
-                      <Lock size={12} className="text-[#B94E2F]" /> Enter Host Password
+                    <p className="text-xs font-bold text-[#641D2E] uppercase tracking-wider flex items-center justify-center gap-1.5">
+                      <Lock size={13} className="text-[#B94E2F]" /> Enter Host Password
                     </p>
                     <div className="flex items-center justify-center gap-2">
                       <input 
@@ -1443,7 +1443,7 @@ export default function App() {
                           setRsvpViewLoginError(false);
                         }}
                         placeholder="Enter Password"
-                        className="px-3 py-1.5 text-xs rounded-lg border border-[#C9A45C]/50 focus:outline-none focus:border-[#B94E2F] text-center w-32 bg-white font-mono"
+                        className="px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-[#C9A45C]/50 focus:outline-none focus:border-[#B94E2F] text-center w-32 bg-white font-mono"
                         autoFocus
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
@@ -1474,7 +1474,7 @@ export default function App() {
                             setRsvpViewLoginError(true);
                           }
                         }}
-                        className="bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                        className="bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-colors cursor-pointer"
                       >
                         View
                       </button>
@@ -1491,7 +1491,7 @@ export default function App() {
                       </button>
                     </div>
                     {rsvpViewLoginError && (
-                      <p className="text-red-500 text-[10px] m-0 font-semibold">Incorrect password. Please try again.</p>
+                      <p className="text-red-500 text-xs m-0 font-semibold">Incorrect password. Please try again.</p>
                     )}
                   </div>
                 )}
@@ -1516,13 +1516,17 @@ export default function App() {
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
               <div className="text-center mb-8">
-                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   OUR FAMILIES &amp; LOVED ONES
                 </span>
-                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
+                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider">
                   Family Details
                 </h3>
-                <div className="flex items-center justify-center mt-3">
+                {/* User quote addition */}
+                <p className="font-serif-premium italic text-base sm:text-lg md:text-xl text-[#641D2E] font-semibold tracking-wide mt-3.5">
+                  &ldquo;With heart full of love and immense joy&rdquo;
+                </p>
+                <div className="flex items-center justify-center mt-3.5">
                   <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
                   <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
                   <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
@@ -1531,27 +1535,27 @@ export default function App() {
 
               <div className="space-y-6">
                 {/* Groom's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#C9A45C]/25">
-                    <h4 className="font-display text-xl sm:text-2xl font-bold text-[#641D2E] uppercase tracking-wide">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                    <h4 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#641D2E] uppercase tracking-wide">
                       Aditya Ramesh
                     </h4>
-                    <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-2.5 py-1 rounded-full">
+                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
                       Groom
                     </span>
                   </div>
 
-                  <div className="space-y-2.5 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
-                    <p className="font-bold text-[#641D2E] text-sm sm:text-base">
+                  <div className="space-y-3 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] leading-relaxed">
+                    <p className="font-bold text-[#641D2E] text-base sm:text-lg md:text-xl">
                       S/O Mr T.V.Ramesh &amp; Usha Ramesh
                     </p>
-                    <div className="space-y-1.5 pt-1">
-                      <p className="flex items-start gap-2">
-                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                    <div className="space-y-2 pt-1 font-medium">
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
                         <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
                       </p>
-                      <p className="flex items-start gap-2">
-                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
                         <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
                       </p>
                     </div>
@@ -1559,27 +1563,27 @@ export default function App() {
                 </div>
 
                 {/* Bride's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#C9A45C]/25">
-                    <h4 className="font-display text-xl sm:text-2xl font-bold text-[#641D2E] uppercase tracking-wide">
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                    <h4 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#641D2E] uppercase tracking-wide">
                       Pooja Devi
                     </h4>
-                    <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-2.5 py-1 rounded-full">
+                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
                       Bride
                     </span>
                   </div>
 
-                  <div className="space-y-2.5 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
-                    <p className="font-bold text-[#641D2E] text-sm sm:text-base">
+                  <div className="space-y-3 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] leading-relaxed">
+                    <p className="font-bold text-[#641D2E] text-base sm:text-lg md:text-xl">
                       D/O Mr Babul Nath &amp; Momi Devi
                     </p>
-                    <div className="space-y-1.5 pt-1">
-                      <p className="flex items-start gap-2">
-                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                    <div className="space-y-2 pt-1 font-medium">
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
                         <span>Akash Jyoti Nath (Brother)</span>
                       </p>
-                      <p className="flex items-start gap-2">
-                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
                         <span>Upasana Devi (Sister in law)</span>
                       </p>
                     </div>
@@ -1603,13 +1607,13 @@ export default function App() {
               transition={{ duration: 1 }}
               className="py-20 px-6 text-center flex flex-col items-center bg-[#FFF9F3] relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
             >
-              <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
+              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
                 JOIN THE CELEBRATION
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#B94E2F] font-bold uppercase tracking-wider mb-4">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#B94E2F] font-bold uppercase tracking-wider mb-5">
                 Celebrate<br/>With Us
               </h2>
-              <p className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed text-sm md:text-base px-4">
+              <p className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed text-base sm:text-lg md:text-xl px-4 font-medium">
                 At last, the stars align, two beautiful cultures intertwine, and our next chapter begins. With hearts overflowing with gratitude, we warmly invite you to celebrate our wedding at Mountain Breeze Mahableshwar and bless our forever.
               </p>
             </motion.section>
@@ -1628,12 +1632,12 @@ export default function App() {
               <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#C9A45C] mb-12" />
               
               {/* Couple Name in Closing (Groom Priority) */}
-              <h2 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#C9A45C] font-bold tracking-[0.06em] leading-[1.2] z-10 relative">
+              <h2 className="font-couple text-5xl sm:text-6xl md:text-7xl text-[#C9A45C] font-bold tracking-[0.06em] leading-[1.2] z-10 relative">
                 {config.priorityOrder === "bride" ? (
                   <>
                     {config.bride.name.split(" ")[0]}
                     <br/>
-                    <span className="font-serif-premium italic text-3xl text-[#dec47f]">&amp;</span>
+                    <span className="font-serif-premium italic text-4xl sm:text-5xl text-[#dec47f]">&amp;</span>
                     <br/>
                     {config.groom.name.split(" ")[0]}
                   </>
@@ -1641,7 +1645,7 @@ export default function App() {
                   <>
                     {config.groom.name.split(" ")[0]}
                     <br/>
-                    <span className="font-serif-premium italic text-3xl text-[#dec47f]">&amp;</span>
+                    <span className="font-serif-premium italic text-4xl sm:text-5xl text-[#dec47f]">&amp;</span>
                     <br/>
                     {config.bride.name.split(" ")[0]}
                   </>
@@ -1650,7 +1654,7 @@ export default function App() {
 
               <div className="w-px h-16 bg-gradient-to-t from-transparent to-[#C9A45C] mt-12 mb-8" />
 
-              <p className="font-serif-premium text-[#F8E9E2] text-sm md:text-base italic z-10 tracking-wide">
+              <p className="font-serif-premium text-[#F8E9E2] text-base sm:text-lg md:text-xl italic z-10 tracking-wide font-medium">
                 With love,<br/>
                 {config.priorityOrder === "bride" 
                   ? `${config.bride.name.split(" ")[0]}, ${config.groom.name.split(" ")[0]} & Family`
@@ -1659,6 +1663,7 @@ export default function App() {
             </motion.section>
           </>
         )}
+
 
       </div>
 
