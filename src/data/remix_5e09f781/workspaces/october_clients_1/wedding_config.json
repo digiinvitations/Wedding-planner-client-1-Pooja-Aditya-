@@ -7,23 +7,23 @@
   "heroTagline": "We Are Getting Married",
   "groom": {
     "name": "Aditya Ramesh",
-    "fatherName": "Mr T.V.Ramesh",
+    "fatherName": "Mr. T.V. Ramesh",
     "motherName": "Mrs. Usha Ramesh",
-    "introLineage": "Son of Mr. & Mrs. Ramesh",
+    "introLineage": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh",
     "imageUrl": "fsdb://fsdb_1783188128812_loip4lg",
-    "bio": "Son of Mr. & Mrs. Ramesh. Bringing the warmth and rich heritage of Kerala with big dreams and an open heart."
+    "bio": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh. Bringing the warmth and rich heritage of Kerala with big dreams and an open heart."
   },
   "bride": {
     "name": "Pooja Devi",
     "fatherName": "Mr. Babul Nath",
     "motherName": "Mrs. Momi Devi",
-    "introLineage": "Daughter of Mr. & Mrs. Nath & Devi",
+    "introLineage": "Daughter of Mr. Babul Nath & Mrs. Momi Devi",
     "imageUrl": "fsdb://fsdb_1783188141625_920kwyo",
-    "bio": "Daughter of Mr. & Mrs. Nath & Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room."
+    "bio": "Daughter of Mr. Babul Nath & Mrs. Momi Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room."
   },
   "heroSettings": {
-    "groomParents": "Son of Mrs. Usha Ramesh & Mr T.V.Ramesh",
-    "brideParents": "Daughter of Mrs. Momi Devi & Mr. Babul Nath",
+    "groomParents": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh",
+    "brideParents": "Daughter of Mr. Babul Nath & Mrs. Momi Devi",
     "introText": "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of",
     "shloka": "॥ श्री गणेशाय नमः ॥\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ\nनिर्विघ्नं कुरु मे देव\nसर्वकार्येषु सर्वदा ॥",
     "showPetals": true,

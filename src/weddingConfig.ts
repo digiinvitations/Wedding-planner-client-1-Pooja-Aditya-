@@ -142,6 +142,7 @@ export interface WeddingConfig {
   hotelStay?: HotelStayConfig;
   rsvpSection?: RsvpSectionConfig;
   showFloatingEditButton?: boolean;
+  showEventAddressAndMap?: boolean;
   clientWorkspace?: string;
 }
 

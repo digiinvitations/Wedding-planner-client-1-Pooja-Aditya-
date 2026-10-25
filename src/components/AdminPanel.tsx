@@ -64,7 +64,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (mode === "edit") {
-        const allowed = ["couple", "story", "dress_code", "hotel_stay", "rsvp"];
+        const allowed = ["couple", "events", "story", "dress_code", "hotel_stay", "rsvp"];
         if (initialTab && allowed.includes(initialTab)) {
           setActiveTab(initialTab);
         } else if (!allowed.includes(activeTab)) {
@@ -293,11 +293,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </>
                 )}
 
-                {/* EDIT MODE TABS: ONLY COUPLE & LINEAGE, INVITATION STORY, DRESS CODE & THEME, HOTEL & STAY INFO, RSVP SUBMISSION */}
+                {/* EDIT MODE TABS: COUPLE & LINEAGE, CEREMONIES & MAP, INVITATION STORY, DRESS CODE & THEME, HOTEL & STAY INFO, RSVP SUBMISSION */}
                 {mode === "edit" && (
                   <>
                     <button onClick={() => setActiveTab("couple")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "couple" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <Crown size={18} /> Couple & Lineage
+                    </button>
+                    <button onClick={() => setActiveTab("events")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "events" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
+                      <Calendar size={18} /> Ceremonies & Maps
                     </button>
                     <button onClick={() => setActiveTab("story")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "story" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <FileText size={18} /> Invitation Story
@@ -558,9 +561,22 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <input 
                             type="text" 
                             value={editConfig.groom?.fatherName || ''}
-                            onChange={e => setEditConfig(c => ({...c, groom: {...c.groom, fatherName: e.target.value}}))}
+                            onChange={e => {
+                              const f = e.target.value;
+                              setEditConfig(c => {
+                                const m = c.groom?.motherName || "Usha Ramesh";
+                                const fClean = `Mr. ${(f || "T.V. Ramesh").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim()}`;
+                                const mClean = `Mrs. ${(m || "Usha Ramesh").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim()}`;
+                                const lineageStr = `Son of ${fClean} & ${mClean}`;
+                                return {
+                                  ...c,
+                                  groom: { ...c.groom, fatherName: f, introLineage: lineageStr },
+                                  heroSettings: { ...c.heroSettings, groomParents: lineageStr }
+                                };
+                              });
+                            }}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Mr T.V.Ramesh"
+                            placeholder="Mr. T.V. Ramesh"
                           />
                         </div>
                         <div>
@@ -568,7 +584,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <input 
                             type="text" 
                             value={editConfig.groom?.motherName || ''}
-                            onChange={e => setEditConfig(c => ({...c, groom: {...c.groom, motherName: e.target.value}}))}
+                            onChange={e => {
+                              const m = e.target.value;
+                              setEditConfig(c => {
+                                const f = c.groom?.fatherName || "T.V. Ramesh";
+                                const fClean = `Mr. ${(f || "T.V. Ramesh").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim()}`;
+                                const mClean = `Mrs. ${(m || "Usha Ramesh").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim()}`;
+                                const lineageStr = `Son of ${fClean} & ${mClean}`;
+                                return {
+                                  ...c,
+                                  groom: { ...c.groom, motherName: m, introLineage: lineageStr },
+                                  heroSettings: { ...c.heroSettings, groomParents: lineageStr }
+                                };
+                              });
+                            }}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                             placeholder="Mrs. Usha Ramesh"
                           />
@@ -577,10 +606,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Intro / Lineage</label>
                           <input 
                             type="text" 
-                            value={editConfig.groom?.lineage || ''}
-                            onChange={e => setEditConfig(c => ({...c, groom: {...c.groom, lineage: e.target.value}}))}
+                            value={editConfig.groom?.lineage || editConfig.heroSettings?.groomParents || ''}
+                            onChange={e => setEditConfig(c => ({
+                              ...c, 
+                              groom: {...c.groom, lineage: e.target.value},
+                              heroSettings: {...c.heroSettings, groomParents: e.target.value}
+                            }))}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Son of Mr. & Mrs. Ramesh"
+                            placeholder="Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh"
                           />
                         </div>
                       </div>
@@ -607,7 +640,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <input 
                             type="text" 
                             value={editConfig.bride?.fatherName || ''}
-                            onChange={e => setEditConfig(c => ({...c, bride: {...c.bride, fatherName: e.target.value}}))}
+                            onChange={e => {
+                              const f = e.target.value;
+                              setEditConfig(c => {
+                                const m = c.bride?.motherName || "Momi Devi";
+                                const fClean = `Mr. ${(f || "Babul Nath").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim()}`;
+                                const mClean = `Mrs. ${(m || "Momi Devi").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim()}`;
+                                const lineageStr = `Daughter of ${fClean} & ${mClean}`;
+                                return {
+                                  ...c,
+                                  bride: { ...c.bride, fatherName: f, introLineage: lineageStr },
+                                  heroSettings: { ...c.heroSettings, brideParents: lineageStr }
+                                };
+                              });
+                            }}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                             placeholder="Mr. Babul Nath"
                           />
@@ -617,7 +663,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <input 
                             type="text" 
                             value={editConfig.bride?.motherName || ''}
-                            onChange={e => setEditConfig(c => ({...c, bride: {...c.bride, motherName: e.target.value}}))}
+                            onChange={e => {
+                              const m = e.target.value;
+                              setEditConfig(c => {
+                                const f = c.bride?.fatherName || "Babul Nath";
+                                const fClean = `Mr. ${(f || "Babul Nath").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim()}`;
+                                const mClean = `Mrs. ${(m || "Momi Devi").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim()}`;
+                                const lineageStr = `Daughter of ${fClean} & ${mClean}`;
+                                return {
+                                  ...c,
+                                  bride: { ...c.bride, motherName: m, introLineage: lineageStr },
+                                  heroSettings: { ...c.heroSettings, brideParents: lineageStr }
+                                };
+                              });
+                            }}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                             placeholder="Mrs. Momi Devi"
                           />
@@ -626,10 +685,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <label className="block text-[11px] font-semibold text-[#765E52] mb-1.5 uppercase tracking-wide">Intro / Lineage</label>
                           <input 
                             type="text" 
-                            value={editConfig.bride?.lineage || ''}
-                            onChange={e => setEditConfig(c => ({...c, bride: {...c.bride, lineage: e.target.value}}))}
+                            value={editConfig.bride?.lineage || editConfig.heroSettings?.brideParents || ''}
+                            onChange={e => setEditConfig(c => ({
+                              ...c, 
+                              bride: {...c.bride, lineage: e.target.value},
+                              heroSettings: {...c.heroSettings, brideParents: e.target.value}
+                            }))}
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
-                            placeholder="Daughter of Mr. & Mrs. Nath & Devi"
+                            placeholder="Daughter of Mr. Babul Nath & Mrs. Momi Devi"
                           />
                         </div>
                       </div>
@@ -1111,6 +1174,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           className="bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-colors"
                         >
                           + Add Event
+                        </button>
+                      </div>
+
+                      {/* Event Address & Google Maps Visibility Toggle */}
+                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
+                            Event Venue Address &amp; Google Maps Button
+                          </span>
+                          <span className="text-[11px] text-[#765E52]">
+                            Status: <strong className={editConfig.showEventAddressAndMap ? "text-emerald-700" : "text-[#B94E2F]"}>
+                              {editConfig.showEventAddressAndMap ? "Visible (Unhidden on cards)" : "Hidden from cards"}
+                            </strong>
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setEditConfig(c => ({...c, showEventAddressAndMap: !c.showEventAddressAndMap}))}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 shrink-0 cursor-pointer ${
+                            editConfig.showEventAddressAndMap
+                              ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                              : "bg-[#641D2E] text-white hover:bg-[#85253C]"
+                          }`}
+                        >
+                          {editConfig.showEventAddressAndMap ? "✓ Address & Map Unhidden (Click to Hide)" : "Hidden (Click to Unhide)"}
                         </button>
                       </div>
 

@@ -73,6 +73,50 @@ const BindiIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
   </svg>
 );
 
+export function formatHeroGroomParents(cfg?: WeddingConfig): string {
+  let fRaw = (cfg?.groom?.fatherName || "T.V. Ramesh").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim() || "T.V. Ramesh";
+  let mRaw = (cfg?.groom?.motherName || "Usha Ramesh").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim() || "Usha Ramesh";
+  if (/t\.?v\.?\s*ramesh/i.test(fRaw)) fRaw = "T.V. Ramesh";
+  if (/usha\s*ramesh/i.test(mRaw)) mRaw = "Usha Ramesh";
+  return `Son of Mr. ${fRaw} & Mrs. ${mRaw}`;
+}
+
+export function formatHeroBrideParents(cfg?: WeddingConfig): string {
+  let fRaw = (cfg?.bride?.fatherName || "Babul Nath").replace(/^(Mr\.?|Shri\.?)\s*/i, "").trim() || "Babul Nath";
+  let mRaw = (cfg?.bride?.motherName || "Momi Devi").replace(/^(Mrs\.?|Smt\.?)\s*/i, "").trim() || "Momi Devi";
+  if (/babul\s*nath/i.test(fRaw)) fRaw = "Babul Nath";
+  if (/momi\s*devi/i.test(mRaw)) mRaw = "Momi Devi";
+  return `Daughter of Mr. ${fRaw} & Mrs. ${mRaw}`;
+}
+
+export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
+  const groomParents = formatHeroGroomParents(cfg);
+  const brideParents = formatHeroBrideParents(cfg);
+  return {
+    ...cfg,
+    groom: {
+      ...cfg.groom,
+      fatherName: "Mr. T.V. Ramesh",
+      motherName: "Mrs. Usha Ramesh",
+      introLineage: groomParents,
+    },
+    bride: {
+      ...cfg.bride,
+      fatherName: "Mr. Babul Nath",
+      motherName: "Mrs. Momi Devi",
+      introLineage: brideParents,
+    },
+    heroSettings: {
+      ...(cfg.heroSettings || {}),
+      groomParents,
+      brideParents,
+      introText: cfg.heroSettings?.introText || "",
+      shloka: cfg.heroSettings?.shloka || "",
+      showPetals: cfg.heroSettings?.showPetals ?? true,
+    }
+  };
+}
+
 export default function App() {
   // Config state for dynamic management
   const [config, setConfig] = useState<WeddingConfig>(() => {
@@ -80,19 +124,25 @@ export default function App() {
       const stored = localStorage.getItem("wedding_config");
       if (stored) {
         const configData = JSON.parse(stored);
-        return {
+        const sanitized = sanitizeParentLineages({
           ...defaultWeddingConfig,
           ...configData,
           weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
           galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
           groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
           bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
-        };
+        });
+        localStorage.setItem("wedding_config", JSON.stringify(sanitized));
+        return sanitized;
       }
     } catch (e) {
       console.warn("Failed to load config from localStorage", e);
     }
-    return defaultWeddingConfig;
+    const def = sanitizeParentLineages(defaultWeddingConfig);
+    try {
+      localStorage.setItem("wedding_config", JSON.stringify(def));
+    } catch {}
+    return def;
   });
 
   const [isPreloading, setIsPreloading] = useState(true);
@@ -102,15 +152,14 @@ export default function App() {
     // 1. Fetch permanent config from backend server on mount
     fetchConfigFromDb().then((serverConfig) => {
       if (serverConfig) {
-        setConfig({
+        setConfig(sanitizeParentLineages({
           ...defaultWeddingConfig,
           ...serverConfig,
-
           weddingEvents: Array.isArray(serverConfig.weddingEvents) ? serverConfig.weddingEvents : defaultWeddingConfig.weddingEvents,
           galleryImages: serverConfig.galleryImages || defaultWeddingConfig.galleryImages,
           groom: { ...defaultWeddingConfig.groom, ...(serverConfig.groom || {}) },
           bride: { ...defaultWeddingConfig.bride, ...(serverConfig.bride || {}) },
-        });
+        }));
       }
       setIsConfigLoaded(true);
     });
@@ -126,15 +175,14 @@ export default function App() {
       if (e.key === "wedding_config" && e.newValue) {
         try {
           const configData = JSON.parse(e.newValue);
-          setConfig({
+          setConfig(sanitizeParentLineages({
             ...defaultWeddingConfig,
             ...configData,
-
             weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
             galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
             groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
             bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
-          });
+          }));
         } catch (err) {
           console.warn("Failed to parse storage update", err);
         }
@@ -147,15 +195,14 @@ export default function App() {
         const stored = localStorage.getItem("wedding_config");
         if (stored) {
           const configData = JSON.parse(stored);
-          setConfig({
+          setConfig(sanitizeParentLineages({
             ...defaultWeddingConfig,
             ...configData,
-
             weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
             galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
             groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
             bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
-          });
+          }));
         }
       } catch (err) {
         console.warn("Failed to parse local config update", err);
@@ -171,28 +218,27 @@ export default function App() {
         console.log(`[App] Client workspace changed to "${ws}", fetching isolated data...`);
         const clientConfig = await fetchConfigFromDb(ws);
         if (clientConfig) {
-          setConfig({
+          setConfig(sanitizeParentLineages({
             ...defaultWeddingConfig,
             ...clientConfig,
             weddingEvents: Array.isArray(clientConfig.weddingEvents) ? clientConfig.weddingEvents : defaultWeddingConfig.weddingEvents,
             galleryImages: clientConfig.galleryImages || defaultWeddingConfig.galleryImages,
             groom: { ...defaultWeddingConfig.groom, ...(clientConfig.groom || {}) },
             bride: { ...defaultWeddingConfig.bride, ...(clientConfig.bride || {}) },
-          });
+          }));
         }
       }
     });
     
-
-
-  return () => {
+    return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("wedding_config_updated", handleLocalConfigUpdate);
     };
   }, []);
 
   const handleConfigChange = async (newConfig: WeddingConfig) => {
-    setConfig(newConfig);
+    const sanitized = sanitizeParentLineages(newConfig);
+    setConfig(sanitized);
     try {
       await saveConfigToDb(newConfig);
     } catch (e) {
@@ -678,8 +724,8 @@ export default function App() {
                   <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.brideParents || `Daughter of ${config.bride.fatherName?.startsWith("Mr") ? config.bride.fatherName : `Mr. ${config.bride.fatherName || "Babul Nath"}`} & ${config.bride.motherName?.startsWith("Mrs") ? config.bride.motherName : `Mrs. ${config.bride.motherName || "Momi Devi"}`}`}
+                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-5 uppercase tracking-wider text-center">
+                    {formatHeroBrideParents(config)}
                   </p>
                   
                   {/* Separator */}
@@ -693,8 +739,8 @@ export default function App() {
                   <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.groomParents || `Son of ${config.groom.fatherName?.startsWith("Mr") ? config.groom.fatherName : `Mr. ${config.groom.fatherName || "T.V. Ramesh"}`} & ${config.groom.motherName?.startsWith("Mrs") ? config.groom.motherName : `Mrs. ${config.groom.motherName || "Usha Ramesh"}`}`}
+                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-2 uppercase tracking-wider text-center">
+                    {formatHeroGroomParents(config)}
                   </p>
                 </>
               ) : (
@@ -703,8 +749,8 @@ export default function App() {
                   <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.groom.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-5 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.groomParents || `Son of ${config.groom.fatherName?.startsWith("Mr") ? config.groom.fatherName : `Mr. ${config.groom.fatherName || "T.V. Ramesh"}`} & ${config.groom.motherName?.startsWith("Mrs") ? config.groom.motherName : `Mrs. ${config.groom.motherName || "Usha Ramesh"}`}`}
+                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-5 uppercase tracking-wider text-center">
+                    {formatHeroGroomParents(config)}
                   </p>
                   
                   {/* Separator */}
@@ -718,8 +764,8 @@ export default function App() {
                   <h1 className="font-couple text-3xl sm:text-4xl md:text-5xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.25] drop-shadow-sm">
                     {config.bride.name}
                   </h1>
-                  <p className="text-[11px] md:text-xs text-[#765E52] mt-2 mb-2 uppercase tracking-widest text-center font-medium">
-                    {config.heroSettings?.brideParents || `Daughter of ${config.bride.fatherName?.startsWith("Mr") ? config.bride.fatherName : `Mr. ${config.bride.fatherName || "Babul Nath"}`} & ${config.bride.motherName?.startsWith("Mrs") ? config.bride.motherName : `Mrs. ${config.bride.motherName || "Momi Devi"}`}`}
+                  <p className="text-xs sm:text-sm text-[#641D2E] font-bold mt-2.5 mb-2 uppercase tracking-wider text-center">
+                    {formatHeroBrideParents(config)}
                   </p>
                 </>
               )}
@@ -860,9 +906,74 @@ export default function App() {
         </motion.section>
 
         {/* Floral Section Separator */}
+        {allHeartsScratched && <SectionSeparator />}
+
+        {/* 3. INVITATION STORY / MESSAGE ("DIFFERENT ROOTS • SAME DREAMS") */}
+        {allHeartsScratched && (
+          <motion.section 
+            id="story"
+            initial={{ opacity: 0 }} 
+            whileInView={{ opacity: 1 }} 
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto text-center"
+          >
+            <div className="mb-12">
+              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block">
+                OUR SACRED JOURNEY
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2">
+                {config.invitationStory?.title || "DIFFERENT ROOTS • SAME DREAMS"}
+              </h2>
+              <div className="flex items-center justify-center mt-5">
+                <div className="w-16 h-[1px] bg-[#C9A45C]/50" />
+                <div className="w-2 h-2 rotate-45 border border-[#C9A45C] mx-3" />
+                <div className="w-16 h-[1px] bg-[#C9A45C]/50" />
+              </div>
+            </div>
+
+            {/* Story Cards */}
+            <div className="space-y-6 text-left">
+              {/* Chapter 1: The Meeting */}
+              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
+                <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
+                  <Sparkles size={16} />
+                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Meeting</span>
+                </div>
+                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                  &quot;{config.invitationStory?.theMeeting || "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful."}&quot;
+                </p>
+              </div>
+
+              {/* Chapter 2: The Journey */}
+              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
+                <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
+                  <Heart size={16} />
+                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Journey</span>
+                </div>
+                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                  &quot;{config.invitationStory?.theJourney || "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together."}&quot;
+                </p>
+              </div>
+
+              {/* Chapter 3: The Forever */}
+              <div className="bg-gradient-to-br from-[#FFF9F3] to-[#FFF0E6] border border-[#C9A45C]/60 p-6 rounded-3xl shadow-md relative overflow-hidden">
+                <div className="flex items-center gap-2 mb-2 text-[#B94E2F]">
+                  <Flower2 size={16} />
+                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#B94E2F]">The Forever</span>
+                </div>
+                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
+                  &quot;{config.invitationStory?.theForever || "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."}&quot;
+                </p>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Floral Section Separator */}
         {allHeartsScratched && config.weddingEvents?.length > 0 && <SectionSeparator />}
 
-        {/* 3. SACRED CEREMONIES / EVENTS */}
+        {/* 4. SACRED CEREMONIES / EVENTS */}
         {allHeartsScratched && config.weddingEvents?.length > 0 && (
           <motion.section 
             id="events"
@@ -927,17 +1038,21 @@ export default function App() {
                       </div>
                     )}
 
-                    <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base mb-6 px-4">
-                      {event.venueName}, {event.venueAddress}
-                    </p>
+                    {/* Venue & Location details (Removed from all events by default; only shown if unhidden via Admin Panel) */}
+                    {config.showEventAddressAndMap && (event.venueName || event.venueAddress) && (
+                      <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base mb-4 px-4 font-medium">
+                        {[event.venueName, event.venueAddress].filter(Boolean).join(", ")}
+                      </p>
+                    )}
                     
-                    {(event.mapDirectionsUrl || event.mapEmbedUrl) && (
+                    {/* View on Maps Button (Hidden unless unhidden via admin) */}
+                    {config.showEventAddressAndMap && (event.mapDirectionsUrl || event.mapEmbedUrl) && (
                       <a 
                         href={event.mapDirectionsUrl || event.mapEmbedUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={pauseMusic}
-                        className="inline-flex flex-row items-center gap-2 bg-[#B94E2F] text-white px-6 py-2.5 rounded-full font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-[#8F3B22] transition-colors shadow-md cursor-pointer"
+                        className="inline-flex flex-row items-center gap-2 bg-[#B94E2F] text-white px-6 py-2.5 rounded-full font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-[#8F3B22] transition-colors shadow-md cursor-pointer mb-2"
                       >
                         <MapPin size={12} />
                         VIEW ON MAPS
@@ -955,71 +1070,6 @@ export default function App() {
                   </motion.div>
                 );
               })}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Floral Section Separator */}
-        {allHeartsScratched && <SectionSeparator />}
-
-        {/* 4. INVITATION STORY / MESSAGE ("DIFFERENT ROOTS • SAME DREAMS") */}
-        {allHeartsScratched && (
-          <motion.section 
-            id="story"
-            initial={{ opacity: 0 }} 
-            whileInView={{ opacity: 1 }} 
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto text-center"
-          >
-            <div className="mb-12">
-              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block">
-                OUR SACRED JOURNEY
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2">
-                {config.invitationStory?.title || "DIFFERENT ROOTS • SAME DREAMS"}
-              </h2>
-              <div className="flex items-center justify-center mt-5">
-                <div className="w-16 h-[1px] bg-[#C9A45C]/50" />
-                <div className="w-2 h-2 rotate-45 border border-[#C9A45C] mx-3" />
-                <div className="w-16 h-[1px] bg-[#C9A45C]/50" />
-              </div>
-            </div>
-
-            {/* Story Cards */}
-            <div className="space-y-6 text-left">
-              {/* Chapter 1: The Meeting */}
-              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
-                <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
-                  <Sparkles size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Meeting</span>
-                </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
-                  &quot;{config.invitationStory?.theMeeting || "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful."}&quot;
-                </p>
-              </div>
-
-              {/* Chapter 2: The Journey */}
-              <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 rounded-3xl shadow-sm relative overflow-hidden">
-                <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
-                  <Heart size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#641D2E]">The Journey</span>
-                </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
-                  &quot;{config.invitationStory?.theJourney || "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together."}&quot;
-                </p>
-              </div>
-
-              {/* Chapter 3: The Forever */}
-              <div className="bg-gradient-to-br from-[#FFF9F3] to-[#FFF0E6] border border-[#C9A45C]/60 p-6 rounded-3xl shadow-md relative overflow-hidden">
-                <div className="flex items-center gap-2 mb-2 text-[#B94E2F]">
-                  <Flower2 size={16} />
-                  <span className="font-sans text-xs uppercase tracking-widest font-bold text-[#B94E2F]">The Forever</span>
-                </div>
-                <p className="font-serif-premium text-[#4B3A35] text-sm md:text-base leading-relaxed italic">
-                  &quot;{config.invitationStory?.theForever || "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."}&quot;
-                </p>
-              </div>
             </div>
           </motion.section>
         )}
@@ -1130,6 +1180,16 @@ export default function App() {
             className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden">
+              {/* Transportation Disclaimer at Top */}
+              <div className="bg-[#FFF9F3] border-2 border-[#C9A45C]/50 rounded-2xl p-4 mb-6 text-center shadow-xs">
+                <span className="font-sans text-[10px] sm:text-[11px] font-bold text-[#B94E2F] uppercase tracking-wider block mb-1">
+                  Disclaimers
+                </span>
+                <p className="font-serif-premium text-xs sm:text-sm text-[#641D2E] font-bold leading-relaxed">
+                  Accommodation and transportation is only provided to guests coming from outside Maharashtra or India.
+                </p>
+              </div>
+
               <div className="text-center mb-6">
                 <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
                   ACCOMMODATION &amp; TRAVEL
@@ -1444,7 +1504,96 @@ export default function App() {
         {/* Floral Section Separator */}
         {allHeartsScratched && <SectionSeparator />}
 
-        {/* 8. JOIN THE CELEBRATION & FINAL FOOTER */}
+        {/* 8. FAMILY DETAILS SECTION */}
+        {allHeartsScratched && (
+          <motion.section 
+            id="family-details"
+            initial={{ opacity: 0 }} 
+            whileInView={{ opacity: 1 }} 
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
+          >
+            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
+              <div className="text-center mb-8">
+                <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+                  OUR FAMILIES &amp; LOVED ONES
+                </span>
+                <h3 className="font-display text-3xl sm:text-4xl text-[#B94E2F] font-bold uppercase tracking-wider">
+                  Family Details
+                </h3>
+                <div className="flex items-center justify-center mt-3">
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                  <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {/* Groom's Family Card */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#C9A45C]/25">
+                    <h4 className="font-display text-xl sm:text-2xl font-bold text-[#641D2E] uppercase tracking-wide">
+                      Aditya Ramesh
+                    </h4>
+                    <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-2.5 py-1 rounded-full">
+                      Groom
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
+                    <p className="font-bold text-[#641D2E] text-sm sm:text-base">
+                      S/O Mr T.V.Ramesh &amp; Usha Ramesh
+                    </p>
+                    <div className="space-y-1.5 pt-1">
+                      <p className="flex items-start gap-2">
+                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                        <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                        <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bride's Family Card */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#C9A45C]/25">
+                    <h4 className="font-display text-xl sm:text-2xl font-bold text-[#641D2E] uppercase tracking-wide">
+                      Pooja Devi
+                    </h4>
+                    <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-2.5 py-1 rounded-full">
+                      Bride
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5 font-serif-premium text-xs sm:text-sm text-[#4B3A35] leading-relaxed">
+                    <p className="font-bold text-[#641D2E] text-sm sm:text-base">
+                      D/O Mr Babul Nath &amp; Momi Devi
+                    </p>
+                    <div className="space-y-1.5 pt-1">
+                      <p className="flex items-start gap-2">
+                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                        <span>Akash Jyoti Nath (Brother)</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-[#C9A45C] mt-0.5">•</span>
+                        <span>Upasana Devi (Sister in law)</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Floral Section Separator */}
+        {allHeartsScratched && <SectionSeparator />}
+
+        {/* 9. JOIN THE CELEBRATION & FINAL FOOTER */}
         {allHeartsScratched && (
           <>
             <motion.section
@@ -1504,8 +1653,8 @@ export default function App() {
               <p className="font-serif-premium text-[#F8E9E2] text-sm md:text-base italic z-10 tracking-wide">
                 With love,<br/>
                 {config.priorityOrder === "bride" 
-                  ? `${config.bride.name.split(" ")[0]} & ${config.groom.name.split(" ")[0]}`
-                  : `${config.groom.name.split(" ")[0]} & ${config.bride.name.split(" ")[0]}`}
+                  ? `${config.bride.name.split(" ")[0]}, ${config.groom.name.split(" ")[0]} & Family`
+                  : `${config.groom.name.split(" ")[0]}, ${config.bride.name.split(" ")[0]} & Family`}
               </p>
             </motion.section>
           </>

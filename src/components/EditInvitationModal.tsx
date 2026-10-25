@@ -199,6 +199,7 @@ export function EditInvitationModal({
 
   // 7. Specific Details / Custom features / Helper chips
   const [specificDetails, setSpecificDetails] = useState("");
+  const [showEventAddressAndMap, setShowEventAddressAndMap] = useState<boolean>(config.showEventAddressAndMap ?? false);
 
   // Accordion state
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -314,9 +315,12 @@ export function EditInvitationModal({
         displayDate: `${weddingDay ? weddingDay + ", " : ""}${weddingDate}`,
         heroSettings: {
           ...config.heroSettings,
+          groomParents: `Son of Mr. ${(groomFather.trim() || "T.V. Ramesh").replace(/^(Mr\.?|Shri\.?)\s*/i, "")} & Mrs. ${(groomMother.trim() || "Usha Ramesh").replace(/^(Mrs\.?|Smt\.?)\s*/i, "")}`,
+          brideParents: `Daughter of Mr. ${(brideFather.trim() || "Babul Nath").replace(/^(Mr\.?|Shri\.?)\s*/i, "")} & Mrs. ${(brideMother.trim() || "Momi Devi").replace(/^(Mrs\.?|Smt\.?)\s*/i, "")}`,
           introText: invitationMessage.trim() || config.heroSettings.introText,
         },
         musicUrl: musicLink.trim() || config.musicUrl,
+        showEventAddressAndMap: showEventAddressAndMap,
         weddingEvents: updatedEvents.length > 0 ? updatedEvents : config.weddingEvents,
         familyDetails: {
           ...config.familyDetails,
@@ -936,6 +940,31 @@ export function EditInvitationModal({
 
               {expandedSections.ceremonies && (
                 <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
+                  {/* Event Address & Google Maps Visibility Toggle */}
+                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <div>
+                      <span className="text-xs font-bold text-[#641D2E] block">
+                        Venue Address &amp; Google Maps Button
+                      </span>
+                      <span className="text-[11px] text-[#765E52]">
+                        Status: <strong className={showEventAddressAndMap ? "text-emerald-700 font-semibold" : "text-[#B94E2F] font-semibold"}>
+                          {showEventAddressAndMap ? "Visible on event cards" : "Hidden from event cards"}
+                        </strong>
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowEventAddressAndMap((v) => !v)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        showEventAddressAndMap
+                          ? "bg-emerald-600 text-white border-emerald-700"
+                          : "bg-[#641D2E] text-white border-[#641D2E] hover:bg-[#85253C]"
+                      }`}
+                    >
+                      {showEventAddressAndMap ? "✓ Unhidden (Click to Hide)" : "Hidden (Click to Unhide)"}
+                    </button>
+                  </div>
+
                   <div>
                     <p className="text-xs font-sans font-medium text-[#765E52] mb-2">
                       Quick Add Ceremonies:
