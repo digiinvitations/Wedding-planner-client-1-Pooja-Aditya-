@@ -36,7 +36,7 @@ import {
   ShieldCheck
 } from "lucide-react";
 
-import { weddingConfig as defaultWeddingConfig, WeddingConfig } from "./weddingConfig";
+import { weddingConfig as defaultWeddingConfig, WeddingConfig, defaultTypographyConfig } from "./weddingConfig";
 import { GaneshaIcon } from "./components/GaneshaIcon";
 import { OrnateFrame } from "./components/OrnateFrame";
 import { EnvelopeCover } from "./components/EnvelopeCover";
@@ -113,7 +113,8 @@ export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
       introText: cfg.heroSettings?.introText || "",
       shloka: cfg.heroSettings?.shloka || "",
       showPetals: cfg.heroSettings?.showPetals ?? true,
-    }
+    },
+    typography: cfg.typography || defaultTypographyConfig,
   };
 }
 
@@ -131,6 +132,7 @@ export default function App() {
           galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
           groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
           bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
+          typography: configData.typography || defaultTypographyConfig,
         });
         localStorage.setItem("wedding_config", JSON.stringify(sanitized));
         return sanitized;
@@ -144,6 +146,14 @@ export default function App() {
     } catch {}
     return def;
   });
+
+  // Typography & Font Sizing
+  const typo = config.typography || defaultTypographyConfig;
+  const globalScale = (typo.globalScale ?? 100) / 100;
+  const getFontSize = (sizePx: number | undefined, fallbackPx: number) => {
+    const base = sizePx ?? fallbackPx;
+    return `${Math.round(base * globalScale)}px`;
+  };
 
   const [isPreloading, setIsPreloading] = useState(true);
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
@@ -706,13 +716,19 @@ export default function App() {
 
             {/* Shloka */}
             {config.heroSettings?.shloka && (
-              <div className="mb-8 whitespace-pre-line text-sm sm:text-base md:text-lg text-[#C9A45C] font-semibold tracking-wider leading-relaxed">
+              <div 
+                style={{ fontSize: getFontSize(typo.hero?.shloka, 18) }}
+                className="mb-8 whitespace-pre-line text-[#C9A45C] font-semibold tracking-wider leading-relaxed"
+              >
                 {config.heroSettings.shloka}
               </div>
             )}
 
             {/* Intro Text */}
-            <p className="text-[#4B3A35] max-w-[95%] mx-auto text-sm sm:text-base md:text-lg leading-relaxed mb-10 italic">
+            <p 
+              style={{ fontSize: getFontSize(typo.hero?.intro, 18) }}
+              className="text-[#4B3A35] max-w-[95%] mx-auto leading-relaxed mb-10 italic"
+            >
               {config.heroSettings?.introText || '"With the blessings of the Almighty & our respected elders,\nwe joyfully request your gracious presence on the wedding celebration of"'}
             </p>
 
@@ -721,10 +737,16 @@ export default function App() {
               {config.priorityOrder === "bride" ? (
                 <>
                   {/* Bride First */}
-                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
+                  <h1 
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
+                  >
                     {config.bride.name}
                   </h1>
-                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
+                    className="text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center"
+                  >
                     {formatHeroBrideParents(config)}
                   </p>
                   
@@ -736,20 +758,32 @@ export default function App() {
                   </div>
 
                   {/* Groom Second */}
-                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
+                  <h1 
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
+                  >
                     {config.groom.name}
                   </h1>
-                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
+                    className="text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center"
+                  >
                     {formatHeroGroomParents(config)}
                   </p>
                 </>
               ) : (
                 <>
                   {/* Groom First (Default & Priority) */}
-                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
+                  <h1 
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
+                  >
                     {config.groom.name}
                   </h1>
-                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
+                    className="text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center"
+                  >
                     {formatHeroGroomParents(config)}
                   </p>
                   
@@ -761,10 +795,16 @@ export default function App() {
                   </div>
 
                   {/* Bride Second */}
-                  <h1 className="font-couple text-4xl sm:text-5xl md:text-6xl text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm">
+                  <h1 
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
+                  >
                     {config.bride.name}
                   </h1>
-                  <p className="text-sm sm:text-base md:text-lg text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
+                    className="text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center"
+                  >
                     {formatHeroBrideParents(config)}
                   </p>
                 </>
@@ -804,13 +844,22 @@ export default function App() {
           className="min-h-[100dvh] w-full max-w-[calc(100dvh*9/16)] mx-auto flex flex-col justify-start pt-24 pb-20 items-center px-4 sm:px-6 relative z-10"
         >
           <div className="text-center mb-10 w-full">
-            <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
+            <span 
+              style={{ fontSize: getFontSize(typo.saveTheDate?.labels, 14) }}
+              className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block"
+            >
               SAVE THE DATE
             </span>
-            <h2 className="font-accent text-5xl sm:text-6xl md:text-7xl text-[#B94E2F] leading-tight">
+            <h2 
+              style={{ fontSize: getFontSize(typo.saveTheDate?.heading, 56) }}
+              className="font-accent text-[#B94E2F] leading-tight"
+            >
               Reveal Our<br/>Big Day
             </h2>
-            <p className="font-serif-premium italic text-[#4B3A35] mt-4 text-base sm:text-lg md:text-xl font-medium">
+            <p 
+              style={{ fontSize: getFontSize(typo.saveTheDate?.subheading, 20) }}
+              className="font-serif-premium italic text-[#4B3A35] mt-4 font-medium"
+            >
               Scratch the heart to reveal
             </p>
           </div>
@@ -896,10 +945,17 @@ export default function App() {
                 className="mt-12 sm:mt-16 text-center overflow-hidden w-full"
               >
                 <div className="w-12 h-[1px] bg-[#C9A45C] mx-auto mb-8" />
-                <span className="font-display text-2xl sm:text-3xl md:text-4xl text-[#B94E2F] font-semibold block mb-6">
+                <span 
+                  style={{ fontSize: getFontSize(typo.saveTheDate?.subheading, 26) }}
+                  className="font-display text-[#B94E2F] font-semibold block mb-6"
+                >
                   The start of a beautiful journey...
                 </span>
-                <Countdown targetDate={config.weddingDate} />
+                <Countdown 
+                  targetDate={config.weddingDate} 
+                  digitFontSize={Math.round((typo.saveTheDate?.countdown ?? 36) * globalScale)}
+                  labelFontSize={Math.round((typo.saveTheDate?.labels ?? 13) * globalScale)}
+                />
               </motion.div>
             )}
           </AnimatePresence>

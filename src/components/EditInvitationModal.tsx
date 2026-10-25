@@ -18,9 +18,11 @@ import {
   AlertCircle,
   Pencil,
   ShieldCheck,
-  Save
+  Save,
+  Type
 } from "lucide-react";
-import { WeddingConfig } from "../weddingConfig";
+import { WeddingConfig, TypographyConfig, defaultTypographyConfig } from "../weddingConfig";
+import { TypographyManager } from "./TypographyManager";
 import {
   getActiveWorkspace,
   setActiveWorkspace,
@@ -200,6 +202,7 @@ export function EditInvitationModal({
   // 7. Specific Details / Custom features / Helper chips
   const [specificDetails, setSpecificDetails] = useState("");
   const [showEventAddressAndMap, setShowEventAddressAndMap] = useState<boolean>(config.showEventAddressAndMap ?? false);
+  const [typography, setTypography] = useState<TypographyConfig>(config.typography || defaultTypographyConfig);
 
   // Accordion state
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -207,6 +210,7 @@ export function EditInvitationModal({
     couple: true,
     weddingInfo: true,
     ceremonies: true,
+    typography: false,
     family: false,
     message: false,
     music: false,
@@ -327,6 +331,7 @@ export function EditInvitationModal({
           welcomingText: brideFamily.trim() || config.familyDetails.welcomingText,
           names: groomFamily.trim() ? groomFamily.split(",").map((s) => s.trim()) : config.familyDetails.names,
         },
+        typography: typography,
       };
 
       if (onSaveConfig) {
@@ -1316,6 +1321,40 @@ export function EditInvitationModal({
                       className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                     />
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 8: FONT SIZES & TYPOGRAPHY */}
+            <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleSection("typography")}
+                className="w-full px-5 py-4 flex items-center justify-between text-left bg-gradient-to-r from-[#dec47f]/10 to-transparent hover:bg-[#dec47f]/20 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Type size={18} className="text-[#B94E2F]" />
+                  <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
+                    8. Font Sizes &amp; Typography
+                    <span className="ml-2 text-[10px] bg-[#B94E2F] text-white px-2 py-0.5 rounded-full font-sans uppercase">
+                      New
+                    </span>
+                  </span>
+                </div>
+                <ChevronDown
+                  size={18}
+                  className={`text-[#B94E2F] transition-transform duration-200 ${
+                    expandedSections.typography ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {expandedSections.typography && (
+                <div className="p-5 border-t border-[#C9A45C]/20 bg-white/70">
+                  <TypographyManager
+                    typography={typography}
+                    onChange={setTypography}
+                  />
                 </div>
               )}
             </div>

@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   X, Trash2, Image as ImageIcon, Calendar, Settings, Database, Map, CheckCircle2,
   Download, Upload, ShieldCheck, Heart, Sparkles, Shirt, Building2, MessageSquare,
-  Users, Phone, User, Plus, Crown, Send, RefreshCw, FileText
+  Users, Phone, User, Plus, Crown, Send, RefreshCw, FileText, Type
 } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { WeddingConfig } from "../weddingConfig";
 import { AssetManager } from "./AssetManager";
+import { TypographyManager } from "./TypographyManager";
 import {
   getActiveWorkspace,
   setActiveWorkspace,
@@ -25,7 +26,7 @@ interface AdminPanelProps {
   config: WeddingConfig;
   onConfigChange: (newConfig: WeddingConfig) => Promise<void>;
   mode?: "edit" | "admin" | "rsvp";
-  initialTab?: "workspace" | "couple" | "story" | "dress_code" | "hotel_stay" | "rsvp" | "events" | "cover" | "assets";
+  initialTab?: "workspace" | "couple" | "story" | "dress_code" | "hotel_stay" | "rsvp" | "events" | "cover" | "assets" | "typography";
   title?: string;
   onToggleFloatingEditButton?: (visible: boolean) => void;
   isFloatingEditButtonVisible?: boolean;
@@ -45,11 +46,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const getDefaultTab = () => {
     if (mode === "admin") return initialTab || "workspace";
     if (mode === "rsvp") return "rsvp";
-    return initialTab || "couple";
+    return initialTab || "typography";
   };
 
   const [activeTab, setActiveTab] = useState<
-    "workspace" | "couple" | "story" | "dress_code" | "hotel_stay" | "rsvp" | "events" | "cover" | "assets"
+    "workspace" | "couple" | "story" | "dress_code" | "hotel_stay" | "rsvp" | "events" | "cover" | "assets" | "typography"
   >(getDefaultTab());
   const [editConfig, setEditConfig] = useState<WeddingConfig>(config);
   const [currentWorkspace, setCurrentWorkspace] = useState(getActiveWorkspace());
@@ -64,14 +65,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (mode === "edit") {
-        const allowed = ["couple", "events", "story", "dress_code", "hotel_stay", "rsvp"];
+        const allowed = ["typography", "couple", "events", "story", "dress_code", "hotel_stay", "rsvp"];
         if (initialTab && allowed.includes(initialTab)) {
           setActiveTab(initialTab);
         } else if (!allowed.includes(activeTab)) {
-          setActiveTab("couple");
+          setActiveTab("typography");
         }
       } else if (mode === "admin") {
-        const allowed = ["workspace", "events", "cover", "assets"];
+        const allowed = ["workspace", "events", "cover", "assets", "typography"];
         if (initialTab && allowed.includes(initialTab)) {
           setActiveTab(initialTab);
         } else if (!allowed.includes(activeTab)) {
@@ -276,10 +277,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               {/* Sidebar Tabs */}
               <div className="flex md:flex-col gap-2 p-4 border-b md:border-b-0 md:border-r border-[#C9A45C]/20 bg-[#FFF9F3]/30 overflow-x-auto md:overflow-y-auto md:w-56 shrink-0 no-scrollbar">
                 {/* ADMIN MODE TABS: Workspace, Events, Cover & Music, Assets */}
+                {/* ADMIN MODE TABS: Workspace, Events, Cover & Music, Assets, Typography */}
                 {mode === "admin" && (
                   <>
                     <button onClick={() => setActiveTab("workspace")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "workspace" ? "bg-[#641D2E] text-[#dec47f] shadow-md border border-[#dec47f]/40 font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <ShieldCheck size={18} className="text-[#C9A45C]" /> Client Workspace
+                    </button>
+                    <button onClick={() => setActiveTab("typography")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "typography" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
+                      <Type size={18} /> Font Sizes &amp; Typography
                     </button>
                     <button onClick={() => setActiveTab("events")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "events" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <Map size={18} /> Sacred Ceremonies 
@@ -293,9 +298,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </>
                 )}
 
-                {/* EDIT MODE TABS: COUPLE & LINEAGE, CEREMONIES & MAP, INVITATION STORY, DRESS CODE & THEME, HOTEL & STAY INFO, RSVP SUBMISSION */}
+                {/* EDIT MODE TABS: TYPOGRAPHY, DRESS CODE & THEME, COUPLE & LINEAGE, CEREMONIES & MAP, INVITATION STORY, HOTEL & STAY INFO, RSVP SUBMISSION */}
                 {mode === "edit" && (
                   <>
+                    <button onClick={() => setActiveTab("typography")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "typography" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
+                      <Type size={18} /> Font Sizes &amp; Typography
+                    </button>
+                    <button onClick={() => setActiveTab("dress_code")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "dress_code" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
+                      <Shirt size={18} /> Dress Code &amp; Theme
+                    </button>
                     <button onClick={() => setActiveTab("couple")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "couple" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <Crown size={18} /> Couple & Lineage
                     </button>
@@ -304,9 +315,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     </button>
                     <button onClick={() => setActiveTab("story")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "story" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <FileText size={18} /> Invitation Story
-                    </button>
-                    <button onClick={() => setActiveTab("dress_code")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "dress_code" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
-                      <Shirt size={18} /> Dress Code & Theme
                     </button>
                     <button onClick={() => setActiveTab("hotel_stay")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "hotel_stay" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <Building2 size={18} /> Hotel & Stay Info
@@ -327,6 +335,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
               {/* Content Area */}
               <div className="flex-1 overflow-y-auto p-6 scrollbar-thin bg-white">
+                {/* TYPOGRAPHY TAB */}
+                {activeTab === "typography" && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 pb-6">
+                    <TypographyManager
+                      typography={editConfig.typography}
+                      onChange={(newTypo) => setEditConfig((c) => ({ ...c, typography: newTypo }))}
+                    />
+                  </motion.div>
+                )}
+
                 {/* WORKSPACE TAB */}
                 {activeTab === "workspace" && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 pb-6">
@@ -843,6 +861,22 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                           placeholder="Dress Code"
                         />
+                      </div>
+
+                      {/* Quick Font Size Adjustment Shortcut */}
+                      <div className="flex items-center justify-between bg-white p-3.5 rounded-xl border border-[#C9A45C]/30 shadow-xs">
+                        <div>
+                          <span className="text-xs font-bold text-[#641D2E] block">Dress Code Font Sizing</span>
+                          <span className="text-[11px] text-[#765E52]">Adjust heading, category badge, ceremony titles &amp; instructions size</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActiveTab("typography")}
+                          className="inline-flex items-center gap-1.5 bg-[#FFF9F3] hover:bg-[#F5EDD6] text-[#B94E2F] border border-[#C9A45C]/50 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer shrink-0"
+                        >
+                          <Type size={13} />
+                          <span>Adjust Font Sizes</span>
+                        </button>
                       </div>
 
                       {/* 1. On Juroon */}

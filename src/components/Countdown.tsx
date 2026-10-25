@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 
 interface CountdownProps {
   targetDate: string;
+  digitFontSize?: number;
+  labelFontSize?: number;
 }
 
-export function Countdown({ targetDate }: CountdownProps) {
+export function Countdown({ targetDate, digitFontSize, labelFontSize }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
 
   useEffect(() => {
@@ -51,11 +53,17 @@ export function Countdown({ targetDate }: CountdownProps) {
           <div className="w-16 h-16 sm:w-22 sm:h-22 bg-white/90 backdrop-blur-md rounded-2xl border border-[#C9A45C]/50 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] flex items-center justify-center mb-2.5 relative overflow-hidden">
             {/* Subtle inner reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-50" />
-            <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#B94E2F] drop-shadow-sm relative z-10 tabular-nums tracking-tight">
+            <span 
+              style={digitFontSize ? { fontSize: `${digitFontSize}px` } : undefined}
+              className="font-display text-3xl sm:text-4xl font-extrabold text-[#B94E2F] drop-shadow-sm relative z-10 tabular-nums tracking-tight"
+            >
               {unit.value.toString().padStart(2, '0')}
             </span>
           </div>
-          <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-[#641D2E] font-bold drop-shadow-sm">
+          <span 
+            style={labelFontSize ? { fontSize: `${labelFontSize}px` } : undefined}
+            className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-[#641D2E] font-bold drop-shadow-sm"
+          >
             {unit.label}
           </span>
         </motion.div>
