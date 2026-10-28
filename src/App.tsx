@@ -1190,9 +1190,9 @@ export default function App() {
                     {/* Venue & Location details */}
                     <p 
                       style={{ fontSize: getFontSize(typo.events?.address, 17) }}
-                      className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium"
+                      className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium text-center"
                     >
-                      Mahableshwar
+                      Venue - Mahableshwar
                     </p>
                     
                     {/* View on Maps Button (Hidden unless unhidden via admin) */}
@@ -1827,6 +1827,33 @@ export default function App() {
               </p>
             </motion.section>
 
+            {/* Caricature Family Photo */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="py-8 px-6 text-center flex flex-col items-center bg-[#FFF9F3] relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
+            >
+              <div className="w-full max-w-sm bg-white p-4 rounded-3xl border-2 border-[#C9A45C]/50 shadow-lg relative overflow-hidden">
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#C9A45C]" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#C9A45C]" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#C9A45C]" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#C9A45C]" />
+                
+                <img 
+                  src="https://cdn.phototourl.com/member/2026-10-28-4f10b2ea-e21e-4d2d-90b7-404b5a6321b3.jpg" 
+                  alt="Family Caricature" 
+                  className="w-full aspect-[4/3] object-cover rounded-2xl mb-3 shadow-xs"
+                />
+                <span className="font-serif-premium italic text-sm text-[#641D2E] font-semibold block">
+                  &ldquo;Looking forward to celebrating with you&rdquo;
+                </span>
+                <span className="font-sans text-[11px] uppercase tracking-widest text-[#C9A45C] font-bold block mt-1">
+                  Ramesh &amp; Nath Families
+                </span>
+              </div>
+            </motion.section>
 
             {/* Deep Burgundy Closing Section (Groom Priority) */}
             <motion.section
