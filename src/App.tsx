@@ -1188,14 +1188,12 @@ export default function App() {
                     )}
 
                     {/* Venue & Location details */}
-                    <div className="mb-4 px-4 text-center">
-                      <span className="font-sans text-[11px] uppercase tracking-widest text-[#C9A45C] font-bold block mb-0.5">
-                        Venue
-                      </span>
-                      <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg font-medium">
-                        Venue - Mahableshwar
-                      </p>
-                    </div>
+                    <p 
+                      style={{ fontSize: getFontSize(typo.events?.address, 17) }}
+                      className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium text-center"
+                    >
+                      Venue - Mahableshwar
+                    </p>
                     
                     {/* View on Maps Button (Hidden unless unhidden via admin) */}
                     {config.showEventAddressAndMap && (event.mapDirectionsUrl || event.mapEmbedUrl) && (
@@ -1326,23 +1324,20 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="text-center mb-6">
-                <span 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.heading ? Math.round(typo.hotelStay.heading * 0.32) : 14, 14) }}
-                  className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
-                >
-                  ACCOMMODATION &amp; TRAVEL
+              <div className="text-center mb-6 bg-[#FFF9F3] border border-[#C9A45C]/40 p-4 sm:p-5 rounded-2xl shadow-xs">
+                <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#B94E2F] font-bold mb-1.5 block">
+                  Resort / Venue Name
                 </span>
                 <h3 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 26) }}
-                  className="font-display font-bold text-[#641D2E] leading-tight"
+                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 22) }}
+                  className="font-display font-bold text-[#641D2E] leading-snug"
                 >
-                  {config.hotelStay?.hotelName || "Mountain Breeze Mahableshwar"}
+                  {config.hotelStay?.hotelName || "Mountain Breeze Resort, Mahabaleshwar"}
                 </h3>
                 {config.hotelStay?.tagline && (
                   <p 
-                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
-                    className="font-serif-premium text-[#765E52] mt-2 italic font-medium"
+                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 15) }}
+                    className="font-serif-premium text-[#765E52] mt-1.5 italic font-medium"
                   >
                     {config.hotelStay.tagline}
                   </p>
@@ -1830,6 +1825,34 @@ export default function App() {
               >
                 At last, the stars align, two beautiful cultures intertwine, and our next chapter begins. With hearts overflowing with gratitude, we warmly invite you to celebrate our wedding at Mountain Breeze Mahableshwar and bless our forever.
               </p>
+            </motion.section>
+
+            {/* Caricature Family Photo */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="py-8 px-6 text-center flex flex-col items-center bg-[#FFF9F3] relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
+            >
+              <div className="w-full max-w-sm bg-white p-4 rounded-3xl border-2 border-[#C9A45C]/50 shadow-lg relative overflow-hidden">
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#C9A45C]" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#C9A45C]" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#C9A45C]" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#C9A45C]" />
+                
+                <img 
+                  src="https://cdn.phototourl.com/member/2026-10-28-4f10b2ea-e21e-4d2d-90b7-404b5a6321b3.jpg" 
+                  alt="Family Caricature" 
+                  className="w-full aspect-[4/3] object-cover rounded-2xl mb-3 shadow-xs"
+                />
+                <span className="font-serif-premium italic text-sm text-[#641D2E] font-semibold block">
+                  &ldquo;Looking forward to celebrating with you&rdquo;
+                </span>
+                <span className="font-sans text-[11px] uppercase tracking-widest text-[#C9A45C] font-bold block mt-1">
+                  Ramesh &amp; Nath Families
+                </span>
+              </div>
             </motion.section>
 
             {/* Deep Burgundy Closing Section (Groom Priority) */}

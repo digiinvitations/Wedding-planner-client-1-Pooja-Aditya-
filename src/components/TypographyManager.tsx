@@ -570,10 +570,16 @@ export const TypographyManager: React.FC<TypographyManagerProps> = ({
               }`}
             >
               {/* Accordion Header */}
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => setActiveAccordion(isExpanded ? "" : section.id)}
-                className="w-full flex items-center justify-between p-4 sm:p-4.5 cursor-pointer text-left transition-colors"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setActiveAccordion(isExpanded ? "" : section.id);
+                  }
+                }}
+                className="w-full flex items-center justify-between p-4 sm:p-4.5 cursor-pointer text-left transition-colors select-none"
               >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-white border border-[#C9A45C]/30 shadow-xs shrink-0">
@@ -614,7 +620,7 @@ export const TypographyManager: React.FC<TypographyManagerProps> = ({
                     {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </div>
                 </div>
-              </button>
+              </div>
 
               {/* Accordion Content */}
               {isExpanded && (
