@@ -1188,9 +1188,14 @@ export default function App() {
                     )}
 
                     {/* Venue & Location details */}
-                    <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium">
-                      Mahableshwar
-                    </p>
+                    <div className="mb-4 px-4 text-center">
+                      <span className="font-sans text-[11px] uppercase tracking-widest text-[#C9A45C] font-bold block mb-0.5">
+                        Venue
+                      </span>
+                      <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg font-medium">
+                        Venue - Mahableshwar
+                      </p>
+                    </div>
                     
                     {/* View on Maps Button (Hidden unless unhidden via admin) */}
                     {config.showEventAddressAndMap && (event.mapDirectionsUrl || event.mapEmbedUrl) && (
@@ -1329,8 +1334,8 @@ export default function App() {
                   ACCOMMODATION &amp; TRAVEL
                 </span>
                 <h3 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 50) }}
-                  className="font-accent text-[#B94E2F] leading-tight"
+                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 26) }}
+                  className="font-display font-bold text-[#641D2E] leading-tight"
                 >
                   {config.hotelStay?.hotelName || "Mountain Breeze Mahableshwar"}
                 </h3>
@@ -1678,159 +1683,120 @@ export default function App() {
         {allHeartsScratched && <SectionSeparator />}
 
         {/* 8. FAMILY DETAILS SECTION */}
-        {allHeartsScratched && (
-          (config.showFamilyDetails !== false) ? (
-            <motion.section 
-              id="family-details"
-              initial={{ opacity: 0 }} 
-              whileInView={{ opacity: 1 }} 
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
-            >
-              <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
-                {/* Button to hide or unhide family section */}
-                <div className="flex justify-end mb-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const nextConfig = { ...config, showFamilyDetails: false };
-                      handleConfigChange(nextConfig);
-                    }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF9F3] hover:bg-[#F5EDD6] border border-[#C9A45C]/50 text-[#765E52] hover:text-[#641D2E] text-xs font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer"
-                    title="Hide Family Details Section from Website"
-                  >
-                    <EyeOff size={13} className="text-[#B94E2F]" />
-                    <span>Hide Family Section</span>
-                  </button>
-                </div>
-
-                <div className="text-center mb-8">
-                  <span 
-                    style={{ fontSize: getFontSize(typo.familyDetails?.heading ? Math.round(typo.familyDetails.heading * 0.35) : 14, 14) }}
-                    className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
-                  >
-                    OUR FAMILIES &amp; LOVED ONES
-                  </span>
-                  <h3 
-                    style={{ fontSize: getFontSize(typo.familyDetails?.heading, 40) }}
-                    className="font-display text-[#B94E2F] font-bold uppercase tracking-wider"
-                  >
-                    Family Details
-                  </h3>
-                  {/* User quote addition */}
-                  <p 
-                    style={{ fontSize: getFontSize(typo.familyDetails?.quote, 19) }}
-                    className="font-serif-premium italic text-[#641D2E] font-semibold tracking-wide mt-3.5"
-                  >
-                    &ldquo;With heart full of love and immense joy&rdquo;
-                  </p>
-                  <div className="flex items-center justify-center mt-3.5">
-                    <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
-                    <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
-                    <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  {/* Groom's Family Card */}
-                  <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                      <h4 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
-                        className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
-                      >
-                        Aditya Ramesh
-                      </h4>
-                      <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                        Groom
-                      </span>
-                    </div>
-
-                    <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
-                      <p 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
-                        className="font-bold text-[#641D2E]"
-                      >
-                        S/O Mr T.V.Ramesh &amp; Usha Ramesh
-                      </p>
-                      <div 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
-                        className="space-y-2 pt-1 font-medium"
-                      >
-                        <p className="flex items-start gap-2.5">
-                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                          <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
-                        </p>
-                        <p className="flex items-start gap-2.5">
-                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                          <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bride's Family Card */}
-                  <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                      <h4 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
-                        className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
-                      >
-                        Pooja Devi
-                      </h4>
-                      <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                        Bride
-                      </span>
-                    </div>
-
-                    <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
-                      <p 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
-                        className="font-bold text-[#641D2E]"
-                      >
-                        D/O Mr Babul Nath &amp; Momi Devi
-                      </p>
-                      <div 
-                        style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
-                        className="space-y-2 pt-1 font-medium"
-                      >
-                        <p className="flex items-start gap-2.5">
-                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                          <span>Akash Jyoti Nath (Brother)</span>
-                        </p>
-                        <p className="flex items-start gap-2.5">
-                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                          <span>Upasana Devi (Sister in law)</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+        {allHeartsScratched && (config.showFamilyDetails !== false) && (
+          <motion.section 
+            id="family-details"
+            initial={{ opacity: 0 }} 
+            whileInView={{ opacity: 1 }} 
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
+          >
+            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
+              <div className="text-center mb-8">
+                <span 
+                  style={{ fontSize: getFontSize(typo.familyDetails?.heading ? Math.round(typo.familyDetails.heading * 0.35) : 14, 14) }}
+                  className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
+                >
+                  OUR FAMILIES &amp; LOVED ONES
+                </span>
+                <h3 
+                  style={{ fontSize: getFontSize(typo.familyDetails?.heading, 40) }}
+                  className="font-display text-[#B94E2F] font-bold uppercase tracking-wider"
+                >
+                  Family Details
+                </h3>
+                {/* User quote addition */}
+                <p 
+                  style={{ fontSize: getFontSize(typo.familyDetails?.quote, 19) }}
+                  className="font-serif-premium italic text-[#641D2E] font-semibold tracking-wide mt-3.5"
+                >
+                  &ldquo;With heart full of love and immense joy&rdquo;
+                </p>
+                <div className="flex items-center justify-center mt-3.5">
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                  <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
+                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
                 </div>
               </div>
-            </motion.section>
-          ) : (
-            /* Banner when Family Details is hidden with button to unhide */
-            <div className="py-6 px-4 max-w-[calc(100dvh*9/16)] mx-auto w-full text-center relative z-10">
-              <div className="bg-[#FFF9F3]/90 border border-dashed border-[#C9A45C] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
-                <div className="flex items-center gap-2 text-[#765E52] text-xs font-medium">
-                  <EyeOff size={16} className="text-[#B94E2F] shrink-0" />
-                  <span>Family Details Section is currently hidden.</span>
+
+              <div className="space-y-6">
+                {/* Groom's Family Card */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                    <h4 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
+                      className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
+                    >
+                      Aditya Ramesh
+                    </h4>
+                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
+                      Groom
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
+                    <p 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
+                      className="font-bold text-[#641D2E]"
+                    >
+                      S/O Mr T.V.Ramesh &amp; Usha Ramesh
+                    </p>
+                    <div 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
+                      className="space-y-2 pt-1 font-medium"
+                    >
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                        <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
+                      </p>
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                        <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const nextConfig = { ...config, showFamilyDetails: true };
-                    handleConfigChange(nextConfig);
-                  }}
-                  className="px-4 py-2 rounded-xl bg-[#641D2E] text-[#dec47f] hover:bg-[#85253C] text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-                >
-                  <Eye size={14} />
-                  <span>Unhide Family Section</span>
-                </button>
+
+                {/* Bride's Family Card */}
+                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                    <h4 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
+                      className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
+                    >
+                      Pooja Devi
+                    </h4>
+                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
+                      Bride
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
+                    <p 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
+                      className="font-bold text-[#641D2E]"
+                    >
+                      D/O Mr Babul Nath &amp; Momi Devi
+                    </p>
+                    <div 
+                      style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
+                      className="space-y-2 pt-1 font-medium"
+                    >
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                        <span>Akash Jyoti Nath (Brother)</span>
+                      </p>
+                      <p className="flex items-start gap-2.5">
+                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                        <span>Upasana Devi (Sister in law)</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          )
+          </motion.section>
         )}
 
         {/* Floral Section Separator */}
