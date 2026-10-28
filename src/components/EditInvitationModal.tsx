@@ -202,6 +202,7 @@ export function EditInvitationModal({
   // 7. Specific Details / Custom features / Helper chips
   const [specificDetails, setSpecificDetails] = useState("");
   const [showEventAddressAndMap, setShowEventAddressAndMap] = useState<boolean>(config.showEventAddressAndMap ?? false);
+  const [showFamilyDetails, setShowFamilyDetails] = useState<boolean>(config.showFamilyDetails ?? true);
   const [typography, setTypography] = useState<TypographyConfig>(config.typography || defaultTypographyConfig);
 
   // Accordion state
@@ -331,6 +332,7 @@ export function EditInvitationModal({
           welcomingText: brideFamily.trim() || config.familyDetails.welcomingText,
           names: groomFamily.trim() ? groomFamily.split(",").map((s) => s.trim()) : config.familyDetails.names,
         },
+        showFamilyDetails: showFamilyDetails,
         typography: typography,
       };
 
@@ -1153,7 +1155,32 @@ export function EditInvitationModal({
               </button>
 
               {expandedSections.family && (
-                <div className="p-5 space-y-3 border-t border-[#C9A45C]/20 bg-white/40">
+                <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
+                  {/* Family Section Visibility Toggle */}
+                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <div>
+                      <span className="text-xs font-bold text-[#641D2E] block">
+                        Family Details Section on Website
+                      </span>
+                      <span className="text-[11px] text-[#765E52]">
+                        Status: <strong className={showFamilyDetails ? "text-emerald-700 font-semibold" : "text-[#B94E2F] font-semibold"}>
+                          {showFamilyDetails ? "Visible on wedding website" : "Hidden from wedding website"}
+                        </strong>
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowFamilyDetails((v) => !v)}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        showFamilyDetails
+                          ? "bg-emerald-600 text-white border-emerald-700"
+                          : "bg-[#641D2E] text-white border-[#641D2E] hover:bg-[#85253C]"
+                      }`}
+                    >
+                      {showFamilyDetails ? "✓ Unhidden (Click to Hide)" : "Hidden (Click to Unhide)"}
+                    </button>
+                  </div>
+
                   <div>
                     <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
                       Bride's Side Family Names

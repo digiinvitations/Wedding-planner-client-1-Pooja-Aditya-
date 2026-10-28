@@ -264,6 +264,7 @@ export interface WeddingConfig {
   typography?: TypographyConfig;
   showFloatingEditButton?: boolean;
   showEventAddressAndMap?: boolean;
+  showFamilyDetails?: boolean;
   clientWorkspace?: string;
 }
 

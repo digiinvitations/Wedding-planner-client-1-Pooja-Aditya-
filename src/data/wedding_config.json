@@ -86,12 +86,6 @@
         "instructions": [
           "Wear dark colors"
         ]
-      },
-      {
-        "event": "On Reception",
-        "instructions": [
-          "Avoid blue and black"
-        ]
       }
     ]
   },
@@ -150,5 +144,6 @@
     "instagram": "https://instagram.com",
     "facebook": "https://facebook.com"
   },
-  "showEventAddressAndMap": false
+  "showEventAddressAndMap": false,
+  "showFamilyDetails": true
 }

@@ -558,6 +558,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       </div>
                     </div>
 
+                    {/* Family Section Visibility Toggle */}
+                    <div className="bg-[#FFF9F3] p-5 rounded-2xl border-2 border-[#C9A45C]/40 space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-bold text-[#641D2E] flex items-center gap-2 uppercase tracking-widest">
+                            <Users size={18} className="text-[#C9A45C]" /> Family Details Section
+                          </h4>
+                          <p className="text-xs text-[#765E52] mt-1">
+                            Show or hide the entire Family Details section (Aditya Ramesh &amp; Pooja Devi family details) on the website.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setEditConfig(c => ({ ...c, showFamilyDetails: !(c.showFamilyDetails ?? true) }))}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 shrink-0 cursor-pointer ${
+                            (editConfig.showFamilyDetails ?? true)
+                              ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                              : "bg-[#641D2E] text-white hover:bg-[#85253C]"
+                          }`}
+                        >
+                          {(editConfig.showFamilyDetails ?? true) ? "✓ Visible / Unhidden" : "Hidden (Click to Unhide)"}
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Groom Card */}
                     <div className="bg-[#FFF9F3]/70 p-5 rounded-2xl border border-[#C9A45C]/30 space-y-4">
                       <h4 className="text-sm font-bold text-[#641D2E] flex items-center gap-2 uppercase tracking-widest border-b border-[#C9A45C]/20 pb-2">
@@ -879,28 +904,82 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </button>
                       </div>
 
-                      {/* 1. On Juroon */}
-                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
-                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
-                          1. On Juroon
-                        </span>
-                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Avoid dark colour • Wear gold or pastel</p>
-                      </div>
+                      {/* Dress Code Events Management */}
+                      <div className="space-y-4 pt-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-[#641D2E] uppercase tracking-wider">Ceremony Dress Code Items</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const curEvents = editConfig.dressCode?.events || [];
+                              setEditConfig(c => ({
+                                ...c,
+                                dressCode: {
+                                  ...c.dressCode,
+                                  enabled: c.dressCode?.enabled ?? true,
+                                  events: [...curEvents, { event: "New Ceremony", instructions: ["Guideline 1"] }]
+                                }
+                              }));
+                            }}
+                            className="inline-flex items-center gap-1.5 bg-[#B94E2F] text-white px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-[#8F3B22] transition-colors cursor-pointer"
+                          >
+                            <Plus size={14} /> Add Dress Code Item
+                          </button>
+                        </div>
 
-                      {/* 2. On Shadi */}
-                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
-                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
-                          2. On Shadi
-                        </span>
-                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Wear dark colors</p>
-                      </div>
+                        {(editConfig.dressCode?.events || []).map((item, index) => (
+                          <div key={index} className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-3 relative shadow-xs">
+                            <div className="flex items-center justify-between gap-2">
+                              <input
+                                type="text"
+                                value={item.event}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  setEditConfig(c => {
+                                    const evs = [...(c.dressCode?.events || [])];
+                                    evs[index] = { ...evs[index], event: val };
+                                    return { ...c, dressCode: { ...c.dressCode, enabled: c.dressCode?.enabled ?? true, events: evs } };
+                                  });
+                                }}
+                                className="flex-1 font-display text-xs font-bold text-[#641D2E] border border-[#C9A45C]/30 rounded-lg px-3 py-1.5 focus:outline-none focus:border-[#B94E2F]"
+                                placeholder="e.g. On Reception"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditConfig(c => {
+                                    const evs = [...(c.dressCode?.events || [])];
+                                    evs.splice(index, 1);
+                                    return { ...c, dressCode: { ...c.dressCode, enabled: c.dressCode?.enabled ?? true, events: evs } };
+                                  });
+                                }}
+                                className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Remove Dress Code Item"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
 
-                      {/* 3. On Reception */}
-                      <div className="bg-white p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
-                        <span className="font-display text-xs font-bold text-[#641D2E] uppercase tracking-wider block">
-                          3. On Reception
-                        </span>
-                        <p className="text-[11px] text-[#765E52] italic mb-1">Guidelines: Avoid blue and black</p>
+                            <div>
+                              <label className="block text-[10px] font-semibold text-[#765E52] mb-1 uppercase tracking-wide">
+                                Instructions (one per line)
+                              </label>
+                              <textarea
+                                value={(item.instructions || []).join("\n")}
+                                onChange={e => {
+                                  const lines = e.target.value.split("\n").map(l => l.trim()).filter(Boolean);
+                                  setEditConfig(c => {
+                                    const evs = [...(c.dressCode?.events || [])];
+                                    evs[index] = { ...evs[index], instructions: lines };
+                                    return { ...c, dressCode: { ...c.dressCode, enabled: c.dressCode?.enabled ?? true, events: evs } };
+                                  });
+                                }}
+                                className="w-full bg-[#FFF9F3]/60 border border-[#C9A45C]/30 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#B94E2F] h-16"
+                                placeholder="Avoid blue and black"
+                              />
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </motion.div>

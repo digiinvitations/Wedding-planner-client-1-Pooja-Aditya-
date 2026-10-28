@@ -33,7 +33,11 @@ import {
   Shirt,
   Eye,
   EyeOff,
-  ShieldCheck
+  ShieldCheck,
+  Type,
+  Minus,
+  Plus,
+  Sliders
 } from "lucide-react";
 
 import { weddingConfig as defaultWeddingConfig, WeddingConfig, defaultTypographyConfig } from "./weddingConfig";
@@ -386,6 +390,45 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showHeroTextAdjuster, setShowHeroTextAdjuster] = useState(false);
+
+  const updateHeroTypography = (field: 'shloka' | 'intro' | 'coupleNames' | 'parents', delta: number) => {
+    const curHero = config.typography?.hero || defaultTypographyConfig.hero || {};
+    const fallback = defaultTypographyConfig.hero?.[field] ?? 18;
+    const curVal = curHero[field] ?? fallback;
+    const nextVal = Math.max(10, Math.min(100, curVal + delta));
+    const newConfig: WeddingConfig = {
+      ...config,
+      typography: {
+        ...defaultTypographyConfig,
+        ...config.typography,
+        hero: {
+          ...defaultTypographyConfig.hero,
+          ...curHero,
+          [field]: nextVal,
+        },
+      },
+    };
+    handleConfigChange(newConfig);
+  };
+
+  const setHeroTypographyExact = (field: 'shloka' | 'intro' | 'coupleNames' | 'parents', val: number) => {
+    const curHero = config.typography?.hero || defaultTypographyConfig.hero || {};
+    const nextVal = Math.max(10, Math.min(100, val));
+    const newConfig: WeddingConfig = {
+      ...config,
+      typography: {
+        ...defaultTypographyConfig,
+        ...config.typography,
+        hero: {
+          ...defaultTypographyConfig.hero,
+          ...curHero,
+          [field]: nextVal,
+        },
+      },
+    };
+    handleConfigChange(newConfig);
+  };
 
   // Pause background music helper
   const pauseMusic = () => {
@@ -732,81 +775,89 @@ export default function App() {
               {config.heroSettings?.introText || '"With the blessings of the Almighty & our respected elders,\nwe joyfully request your gracious presence on the wedding celebration of"'}
             </p>
 
-            {/* Couple Names (Groom Priority) */}
+            {/* Couple Names & Family Details (Groom Priority) */}
             <div className="flex flex-col items-center w-full relative">
               {config.priorityOrder === "bride" ? (
                 <>
                   {/* Bride First */}
                   <h1 
-                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 46) }}
                     className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
                   >
                     {config.bride.name}
                   </h1>
-                  <p 
-                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
-                    className="text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center"
+                  <div 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
+                    className="text-[#641D2E] font-bold mt-2 mb-4 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    {formatHeroBrideParents(config)}
-                  </p>
+                    <p>D/O Mr Babul Nath &amp; Momi Devi</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Akash Jyoti Nath (Brother)</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Upasana Devi (Sister in law)</p>
+                  </div>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-6">
+                  <div className="flex items-center justify-center gap-3 w-full mb-4">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-serif-premium italic text-3xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Groom Second */}
                   <h1 
-                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 46) }}
                     className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
                   >
                     {config.groom.name}
                   </h1>
-                  <p 
-                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
-                    className="text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center"
+                  <div 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
+                    className="text-[#641D2E] font-bold mt-2 mb-2 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    {formatHeroGroomParents(config)}
-                  </p>
+                    <p>S/O Mr T.V.Ramesh &amp; Usha Ramesh</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</p>
+                  </div>
                 </>
               ) : (
                 <>
                   {/* Groom First (Default & Priority) */}
                   <h1 
-                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 46) }}
                     className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
                   >
                     {config.groom.name}
                   </h1>
-                  <p 
-                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
-                    className="text-[#641D2E] font-bold mt-3 mb-6 uppercase tracking-wider text-center"
+                  <div 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
+                    className="text-[#641D2E] font-bold mt-2 mb-4 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    {formatHeroGroomParents(config)}
-                  </p>
+                    <p>S/O Mr T.V.Ramesh &amp; Usha Ramesh</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</p>
+                  </div>
                   
                   {/* Separator */}
-                  <div className="flex items-center justify-center gap-3 w-full mb-6">
+                  <div className="flex items-center justify-center gap-3 w-full mb-4">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#C9A45C]/50" />
-                    <span className="font-serif-premium italic text-3xl text-[#C9A45C]">&amp;</span>
+                    <span className="font-serif-premium italic text-2xl text-[#C9A45C]">&amp;</span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#C9A45C]/50" />
                   </div>
 
                   {/* Bride Second */}
                   <h1 
-                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 52) }}
+                    style={{ fontSize: getFontSize(typo.hero?.coupleNames, 46) }}
                     className="font-couple text-[#641D2E] m-0 font-bold tracking-[0.05em] leading-[1.2] drop-shadow-sm"
                   >
                     {config.bride.name}
                   </h1>
-                  <p 
-                    style={{ fontSize: getFontSize(typo.hero?.parents, 18) }}
-                    className="text-[#641D2E] font-bold mt-3 mb-3 uppercase tracking-wider text-center"
+                  <div 
+                    style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
+                    className="text-[#641D2E] font-bold mt-2 mb-2 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    {formatHeroBrideParents(config)}
-                  </p>
+                    <p>D/O Mr Babul Nath &amp; Momi Devi</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Akash Jyoti Nath (Brother)</p>
+                    <p className="font-normal normal-case text-xs text-[#765E52]">Upasana Devi (Sister in law)</p>
+                  </div>
                 </>
               )}
             </div>
@@ -975,10 +1026,16 @@ export default function App() {
             className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto text-center"
           >
             <div className="mb-12">
-              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block">
+              <span 
+                style={{ fontSize: getFontSize(typo.story?.subheading, 14) }}
+                className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-3 block"
+              >
                 OUR SACRED JOURNEY
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2">
+              <h2 
+                style={{ fontSize: getFontSize(typo.story?.heading, 40) }}
+                className="font-display text-[#641D2E] font-bold uppercase tracking-[0.15em] leading-snug drop-shadow-sm px-2"
+              >
                 {config.invitationStory?.title || "DIFFERENT ROOTS • SAME DREAMS"}
               </h2>
               <div className="flex items-center justify-center mt-5">
@@ -994,9 +1051,17 @@ export default function App() {
               <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 sm:p-7 rounded-3xl shadow-sm relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
                   <Sparkles size={18} />
-                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#641D2E]">The Meeting</span>
+                  <span 
+                    style={{ fontSize: getFontSize(typo.story?.chapterTitle, 17) }}
+                    className="font-sans uppercase tracking-wider font-bold text-[#641D2E]"
+                  >
+                    The Meeting
+                  </span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
+                <p 
+                  style={{ fontSize: getFontSize(typo.story?.chapterContent, 19) }}
+                  className="font-serif-premium text-[#4B3A35] leading-relaxed italic"
+                >
                   &quot;{config.invitationStory?.theMeeting || "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful."}&quot;
                 </p>
               </div>
@@ -1005,9 +1070,17 @@ export default function App() {
               <div className="bg-white/80 backdrop-blur-md border border-[#C9A45C]/40 p-6 sm:p-7 rounded-3xl shadow-sm relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#C9A45C]">
                   <Heart size={18} />
-                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#641D2E]">The Journey</span>
+                  <span 
+                    style={{ fontSize: getFontSize(typo.story?.chapterTitle, 17) }}
+                    className="font-sans uppercase tracking-wider font-bold text-[#641D2E]"
+                  >
+                    The Journey
+                  </span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
+                <p 
+                  style={{ fontSize: getFontSize(typo.story?.chapterContent, 19) }}
+                  className="font-serif-premium text-[#4B3A35] leading-relaxed italic"
+                >
                   &quot;{config.invitationStory?.theJourney || "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together."}&quot;
                 </p>
               </div>
@@ -1016,9 +1089,17 @@ export default function App() {
               <div className="bg-gradient-to-br from-[#FFF9F3] to-[#FFF0E6] border border-[#C9A45C]/60 p-6 sm:p-7 rounded-3xl shadow-md relative overflow-hidden">
                 <div className="flex items-center gap-2 mb-2 text-[#B94E2F]">
                   <Flower2 size={18} />
-                  <span className="font-sans text-sm sm:text-base uppercase tracking-wider font-bold text-[#B94E2F]">The Forever</span>
+                  <span 
+                    style={{ fontSize: getFontSize(typo.story?.chapterTitle, 17) }}
+                    className="font-sans uppercase tracking-wider font-bold text-[#B94E2F]"
+                  >
+                    The Forever
+                  </span>
                 </div>
-                <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg md:text-xl leading-relaxed italic">
+                <p 
+                  style={{ fontSize: getFontSize(typo.story?.chapterContent, 19) }}
+                  className="font-serif-premium text-[#4B3A35] leading-relaxed italic"
+                >
                   &quot;{config.invitationStory?.theForever || "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."}&quot;
                 </p>
               </div>
@@ -1040,10 +1121,16 @@ export default function App() {
             className="py-20 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="text-center mb-16 flex flex-col items-center justify-center">
-              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block text-center">
+              <span 
+                style={{ fontSize: getFontSize(typo.events?.date ? Math.round(typo.events.date * 0.9) : 14, 14) }}
+                className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block text-center"
+              >
                 THE CELEBRATION UNFOLDS
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#641D2E] font-bold uppercase tracking-[0.12em] text-center mx-auto leading-tight drop-shadow-sm">
+              <h2 
+                style={{ fontSize: getFontSize(typo.events?.heading, 42) }}
+                className="font-display text-[#641D2E] font-bold uppercase tracking-[0.12em] text-center mx-auto leading-tight drop-shadow-sm"
+              >
                 Sacred Ceremonies
               </h2>
               <div className="flex items-center justify-center mt-6">
@@ -1064,10 +1151,16 @@ export default function App() {
                     transition={{ duration: 0.6 }}
                     className="flex flex-col items-center text-center"
                   >
-                    <span className="font-sans text-sm sm:text-base uppercase tracking-[0.2em] text-[#641D2E] font-bold mb-3">
+                    <span 
+                      style={{ fontSize: getFontSize(typo.events?.date, 15) }}
+                      className="font-sans uppercase tracking-[0.2em] text-[#641D2E] font-bold mb-3"
+                    >
                       {formatEventDate(event.time)}
                     </span>
-                    <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider mb-6">
+                    <h3 
+                      style={{ fontSize: getFontSize(typo.events?.title, 40) }}
+                      className="font-display text-[#B94E2F] font-bold uppercase tracking-wider mb-6"
+                    >
                       {event.eventName}
                     </h3>
                     
@@ -1094,12 +1187,10 @@ export default function App() {
                       </div>
                     )}
 
-                    {/* Venue & Location details (Removed from all events by default; only shown if unhidden via Admin Panel) */}
-                    {config.showEventAddressAndMap && (event.venueName || event.venueAddress) && (
-                      <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium">
-                        {[event.venueName, event.venueAddress].filter(Boolean).join(", ")}
-                      </p>
-                    )}
+                    {/* Venue & Location details */}
+                    <p className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium">
+                      Mahableshwar
+                    </p>
                     
                     {/* View on Maps Button (Hidden unless unhidden via admin) */}
                     {config.showEventAddressAndMap && (event.mapDirectionsUrl || event.mapEmbedUrl) && (
@@ -1145,10 +1236,16 @@ export default function App() {
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden text-center">
               <div className="mb-8">
-                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+                <span 
+                  style={{ fontSize: getFontSize(typo.dressCode?.subheading, 14) }}
+                  className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
+                >
                   STYLE &amp; CELEBRATION
                 </span>
-                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider">
+                <h3 
+                  style={{ fontSize: getFontSize(typo.dressCode?.heading, 40) }}
+                  className="font-display text-[#B94E2F] font-bold uppercase tracking-wider"
+                >
                   Dress Code
                 </h3>
                 <div className="flex items-center justify-center mt-3">
@@ -1158,65 +1255,37 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Only the 3 Specific Ceremony Dress Codes */}
+              {/* Dynamic Ceremony Dress Codes */}
               <div className="space-y-4 max-w-md mx-auto text-left">
-                {/* 1. On Juroon */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
-                    ✨
+                {(config.dressCode?.events || [
+                  { event: "On Juroon", instructions: ["Avoid dark colour", "Wear gold or pastel"] },
+                  { event: "On Shadi", instructions: ["Wear dark colors"] }
+                ]).map((item, idx) => (
+                  <div key={idx} className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
+                    <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
+                      {idx === 0 ? "✨" : idx === 1 ? "🪔" : "🥂"}
+                    </div>
+                    <div className="flex-1">
+                      <span 
+                        style={{ fontSize: getFontSize(typo.dressCode?.ceremonyTitle, 20) }}
+                        className="font-display font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5"
+                      >
+                        {item.event}
+                      </span>
+                      <ul 
+                        style={{ fontSize: getFontSize(typo.dressCode?.instructions, 16) }}
+                        className="space-y-1.5 font-serif-premium text-[#4B3A35] font-medium leading-relaxed"
+                      >
+                        {(item.instructions || []).map((inst, i) => (
+                          <li key={i} className="flex items-center gap-2.5">
+                            <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
+                            <span>{inst}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
-                      On Juroon
-                    </span>
-                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
-                      <li className="flex items-center gap-2.5">
-                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
-                        <span>Avoid dark colour</span>
-                      </li>
-                      <li className="flex items-center gap-2.5">
-                        <span className="w-2 h-2 rounded-full bg-[#C9A45C] shrink-0" />
-                        <span>Wear gold or pastel</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* 2. On Shadi */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
-                    🪔
-                  </div>
-                  <div className="flex-1">
-                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
-                      On Shadi
-                    </span>
-                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
-                      <li className="flex items-center gap-2.5">
-                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
-                        <span>Wear dark colors</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* 3. On Reception */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 shadow-xs flex items-start gap-4 hover:border-[#B94E2F]/40 transition-colors">
-                  <div className="w-9 h-9 rounded-full bg-[#641D2E]/10 border border-[#C9A45C]/40 flex items-center justify-center shrink-0 mt-0.5 text-lg">
-                    🥂
-                  </div>
-                  <div className="flex-1">
-                    <span className="font-display text-base sm:text-lg md:text-xl font-bold text-[#641D2E] uppercase tracking-wider block mb-1.5">
-                      On Reception
-                    </span>
-                    <ul className="space-y-1.5 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] font-medium leading-relaxed">
-                      <li className="flex items-center gap-2.5">
-                        <span className="w-2 h-2 rounded-full bg-[#B94E2F] shrink-0" />
-                        <span>Avoid blue and black</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </motion.section>
@@ -1238,23 +1307,38 @@ export default function App() {
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden">
               {/* Transportation Disclaimer at Top */}
               <div className="bg-[#FFF9F3] border-2 border-[#C9A45C]/50 rounded-2xl p-4 sm:p-5 mb-6 text-center shadow-xs">
-                <span className="font-sans text-xs sm:text-sm font-bold text-[#B94E2F] uppercase tracking-wider block mb-1.5">
+                <span 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.disclaimer ? Math.round(typo.hotelStay.disclaimer * 0.85) : 13, 13) }}
+                  className="font-sans font-bold text-[#B94E2F] uppercase tracking-wider block mb-1.5"
+                >
                   Disclaimers
                 </span>
-                <p className="font-serif-premium text-sm sm:text-base md:text-lg text-[#641D2E] font-bold leading-relaxed">
+                <p 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.disclaimer, 16) }}
+                  className="font-serif-premium text-[#641D2E] font-bold leading-relaxed"
+                >
                   Accommodation and transportation is only provided to guests coming from outside Maharashtra or India.
                 </p>
               </div>
 
               <div className="text-center mb-6">
-                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
+                <span 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.heading ? Math.round(typo.hotelStay.heading * 0.32) : 14, 14) }}
+                  className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
+                >
                   ACCOMMODATION &amp; TRAVEL
                 </span>
-                <h3 className="font-accent text-4xl sm:text-5xl md:text-6xl text-[#B94E2F]">
+                <h3 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 50) }}
+                  className="font-accent text-[#B94E2F] leading-tight"
+                >
                   {config.hotelStay?.hotelName || "Mountain Breeze Mahableshwar"}
                 </h3>
                 {config.hotelStay?.tagline && (
-                  <p className="font-serif-premium text-sm sm:text-base md:text-lg text-[#765E52] mt-2 italic font-medium">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                    className="font-serif-premium text-[#765E52] mt-2 italic font-medium"
+                  >
                     {config.hotelStay.tagline}
                   </p>
                 )}
@@ -1264,13 +1348,19 @@ export default function App() {
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
                 <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-4 rounded-2xl text-center">
                   <span className="block font-sans text-xs uppercase tracking-wider text-[#765E52] font-semibold">Check-In</span>
-                  <span className="font-serif-premium text-sm sm:text-base md:text-lg font-bold text-[#641D2E] mt-1.5 block">
+                  <span 
+                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                    className="font-serif-premium font-bold text-[#641D2E] mt-1.5 block"
+                  >
                     {config.hotelStay?.checkIn || "18 Jan 2027 • 12:00 PM"}
                   </span>
                 </div>
                 <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 p-4 rounded-2xl text-center">
                   <span className="block font-sans text-xs uppercase tracking-wider text-[#765E52] font-semibold">Check-Out</span>
-                  <span className="font-serif-premium text-sm sm:text-base md:text-lg font-bold text-[#641D2E] mt-1.5 block">
+                  <span 
+                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                    className="font-serif-premium font-bold text-[#641D2E] mt-1.5 block"
+                  >
                     {config.hotelStay?.checkOut || "19 Jan 2027 • 11:00 AM"}
                   </span>
                 </div>
@@ -1284,7 +1374,10 @@ export default function App() {
                     <span className="font-sans text-xs sm:text-sm uppercase tracking-wider font-bold text-[#641D2E] block mb-1.5">
                       Resort Address
                     </span>
-                    <p className="text-sm sm:text-base text-[#4B3A35] font-serif-premium leading-relaxed mb-3.5 font-medium">
+                    <p 
+                      style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                      className="text-[#4B3A35] font-serif-premium leading-relaxed mb-3.5 font-medium"
+                    >
                       {config.hotelStay?.address || "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806"}
                     </p>
                     {config.hotelStay?.mapUrl && (
@@ -1305,7 +1398,10 @@ export default function App() {
               {/* Room details & Amenities */}
               {config.hotelStay?.roomDetails && (
                 <div className="mb-6">
-                  <p className="text-sm sm:text-base md:text-lg text-[#4B3A35] font-serif-premium leading-relaxed italic text-center font-medium">
+                  <p 
+                    style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                    className="text-[#4B3A35] font-serif-premium leading-relaxed italic text-center font-medium"
+                  >
                     &quot;{config.hotelStay.roomDetails}&quot;
                   </p>
                 </div>
@@ -1313,7 +1409,10 @@ export default function App() {
 
               {/* Travel guide */}
               {config.hotelStay?.travelGuide && (
-                <div className="text-xs sm:text-sm md:text-base text-[#765E52] bg-[#FFF9F3] p-4 rounded-2xl border border-[#C9A45C]/20 leading-relaxed mb-5 font-medium">
+                <div 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
+                  className="text-[#765E52] bg-[#FFF9F3] p-4 rounded-2xl border border-[#C9A45C]/20 leading-relaxed mb-5 font-medium"
+                >
                   <strong className="block text-[#641D2E] mb-1.5 font-sans text-xs sm:text-sm uppercase tracking-wider font-bold">
                     🚗 Travel &amp; Transit Info
                   </strong>
@@ -1323,13 +1422,19 @@ export default function App() {
 
               {/* Systematic Assistance Contacts */}
               <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-6 mt-4 text-center shadow-xs">
-                <span className="font-sans text-xs sm:text-sm md:text-base uppercase tracking-widest text-[#765E52] font-semibold block mb-4">
+                <span 
+                  style={{ fontSize: getFontSize(typo.hotelStay?.contacts, 16) }}
+                  className="font-sans uppercase tracking-widest text-[#765E52] font-semibold block mb-4"
+                >
                   For further assistance please reach out to:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-md mx-auto">
                   {/* Contact 1: Mr. Vishal V */}
                   <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3.5 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
-                    <span className="font-serif-premium font-bold text-base sm:text-lg text-[#641D2E] block">
+                    <span 
+                      style={{ fontSize: getFontSize(typo.hotelStay?.contacts, 17) }}
+                      className="font-serif-premium font-bold text-[#641D2E] block"
+                    >
                       Mr. Vishal V
                     </span>
                     <a
@@ -1343,7 +1448,10 @@ export default function App() {
 
                   {/* Contact 2: Ms. Priti K */}
                   <div className="bg-white/90 border border-[#C9A45C]/30 rounded-xl p-3.5 flex flex-col items-center justify-between shadow-xs hover:border-[#B94E2F]/40 transition-colors">
-                    <span className="font-serif-premium font-bold text-base sm:text-lg text-[#641D2E] block">
+                    <span 
+                      style={{ fontSize: getFontSize(typo.hotelStay?.contacts, 17) }}
+                      className="font-serif-premium font-bold text-[#641D2E] block"
+                    >
                       Ms. Priti K
                     </span>
                     <a
@@ -1380,7 +1488,8 @@ export default function App() {
                   href={config.rsvpSection?.googleFormUrl || "https://docs.google.com/forms/d/e/1FAIpQLSdoy6d1piNfE1dKtYtzNUkVgkQ72gJA-U1KXY621ucxUwoGbQ/viewform?usp=header"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-9 py-4 rounded-full font-sans text-sm sm:text-base font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
+                  style={{ fontSize: getFontSize(typo.rsvp?.button, 16) }}
+                  className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#B94E2F] via-[#962325] to-[#B94E2F] hover:from-[#962325] hover:to-[#7a1c1e] text-white px-9 py-4 rounded-full font-sans font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[#dec47f]/50 cursor-pointer text-center mx-auto"
                 >
                   <Send size={18} />
                   <span>GIVE YOUR RSVP</span>
@@ -1390,14 +1499,18 @@ export default function App() {
 
               {/* 2. 'Will You Attend?' Column Box */}
               <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 max-w-sm mx-auto mb-5">
-                <label className="block text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wide mb-3 text-center">
+                <label 
+                  style={{ fontSize: getFontSize(typo.rsvp?.heading, 16) }}
+                  className="block font-bold text-[#641D2E] uppercase tracking-wide mb-3 text-center"
+                >
                   Will You Attend?
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setRsvpAttend(true)}
-                    className={`py-3 px-4 rounded-xl text-sm sm:text-base font-sans font-bold transition-all border cursor-pointer ${
+                    style={{ fontSize: getFontSize(typo.rsvp?.options, 15) }}
+                    className={`py-3 px-4 rounded-xl font-sans font-bold transition-all border cursor-pointer ${
                       rsvpAttend === true
                         ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
                         : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
@@ -1408,7 +1521,8 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setRsvpAttend(false)}
-                    className={`py-3 px-4 rounded-xl text-sm sm:text-base font-sans font-bold transition-all border cursor-pointer ${
+                    style={{ fontSize: getFontSize(typo.rsvp?.options, 15) }}
+                    className={`py-3 px-4 rounded-xl font-sans font-bold transition-all border cursor-pointer ${
                       rsvpAttend === false
                         ? "bg-[#641D2E] text-[#dec47f] border-[#dec47f] shadow-sm"
                         : "bg-white text-[#765E52] border-[#C9A45C]/30 hover:bg-[#FFF0E6]"
@@ -1422,7 +1536,10 @@ export default function App() {
               {/* 3. 'Number of Guests' Column Box */}
               <div className="bg-[#FFF9F3]/90 border border-[#C9A45C]/40 rounded-2xl p-4 sm:p-5 max-w-sm mx-auto mb-6">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="block text-sm sm:text-base font-bold text-[#641D2E] uppercase tracking-wide">
+                  <label 
+                    style={{ fontSize: getFontSize(typo.rsvp?.heading, 16) }}
+                    className="block font-bold text-[#641D2E] uppercase tracking-wide"
+                  >
                     Number of Guests
                   </label>
                   <span className="text-xs sm:text-sm text-[#B94E2F] font-bold">Max 4 guests</span>
@@ -1562,92 +1679,158 @@ export default function App() {
 
         {/* 8. FAMILY DETAILS SECTION */}
         {allHeartsScratched && (
-          <motion.section 
-            id="family-details"
-            initial={{ opacity: 0 }} 
-            whileInView={{ opacity: 1 }} 
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
-          >
-            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
-              <div className="text-center mb-8">
-                <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block">
-                  OUR FAMILIES &amp; LOVED ONES
-                </span>
-                <h3 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#B94E2F] font-bold uppercase tracking-wider">
-                  Family Details
-                </h3>
-                {/* User quote addition */}
-                <p className="font-serif-premium italic text-base sm:text-lg md:text-xl text-[#641D2E] font-semibold tracking-wide mt-3.5">
-                  &ldquo;With heart full of love and immense joy&rdquo;
-                </p>
-                <div className="flex items-center justify-center mt-3.5">
-                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
-                  <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
-                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+          (config.showFamilyDetails !== false) ? (
+            <motion.section 
+              id="family-details"
+              initial={{ opacity: 0 }} 
+              whileInView={{ opacity: 1 }} 
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
+            >
+              <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                {/* Button to hide or unhide family section */}
+                <div className="flex justify-end mb-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextConfig = { ...config, showFamilyDetails: false };
+                      handleConfigChange(nextConfig);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF9F3] hover:bg-[#F5EDD6] border border-[#C9A45C]/50 text-[#765E52] hover:text-[#641D2E] text-xs font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer"
+                    title="Hide Family Details Section from Website"
+                  >
+                    <EyeOff size={13} className="text-[#B94E2F]" />
+                    <span>Hide Family Section</span>
+                  </button>
+                </div>
+
+                <div className="text-center mb-8">
+                  <span 
+                    style={{ fontSize: getFontSize(typo.familyDetails?.heading ? Math.round(typo.familyDetails.heading * 0.35) : 14, 14) }}
+                    className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
+                  >
+                    OUR FAMILIES &amp; LOVED ONES
+                  </span>
+                  <h3 
+                    style={{ fontSize: getFontSize(typo.familyDetails?.heading, 40) }}
+                    className="font-display text-[#B94E2F] font-bold uppercase tracking-wider"
+                  >
+                    Family Details
+                  </h3>
+                  {/* User quote addition */}
+                  <p 
+                    style={{ fontSize: getFontSize(typo.familyDetails?.quote, 19) }}
+                    className="font-serif-premium italic text-[#641D2E] font-semibold tracking-wide mt-3.5"
+                  >
+                    &ldquo;With heart full of love and immense joy&rdquo;
+                  </p>
+                  <div className="flex items-center justify-center mt-3.5">
+                    <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                    <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
+                    <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Groom's Family Card */}
+                  <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                      <h4 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
+                        className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
+                      >
+                        Aditya Ramesh
+                      </h4>
+                      <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
+                        Groom
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
+                      <p 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
+                        className="font-bold text-[#641D2E]"
+                      >
+                        S/O Mr T.V.Ramesh &amp; Usha Ramesh
+                      </p>
+                      <div 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
+                        className="space-y-2 pt-1 font-medium"
+                      >
+                        <p className="flex items-start gap-2.5">
+                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                          <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
+                        </p>
+                        <p className="flex items-start gap-2.5">
+                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                          <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bride's Family Card */}
+                  <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
+                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
+                      <h4 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
+                        className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
+                      >
+                        Pooja Devi
+                      </h4>
+                      <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
+                        Bride
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
+                      <p 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
+                        className="font-bold text-[#641D2E]"
+                      >
+                        D/O Mr Babul Nath &amp; Momi Devi
+                      </p>
+                      <div 
+                        style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
+                        className="space-y-2 pt-1 font-medium"
+                      >
+                        <p className="flex items-start gap-2.5">
+                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                          <span>Akash Jyoti Nath (Brother)</span>
+                        </p>
+                        <p className="flex items-start gap-2.5">
+                          <span className="text-[#C9A45C] mt-1 text-base">•</span>
+                          <span>Upasana Devi (Sister in law)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="space-y-6">
-                {/* Groom's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                    <h4 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#641D2E] uppercase tracking-wide">
-                      Aditya Ramesh
-                    </h4>
-                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                      Groom
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] leading-relaxed">
-                    <p className="font-bold text-[#641D2E] text-base sm:text-lg md:text-xl">
-                      S/O Mr T.V.Ramesh &amp; Usha Ramesh
-                    </p>
-                    <div className="space-y-2 pt-1 font-medium">
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
-                      </p>
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
-                      </p>
-                    </div>
-                  </div>
+            </motion.section>
+          ) : (
+            /* Banner when Family Details is hidden with button to unhide */
+            <div className="py-6 px-4 max-w-[calc(100dvh*9/16)] mx-auto w-full text-center relative z-10">
+              <div className="bg-[#FFF9F3]/90 border border-dashed border-[#C9A45C] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+                <div className="flex items-center gap-2 text-[#765E52] text-xs font-medium">
+                  <EyeOff size={16} className="text-[#B94E2F] shrink-0" />
+                  <span>Family Details Section is currently hidden.</span>
                 </div>
-
-                {/* Bride's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                    <h4 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#641D2E] uppercase tracking-wide">
-                      Pooja Devi
-                    </h4>
-                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                      Bride
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 font-serif-premium text-sm sm:text-base md:text-lg text-[#4B3A35] leading-relaxed">
-                    <p className="font-bold text-[#641D2E] text-base sm:text-lg md:text-xl">
-                      D/O Mr Babul Nath &amp; Momi Devi
-                    </p>
-                    <div className="space-y-2 pt-1 font-medium">
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Akash Jyoti Nath (Brother)</span>
-                      </p>
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Upasana Devi (Sister in law)</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextConfig = { ...config, showFamilyDetails: true };
+                    handleConfigChange(nextConfig);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-[#641D2E] text-[#dec47f] hover:bg-[#85253C] text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                >
+                  <Eye size={14} />
+                  <span>Unhide Family Section</span>
+                </button>
               </div>
             </div>
-          </motion.section>
+          )
         )}
 
         {/* Floral Section Separator */}
@@ -1663,13 +1846,22 @@ export default function App() {
               transition={{ duration: 1 }}
               className="py-20 px-6 text-center flex flex-col items-center bg-[#FFF9F3] relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
             >
-              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block">
+              <span 
+                style={{ fontSize: getFontSize(typo.footer?.content ? Math.round(typo.footer.content * 0.75) : 13, 13) }}
+                className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-4 block"
+              >
                 JOIN THE CELEBRATION
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#B94E2F] font-bold uppercase tracking-wider mb-5">
+              <h2 
+                style={{ fontSize: getFontSize(typo.footer?.heading, 50) }}
+                className="font-display text-[#B94E2F] font-bold uppercase tracking-wider mb-5"
+              >
                 Celebrate<br/>With Us
               </h2>
-              <p className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed text-base sm:text-lg md:text-xl px-4 font-medium">
+              <p 
+                style={{ fontSize: getFontSize(typo.footer?.content, 18) }}
+                className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed px-4 font-medium"
+              >
                 At last, the stars align, two beautiful cultures intertwine, and our next chapter begins. With hearts overflowing with gratitude, we warmly invite you to celebrate our wedding at Mountain Breeze Mahableshwar and bless our forever.
               </p>
             </motion.section>
@@ -1685,37 +1877,47 @@ export default function App() {
               {/* Decorative elements */}
               <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')] mix-blend-overlay" />
               
-              <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#C9A45C] mb-12" />
+              <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#C9A45C] mb-10" />
               
-              {/* Couple Name in Closing (Groom Priority) */}
-              <h2 className="font-couple text-5xl sm:text-6xl md:text-7xl text-[#C9A45C] font-bold tracking-[0.06em] leading-[1.2] z-10 relative">
-                {config.priorityOrder === "bride" ? (
-                  <>
-                    {config.bride.name.split(" ")[0]}
-                    <br/>
-                    <span className="font-serif-premium italic text-4xl sm:text-5xl text-[#dec47f]">&amp;</span>
-                    <br/>
-                    {config.groom.name.split(" ")[0]}
-                  </>
-                ) : (
-                  <>
-                    {config.groom.name.split(" ")[0]}
-                    <br/>
-                    <span className="font-serif-premium italic text-4xl sm:text-5xl text-[#dec47f]">&amp;</span>
-                    <br/>
-                    {config.bride.name.split(" ")[0]}
-                  </>
-                )}
-              </h2>
+              {/* Couple Name in Closing: small 'with love' above Aditya & 'Family' just below Pooja */}
+              <div className="flex flex-col items-center z-10 relative">
+                <span 
+                  style={{ fontSize: getFontSize(typo.footer?.signature, 20) }}
+                  className="font-serif-premium italic text-[#dec47f] tracking-widest lowercase mb-3 block"
+                >
+                  with love
+                </span>
 
-              <div className="w-px h-16 bg-gradient-to-t from-transparent to-[#C9A45C] mt-12 mb-8" />
+                <h2 
+                  style={{ fontSize: getFontSize(typo.footer?.coupleNames, 60) }}
+                  className="font-couple text-[#C9A45C] font-bold tracking-[0.06em] leading-[1.2] text-center"
+                >
+                  {config.priorityOrder === "bride" ? (
+                    <>
+                      {config.bride.name.split(" ")[0]}
+                      <br/>
+                      <span className="font-serif-premium italic text-3xl sm:text-4xl text-[#dec47f]">&amp;</span>
+                      <br/>
+                      {config.groom.name.split(" ")[0]}
+                    </>
+                  ) : (
+                    <>
+                      {config.groom.name.split(" ")[0]}
+                      <br/>
+                      <span className="font-serif-premium italic text-3xl sm:text-4xl text-[#dec47f]">&amp;</span>
+                      <br/>
+                      {config.bride.name.split(" ")[0]}
+                    </>
+                  )}
+                </h2>
 
-              <p className="font-serif-premium text-[#F8E9E2] text-base sm:text-lg md:text-xl italic z-10 tracking-wide font-medium">
-                With love,<br/>
-                {config.priorityOrder === "bride" 
-                  ? `${config.bride.name.split(" ")[0]}, ${config.groom.name.split(" ")[0]} & Family`
-                  : `${config.groom.name.split(" ")[0]}, ${config.bride.name.split(" ")[0]} & Family`}
-              </p>
+                <span 
+                  style={{ fontSize: getFontSize(typo.footer?.signature, 22) }}
+                  className="font-serif-premium tracking-[0.25em] uppercase text-[#dec47f] font-semibold mt-3 block"
+                >
+                  Family
+                </span>
+              </div>
             </motion.section>
           </>
         )}
