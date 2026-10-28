@@ -1788,7 +1788,7 @@ export default function App() {
                 style={{ fontSize: getFontSize(typo.footer?.content, 18) }}
                 className="font-serif-premium text-[#765E52] max-w-lg mx-auto leading-relaxed px-4 font-medium"
               >
-                At last, the stars align, two beautiful cultures intertwine, and our next chapter begins. With hearts overflowing with gratitude, we warmly invite you to celebrate our wedding at Mountain Breeze Mahableshwar and bless our forever.
+                At last, the stars align, two beautiful cultures intertwine, and our next chapter begins. With hearts overflowing with gratitude, we warmly invite you to celebrate our wedding at Mahableshwar and bless our forever.
               </p>
             </motion.section>
 
@@ -1833,7 +1833,7 @@ export default function App() {
               
               <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#C9A45C] mb-10" />
               
-              {/* Couple Name in Closing: small 'with love' above Aditya & 'Family' just below Pooja */}
+              {/* Couple Name in Closing: 'with love' above Aditya & Pooja */}
               <div className="flex flex-col items-center z-10 relative">
                 <span 
                   style={{ fontSize: getFontSize(typo.footer?.signature, 20) }}
@@ -1864,13 +1864,6 @@ export default function App() {
                     </>
                   )}
                 </h2>
-
-                <span 
-                  style={{ fontSize: getFontSize(typo.footer?.signature, 22) }}
-                  className="font-serif-premium tracking-[0.25em] uppercase text-[#dec47f] font-semibold mt-3 block"
-                >
-                  Family
-                </span>
               </div>
             </motion.section>
           </>
