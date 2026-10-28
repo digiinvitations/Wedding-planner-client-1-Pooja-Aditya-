@@ -1187,13 +1187,7 @@ export default function App() {
                       </div>
                     )}
 
-                    {/* Venue & Location details */}
-                    <p 
-                      style={{ fontSize: getFontSize(typo.events?.address, 17) }}
-                      className="font-serif-premium text-[#4B3A35] text-base sm:text-lg mb-4 px-4 font-medium text-center"
-                    >
-                      Venue - Mahableshwar
-                    </p>
+
                     
                     {/* View on Maps Button (Hidden unless unhidden via admin) */}
                     {config.showEventAddressAndMap && (event.mapDirectionsUrl || event.mapEmbedUrl) && (
@@ -1324,15 +1318,15 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="text-center mb-6 bg-[#FFF9F3] border border-[#C9A45C]/40 p-4 sm:p-5 rounded-2xl shadow-xs">
+              <div className="text-center mb-6 bg-[#FFF9F3] border border-[#C9A45C]/40 p-4 sm:p-5 rounded-2xl shadow-xs overflow-hidden">
                 <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#B94E2F] font-bold mb-1.5 block">
-                  Resort / Venue Name
+                  Venue
                 </span>
                 <h3 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName, 22) }}
-                  className="font-display font-bold text-[#641D2E] leading-snug"
+                  style={{ fontSize: getFontSize(typo.hotelStay?.hotelName ? Math.min(typo.hotelStay.hotelName, 26) : 22, 22) }}
+                  className="font-display font-bold text-[#641D2E] leading-snug break-words max-w-full px-2"
                 >
-                  {config.hotelStay?.hotelName || "Mountain Breeze Resort, Mahabaleshwar"}
+                  {config.hotelStay?.hotelName && config.hotelStay.hotelName !== "Mountain Breeze Resort, Mahabaleshwar" ? config.hotelStay.hotelName : "Mahableshwar"}
                 </h3>
                 {config.hotelStay?.tagline && (
                   <p 
@@ -1363,35 +1357,6 @@ export default function App() {
                   >
                     {config.hotelStay?.checkOut || "19 Jan 2027 • 11:00 AM"}
                   </span>
-                </div>
-              </div>
-
-              {/* Address with Map Link */}
-              <div className="bg-[#FFF9F3] border border-[#C9A45C]/30 rounded-2xl p-4 sm:p-5 mb-6">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#B94E2F] shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <span className="font-sans text-xs sm:text-sm uppercase tracking-wider font-bold text-[#641D2E] block mb-1.5">
-                      Resort Address
-                    </span>
-                    <p 
-                      style={{ fontSize: getFontSize(typo.hotelStay?.details, 16) }}
-                      className="text-[#4B3A35] font-serif-premium leading-relaxed mb-3.5 font-medium"
-                    >
-                      {config.hotelStay?.address || "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806"}
-                    </p>
-                    {config.hotelStay?.mapUrl && (
-                      <a
-                        href={config.hotelStay.mapUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#B94E2F] hover:bg-[#8F3B22] text-white px-5 py-2 rounded-full text-xs sm:text-sm font-sans uppercase tracking-wider font-bold transition-colors shadow-sm"
-                      >
-                        <Navigation size={14} />
-                        Get Directions on Google Maps
-                      </a>
-                    )}
-                  </div>
                 </div>
               </div>
 
@@ -1587,7 +1552,7 @@ export default function App() {
               </div>
 
               {/* RSVP View Button Panel Just Below RSVP (Password 2580) */}
-              <div className="mt-6 pt-5 border-t border-[#C9A45C]/25 text-center">
+              <div className="mt-4 text-center">
                 {!showRsvpViewLogin ? (
                   <button
                     type="button"
@@ -1675,7 +1640,7 @@ export default function App() {
         )}
 
         {/* Floral Section Separator */}
-        {allHeartsScratched && <SectionSeparator />}
+        {allHeartsScratched && (config.showFamilyDetails !== false) && <SectionSeparator />}
 
         {/* 8. FAMILY DETAILS SECTION */}
         {allHeartsScratched && (config.showFamilyDetails !== false) && (

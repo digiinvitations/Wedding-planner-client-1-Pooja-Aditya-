@@ -150,7 +150,7 @@ export const defaultTypographyConfig: TypographyConfig = {
   },
   hotelStay: {
     heading: 44,
-    hotelName: 50,
+    hotelName: 22,
     disclaimer: 16,
     details: 16,
     contacts: 16,

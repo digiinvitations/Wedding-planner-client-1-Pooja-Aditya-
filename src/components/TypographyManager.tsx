@@ -372,13 +372,13 @@ export const TypographyManager: React.FC<TypographyManagerProps> = ({
       icon: <Building2 size={18} className="text-[#B94E2F]" />,
       fields: [
         {
-          key: "heading",
-          label: "Hotel Resort Name",
-          desc: "'Mountain Breeze Mahableshwar'",
-          min: 22,
-          max: 70,
-          defaultVal: defaultTypographyConfig.hotelStay?.hotelName ?? 50,
-          sampleText: "Mountain Breeze Mahableshwar",
+          key: "hotelName",
+          label: "Hotel Venue Name",
+          desc: "'Mahableshwar'",
+          min: 16,
+          max: 36,
+          defaultVal: defaultTypographyConfig.hotelStay?.hotelName ?? 22,
+          sampleText: "Mahableshwar",
         },
         {
           key: "disclaimer",

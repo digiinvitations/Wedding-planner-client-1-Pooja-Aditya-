@@ -91,11 +91,11 @@
   },
   "hotelStay": {
     "enabled": true,
-    "hotelName": "Mountain Breeze Resort, Mahabaleshwar",
+    "hotelName": "Mahableshwar",
     "tagline": "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys",
     "checkIn": "18th January 2027 • 12:00 PM",
     "checkOut": "19th January 2027 • 11:00 AM",
-    "address": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+    "address": "",
     "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
     "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
     "contactPerson": "Mr. Vishal V & Ms. Priti K",
@@ -104,7 +104,7 @@
       { "name": "Mr. Vishal V", "phone": "+91 7400052735" },
       { "name": "Ms. Priti K", "phone": "+91 7208782729" }
     ],
-    "mapUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111"
+    "mapUrl": ""
   },
   "rsvpSection": {
     "enabled": true,
