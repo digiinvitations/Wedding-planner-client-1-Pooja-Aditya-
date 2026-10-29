@@ -162,6 +162,15 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
   const safeId = sanitizeWorkspaceId(workspace);
   console.log(`[fetchConfigFromDb] Fetching remix config for workspace: "${workspace}" (safeId: ${safeId}, remix: ${REMIX_INSTANCE_ID})...`);
 
+  const isLegacyOrMismatched = (cfg: any) => {
+    if (!cfg || typeof cfg !== "object") return true;
+    const str = JSON.stringify(cfg);
+    if (/tishi|trishi|hitakshi|devendra|pradeep/i.test(str)) return true;
+    if (cfg.groom?.name && !cfg.groom.name.includes("Aditya")) return true;
+    if (cfg.bride?.name && !cfg.bride.name.includes("Pooja")) return true;
+    return false;
+  };
+
   // 1. Try dedicated remix partition in Firestore
   try {
     const remixDocSnap = await getDoc(doc(db, "remix_websites", REMIX_INSTANCE_ID, "workspaces", safeId));
@@ -169,7 +178,7 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
       const docData = remixDocSnap.data();
       const serverConfig = (docData.remix_wedding_config || docData.data) as WeddingConfig;
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+        if (isLegacyOrMismatched(serverConfig)) {
           console.warn(`[fetchConfigFromDb] Discarded obsolete config with legacy names from ${safeId}`);
         } else {
           console.log(`[fetchConfigFromDb] Found config in remix_websites/${REMIX_INSTANCE_ID}/workspaces/${safeId}`);
@@ -186,7 +195,7 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
       const docData = altRemixSnap.data();
       const serverConfig = (docData.remix_wedding_config || docData.data) as WeddingConfig;
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+        if (isLegacyOrMismatched(serverConfig)) {
           console.warn(`[fetchConfigFromDb] Discarded obsolete config with legacy names from ${REMIX_INSTANCE_ID}_${safeId}`);
         } else {
           console.log(`[fetchConfigFromDb] Found config in remix_wedding_clients/${REMIX_INSTANCE_ID}_${safeId}`);
@@ -208,7 +217,7 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
     if (res.ok) {
       const serverConfig = await res.json();
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+        if (isLegacyOrMismatched(serverConfig)) {
           console.warn("[fetchConfigFromDb] Discarded backend config with legacy names");
         } else {
           console.log(`[fetchConfigFromDb] Config found on Express backend remix partition for client "${workspace}".`);

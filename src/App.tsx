@@ -93,18 +93,26 @@ export function formatHeroBrideParents(cfg?: WeddingConfig): string {
   return `Daughter of Mr. ${fRaw} & Mrs. ${mRaw}`;
 }
 
+const APP_DATA_VERSION = "aditya_pooja_oct1_2027_v5";
+
 export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
   const groomParents = formatHeroGroomParents(cfg);
   const brideParents = formatHeroBrideParents(cfg);
 
   // Strictly lock names to Aditya Ramesh & Pooja Devi across all hostings (Vercel, Cloud Run, etc.)
-  const groomName = (!cfg.groom?.name || /trishi/i.test(cfg.groom.name)) ? "Aditya Ramesh" : cfg.groom.name;
-  const brideName = (!cfg.bride?.name || /hitakshi/i.test(cfg.bride.name)) ? "Pooja Devi" : cfg.bride.name;
-  const hashtag = (!cfg.hashtag || /trishi|hitakshi/i.test(cfg.hashtag)) ? "#AdityaWedsPooja" : cfg.hashtag;
+  const groomName = (!cfg.groom?.name || /tishi|trishi|devendra/i.test(cfg.groom.name)) ? "Aditya Ramesh" : "Aditya Ramesh";
+  const brideName = (!cfg.bride?.name || /hitakshi|pradeep/i.test(cfg.bride.name)) ? "Pooja Devi" : "Pooja Devi";
+  const hashtag = (!cfg.hashtag || /tishi|trishi|hitakshi/i.test(cfg.hashtag)) ? "#AdityaWedsPooja" : "#AdityaWedsPooja";
+
+  // Enforce the full 6 October Client 1 ceremonies
+  const events = (Array.isArray(cfg.weddingEvents) && cfg.weddingEvents.length >= 6) 
+    ? cfg.weddingEvents 
+    : defaultWeddingConfig.weddingEvents;
 
   return {
     ...cfg,
     hashtag,
+    weddingEvents: events,
     groom: {
       ...cfg.groom,
       name: groomName,
@@ -123,8 +131,8 @@ export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
       ...(cfg.heroSettings || {}),
       groomParents,
       brideParents,
-      introText: cfg.heroSettings?.introText || "",
-      shloka: cfg.heroSettings?.shloka || "",
+      introText: cfg.heroSettings?.introText || defaultWeddingConfig.heroSettings.introText,
+      shloka: cfg.heroSettings?.shloka || defaultWeddingConfig.heroSettings.shloka,
       showPetals: cfg.heroSettings?.showPetals ?? true,
     },
     familyDetails: {
@@ -141,24 +149,33 @@ export default function App() {
   // Config state for dynamic management
   const [config, setConfig] = useState<WeddingConfig>(() => {
     try {
-      const stored = localStorage.getItem("wedding_config");
-      if (stored) {
-        if (/trishi|hitakshi/i.test(stored)) {
-          localStorage.removeItem("wedding_config");
-          localStorage.removeItem("wedding_client_workspace");
-        } else {
-          const configData = JSON.parse(stored);
-          const sanitized = sanitizeParentLineages({
-            ...defaultWeddingConfig,
-            ...configData,
-            weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
-            galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
-            groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
-            bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
-            typography: configData.typography || defaultTypographyConfig,
-          });
-          localStorage.setItem("wedding_config", JSON.stringify(sanitized));
-          return sanitized;
+      const currentVer = localStorage.getItem("wedding_app_version");
+      if (currentVer !== APP_DATA_VERSION) {
+        // Automatically purge any stale legacy data on visitors' devices
+        localStorage.clear();
+        localStorage.setItem("wedding_app_version", APP_DATA_VERSION);
+      } else {
+        const stored = localStorage.getItem("wedding_config");
+        if (stored) {
+          if (/tishi|trishi|hitakshi|devendra|pradeep/i.test(stored)) {
+            localStorage.removeItem("wedding_config");
+            localStorage.removeItem("wedding_client_workspace");
+          } else {
+            const configData = JSON.parse(stored);
+            const sanitized = sanitizeParentLineages({
+              ...defaultWeddingConfig,
+              ...configData,
+              weddingEvents: (Array.isArray(configData.weddingEvents) && configData.weddingEvents.length >= 6)
+                ? configData.weddingEvents 
+                : defaultWeddingConfig.weddingEvents,
+              galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
+              groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
+              bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
+              typography: configData.typography || defaultTypographyConfig,
+            });
+            localStorage.setItem("wedding_config", JSON.stringify(sanitized));
+            return sanitized;
+          }
         }
       }
     } catch (e) {
@@ -167,6 +184,7 @@ export default function App() {
     const def = sanitizeParentLineages(defaultWeddingConfig);
     try {
       localStorage.setItem("wedding_config", JSON.stringify(def));
+      localStorage.setItem("wedding_app_version", APP_DATA_VERSION);
     } catch {}
     return def;
   });
@@ -186,14 +204,25 @@ export default function App() {
     // 1. Fetch permanent config from backend server on mount
     fetchConfigFromDb().then((serverConfig) => {
       if (serverConfig) {
-        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+        const rawJson = JSON.stringify(serverConfig);
+        if (/tishi|trishi|hitakshi|devendra|pradeep/i.test(rawJson)) {
           console.warn("[App] Discarded obsolete server config with legacy names");
+          return;
+        }
+        if (serverConfig.groom?.name && !serverConfig.groom.name.includes("Aditya")) {
+          console.warn("[App] Discarded server config with mismatched groom name");
+          return;
+        }
+        if (serverConfig.bride?.name && !serverConfig.bride.name.includes("Pooja")) {
+          console.warn("[App] Discarded server config with mismatched bride name");
           return;
         }
         setConfig(sanitizeParentLineages({
           ...defaultWeddingConfig,
           ...serverConfig,
-          weddingEvents: Array.isArray(serverConfig.weddingEvents) ? serverConfig.weddingEvents : defaultWeddingConfig.weddingEvents,
+          weddingEvents: (Array.isArray(serverConfig.weddingEvents) && serverConfig.weddingEvents.length >= 6) 
+            ? serverConfig.weddingEvents 
+            : defaultWeddingConfig.weddingEvents,
           galleryImages: serverConfig.galleryImages || defaultWeddingConfig.galleryImages,
           groom: { ...defaultWeddingConfig.groom, ...(serverConfig.groom || {}) },
           bride: { ...defaultWeddingConfig.bride, ...(serverConfig.bride || {}) },

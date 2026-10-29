@@ -32,12 +32,16 @@ const KNOWN_WORKSPACES_KEY = `${REMIX_INSTANCE_ID}_wedding_known_workspaces`;
  */
 export function sanitizeWorkspaceId(name: string): string {
   if (!name || typeof name !== "string") return "october_clients_1";
-  return name
+  const cleaned = name
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9_-]/g, "_")
     .replace(/_+/g, "_")
     .replace(/^_+|_+$/g, "") || "october_clients_1";
+  if (cleaned === "october_clients_-1" || cleaned === "october_clients_1") {
+    return "october_clients_1";
+  }
+  return cleaned;
 }
 
 /**

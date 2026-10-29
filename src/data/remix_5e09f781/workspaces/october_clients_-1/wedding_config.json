@@ -1,5 +1,6 @@
 {
   "priorityOrder": "groom",
+  "clientWorkspace": "October Clients -1",
   "weddingDate": "2027-01-18T17:00",
   "displayDate": "Monday, 18th January 2027",
   "hashtag": "#AdityaWedsPooja",
@@ -10,8 +11,7 @@
     "motherName": "Mrs. Usha Ramesh",
     "introLineage": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh",
     "imageUrl": "fsdb://fsdb_1783188128812_loip4lg",
-    "bio": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh. Bringing the warmth and rich heritage of Kerala with big dreams and an open heart.",
-    "lineage": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh"
+    "bio": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh. Bringing the warmth and rich heritage of Kerala with big dreams and an open heart."
   },
   "bride": {
     "name": "Pooja Devi",
@@ -19,130 +19,117 @@
     "motherName": "Mrs. Momi Devi",
     "introLineage": "Daughter of Mr. Babul Nath & Mrs. Momi Devi",
     "imageUrl": "fsdb://fsdb_1783188141625_920kwyo",
-    "bio": "Daughter of Mr. Babul Nath & Mrs. Momi Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room.",
-    "lineage": "Daughter of Mr. Babul Nath & Mrs. Momi Devi"
+    "bio": "Daughter of Mr. Babul Nath & Mrs. Momi Devi. Bringing the grace and enchanting charm of Assam with a smile that brightens every room."
   },
   "heroSettings": {
-    "ganeshaIconUrl": "https://i.ibb.co/C5HDWDcL/1000012057-removebg-preview.png",
-    "bgVideoUrl": "https://www.image2url.com/r2/default/videos/1787648242785-df6b2cb3-3bd5-4ed7-bfc7-405356cf354c.mp4",
     "groomParents": "Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh",
-    "showPetals": true,
+    "brideParents": "Daughter of Mr. Babul Nath & Mrs. Momi Devi",
     "introText": "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of",
     "shloka": "॥ श्री गणेशाय नमः ॥\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ\nनिर्विघ्नं कुरु मे देव\nसर्वकार्येषु सर्वदा ॥",
-    "brideParents": "Daughter of Mr. Babul Nath & Mrs. Momi Devi"
+    "showPetals": true,
+    "ganeshaIconUrl": "https://i.ibb.co/C5HDWDcL/1000012057-removebg-preview.png",
+    "bgVideoUrl": "https://www.image2url.com/r2/default/videos/1787648242785-df6b2cb3-3bd5-4ed7-bfc7-405356cf354c.mp4"
   },
   "invitationStory": {
     "title": "DIFFERENT ROOTS • SAME DREAMS",
     "theMeeting": "Like a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful.",
-    "theForever": "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special.",
-    "theJourney": "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together."
+    "theJourney": "What started as friendship grew into love filled with laughter long conversations, shared dreams and two beautiful cultures came together.",
+    "theForever": "Today, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."
   },
   "welcomeMessage": {
-    "text": "The Meeting\nLike a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful.\n\nThe Journey\nWhat started as friendship grew into love filled with laughter, long conversations, shared dreams and two beautiful cultures came together.\n\nThe Forever\nToday, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special.",
+    "title": "DIFFERENT ROOTS • SAME DREAMS",
     "subtitle": "Two Beautiful Cultures, One Sacred Union",
-    "title": "DIFFERENT ROOTS • SAME DREAMS"
+    "text": "The Meeting\nLike a warm Kerala sunset and Assamese breeze our paths crossed and our life became more colourful.\n\nThe Journey\nWhat started as friendship grew into love filled with laughter, long conversations, shared dreams and two beautiful cultures came together.\n\nThe Forever\nToday, as WE begin our next chapter, We invite you to be part of love, laughter and memories that will make our story forever even more special."
   },
   "familyDetails": {
+    "welcomingText": "Warmly Welcomed By:",
+    "message": "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
     "names": [
       "Ramesh Family",
       "Nath Family",
       "All Relatives and Friends"
-    ],
-    "message": "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
-    "welcomingText": "Warmly Welcomed By:"
+    ]
   },
   "weddingEvents": [
     {
-      "venueName": "Mountain Breeze",
-      "thumbnailUrl": "https://videotourl.com/videos/1792846652611-c923bbc5-ea05-4ecf-97e7-e6329fa52aff.mp4",
       "eventName": "BONFIRE",
       "time": "2027-01-16",
+      "venueName": "",
       "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
       "mapEmbedUrl": "",
-      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111"
+      "thumbnailUrl": "https://videotourl.com/videos/1792846652611-c923bbc5-ea05-4ecf-97e7-e6329fa52aff.mp4"
     },
     {
-      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
       "eventName": "JURUN CEREMONY ",
-      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
-      "venueName": "Mountain Breeze",
       "time": "2027-01-17",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
       "mapEmbedUrl": "",
       "thumbnailUrl": "https://videotourl.com/videos/1792846703173-b51ee900-fe41-4c42-9234-b552781d9506.mp4"
     },
     {
       "eventName": "HALDI CEREMONY ",
-      "thumbnailUrl": "https://videotourl.com/videos/1792846727847-1f0d25b6-01bc-4380-bbed-6793a505d457.mp4",
-      "mapEmbedUrl": "",
-      "venueName": "Mountain Breeze",
-      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
-      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
-      "time": "2027-01-17"
-    },
-    {
-      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
       "time": "2027-01-17",
-      "thumbnailUrl": "https://videotourl.com/videos/1792846753356-b98d225a-d88b-4fd0-b18c-614cc31eaa59.mp4",
-      "venueName": "Mountain Breeze",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
       "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846727847-1f0d25b6-01bc-4380-bbed-6793a505d457.mp4"
+    },
+    {
       "eventName": "SANGEET CEREMONY ",
-      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806"
+      "time": "2027-01-17",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846753356-b98d225a-d88b-4fd0-b18c-614cc31eaa59.mp4"
     },
     {
-      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "eventName": "WEDDING CEREMONY ",
       "time": "2027-01-18",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
       "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
-      "venueName": "Mountain Breeze",
       "mapEmbedUrl": "",
-      "thumbnailUrl": "https://videotourl.com/videos/1792846775239-891f75fc-e5c2-4c7e-81cc-d9036f3eb301.mp4",
-      "eventName": "WEDDING CEREMONY "
+      "thumbnailUrl": "https://videotourl.com/videos/1792846775239-891f75fc-e5c2-4c7e-81cc-d9036f3eb301.mp4"
     },
     {
-      "venueName": "Mountain Breeze",
-      "thumbnailUrl": "https://videotourl.com/videos/1792846989966-2c2c55c1-cfd8-413c-a0a8-91060d221879.mp4",
-      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "eventName": "COCKTAIL PARTY",
       "time": "2027-01-18",
-      "mapEmbedUrl": "",
+      "venueName": "",
       "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
-      "eventName": "COCKTAIL PARTY"
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846989966-2c2c55c1-cfd8-413c-a0a8-91060d221879.mp4"
     }
   ],
   "dressCode": {
-    "attireMen": "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.",
+    "enabled": true,
     "themeTitle": "Kerala & Assamese Fusion Royalty",
-    "colorPalette": [
-      {
-        "name": "Kasavu Gold",
-        "hex": "#D4AF37"
-      },
-      {
-        "name": "Muga Silk Ivory",
-        "hex": "#FDF8EE"
-      },
-      {
-        "hex": "#E07A5F",
-        "name": "Sunset Coral"
-      },
-      {
-        "name": "Assam Tea Green",
-        "hex": "#819A7A"
-      },
-      {
-        "name": "Royal Maroon",
-        "hex": "#641D2E"
-      }
-    ],
-    "description": "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.",
-    "attireWomen": "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.",
     "themeSubtitle": "Traditional Splendor with Royal Gold & Pastel Tones",
-    "note": "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions.",
-    "enabled": true
+    "description": "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.",
+    "colorPalette": [
+      { "name": "Kasavu Gold", "hex": "#D4AF37" },
+      { "name": "Muga Silk Ivory", "hex": "#FDF8EE" },
+      { "name": "Sunset Coral", "hex": "#E07A5F" },
+      { "name": "Assam Tea Green", "hex": "#819A7A" },
+      { "name": "Royal Maroon", "hex": "#641D2E" }
+    ],
+    "attireMen": "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.",
+    "attireWomen": "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.",
+    "note": "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions."
   },
   "hotelStay": {
-    "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
-    "address": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
-    "mapUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
-    "hotelName": "Mountain Breeze Resort, Mahabaleshwar",
+    "enabled": true,
+    "hotelName": "Mahableshwar",
+    "tagline": "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys",
+    "checkIn": "16th January 2027 • 12:00 PM",
+    "checkOut": "19th January 2027 • 11:00 AM",
+    "address": "",
+    "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
     "amenities": [
       "Complimentary Guest Rooms & Suites",
       "Buffet Breakfast & Mountain Tea Service",
@@ -150,21 +137,22 @@
       "Scenic Valley View Lawns & Heated Pool",
       "24/7 Guest Hospitality & Concierge Desk"
     ],
-    "contactPhone": "+91 98765 43210",
-    "checkOut": "19th January 2027 • 11:00 AM",
-    "tagline": "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys",
-    "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
-    "enabled": true,
-    "contactPerson": "Ramesh Hospitality Helpdesk",
-    "checkIn": "16th January 2027 • 12:00 PM"
+    "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
+    "contactPerson": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735",
+    "assistanceContacts": [
+      { "name": "Mr. Vishal V", "phone": "+91 7400052735" },
+      { "name": "Ms. Priti K", "phone": "+91 7208782729" }
+    ],
+    "mapUrl": ""
   },
   "rsvpSection": {
     "enabled": true,
-    "contactPhone": "+91 98765 43210",
-    "subtitle": "Your presence and blessings will make our celebration truly complete",
-    "deadlineText": "",
     "title": "Kindly RSVP",
-    "contactName": "Ramesh & Nath Families Hospitality"
+    "subtitle": "Your presence and blessings will make our celebration truly complete",
+    "deadlineText": "Please confirm your attendance by 10th January 2027",
+    "contactName": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735"
   },
   "openingBackgroundImageUrl": "https://cdn.phototourl.com/member/2026-10-24-6605fcc2-66ba-4b89-9767-12e43a092722.png",
   "openingSealImageUrl": "https://www.image2url.com/r2/default/images/1783181278121-9f63126d-669b-46e3-920c-2ea585dc28d7.png",
@@ -175,8 +163,8 @@
   "gallerySubtitle": "Glimpses of Our Journey",
   "galleryImages": [
     {
-      "url": "fsdb://fsdb_1783188196638_9hxd9t2",
-      "caption": "Kerala Sunset & Assamese Breeze"
+      "caption": "Kerala Sunset & Assamese Breeze",
+      "url": "fsdb://fsdb_1783188196638_9hxd9t2"
     },
     {
       "caption": "Two Hearts, One Journey",
@@ -195,9 +183,9 @@
     "instagram": "https://instagram.com",
     "facebook": "https://facebook.com"
   },
-  "remix_applet_id": "5e09f781-4da3-4952-b789-521e70e51b5c",
-  "remix_instance_id": "remix_5e09f781",
-  "clientWorkspace": "October Clients -1",
+  "showEventAddressAndMap": false,
+  "showFamilyDetails": true,
   "is_remix": true,
-  "remix_saved_at": "2026-10-24T17:03:50.037Z"
+  "remix_instance_id": "remix_5e09f781",
+  "remix_applet_id": "5e09f781-4da3-4952-b789-521e70e51b5c"
 }

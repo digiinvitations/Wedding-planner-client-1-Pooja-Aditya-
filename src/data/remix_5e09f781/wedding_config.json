@@ -1,5 +1,6 @@
 {
   "priorityOrder": "groom",
+  "clientWorkspace": "October Clients -1",
   "weddingDate": "2027-01-18T17:00",
   "displayDate": "Monday, 18th January 2027",
   "hashtag": "#AdityaWedsPooja",
@@ -51,22 +52,58 @@
   },
   "weddingEvents": [
     {
-      "eventName": "Wedding Ceremony (Muhurtham)",
+      "eventName": "BONFIRE",
+      "time": "2027-01-16",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846652611-c923bbc5-ea05-4ecf-97e7-e6329fa52aff.mp4"
+    },
+    {
+      "eventName": "JURUN CEREMONY ",
+      "time": "2027-01-17",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846703173-b51ee900-fe41-4c42-9234-b552781d9506.mp4"
+    },
+    {
+      "eventName": "HALDI CEREMONY ",
+      "time": "2027-01-17",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846727847-1f0d25b6-01bc-4380-bbed-6793a505d457.mp4"
+    },
+    {
+      "eventName": "SANGEET CEREMONY ",
+      "time": "2027-01-17",
+      "venueName": "",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+      "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846753356-b98d225a-d88b-4fd0-b18c-614cc31eaa59.mp4"
+    },
+    {
+      "eventName": "WEDDING CEREMONY ",
       "time": "2027-01-18",
       "venueName": "",
       "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
       "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
-      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.758253149488!2d73.702283!3d17.925488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc265e31eb8c159%3A0xf82cf05c90b92b42!2sMountain%20Breeze%20Resort!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
-      "thumbnailUrl": "https://www.image2url.com/r2/default/videos/1787593662183-9f53e455-7fc7-44b1-8733-fe6eee85c6a2.mp4"
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846775239-891f75fc-e5c2-4c7e-81cc-d9036f3eb301.mp4"
     },
     {
-      "eventName": "Haldi & Sangeet Evening",
-      "time": "2027-01-17",
+      "eventName": "COCKTAIL PARTY",
+      "time": "2027-01-18",
       "venueName": "",
-      "venueAddress": "Mountain Breeze Resort, Panchgani - Mahabaleshwar Road, Mahabaleshwar",
+      "venueAddress": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
       "mapDirectionsUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111",
-      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.758253149488!2d73.702283!3d17.925488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc265e31eb8c159%3A0xf82cf05c90b92b42!2sMountain%20Breeze%20Resort!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
-      "thumbnailUrl": "https://www.image2url.com/r2/default/videos/1787591383645-a6292e47-3d21-4503-96d7-dd0797ba9526.mp4"
+      "mapEmbedUrl": "",
+      "thumbnailUrl": "https://videotourl.com/videos/1792846989966-2c2c55c1-cfd8-413c-a0a8-91060d221879.mp4"
     }
   ],
   "dressCode": {
@@ -87,11 +124,11 @@
   },
   "hotelStay": {
     "enabled": true,
-    "hotelName": "Mountain Breeze Resort, Mahabaleshwar",
+    "hotelName": "Mahableshwar",
     "tagline": "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys",
-    "checkIn": "18th January 2027 • 12:00 PM",
+    "checkIn": "16th January 2027 • 12:00 PM",
     "checkOut": "19th January 2027 • 11:00 AM",
-    "address": "GP Milkat No 296 & 296/1, Panchgani - Mahabaleshwar Road, Tal, Metgutad, Mahabaleshwar, Maharashtra 412806",
+    "address": "",
     "roomDetails": "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.",
     "amenities": [
       "Complimentary Guest Rooms & Suites",
@@ -101,21 +138,25 @@
       "24/7 Guest Hospitality & Concierge Desk"
     ],
     "travelGuide": "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.",
-    "contactPerson": "Ramesh Hospitality Helpdesk",
-    "contactPhone": "+91 98765 43210",
-    "mapUrl": "https://www.google.com/maps/place/Mountain+Breeze+Resort/data=!4m2!3m1!1s0x0:0xf82cf05c90b92b42?sa=X&ved=1t:2428&ictx=111"
+    "contactPerson": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735",
+    "assistanceContacts": [
+      { "name": "Mr. Vishal V", "phone": "+91 7400052735" },
+      { "name": "Ms. Priti K", "phone": "+91 7208782729" }
+    ],
+    "mapUrl": ""
   },
   "rsvpSection": {
     "enabled": true,
     "title": "Kindly RSVP",
     "subtitle": "Your presence and blessings will make our celebration truly complete",
     "deadlineText": "Please confirm your attendance by 10th January 2027",
-    "contactName": "Ramesh & Nath Families Hospitality",
-    "contactPhone": "+91 98765 43210"
+    "contactName": "Mr. Vishal V & Ms. Priti K",
+    "contactPhone": "+91 7400052735"
   },
-  "openingBackgroundImageUrl": "https://i.ibb.co/F4c3Rn4X/file-000000008b048211af9a46c0a2523455.png",
+  "openingBackgroundImageUrl": "https://cdn.phototourl.com/member/2026-10-24-6605fcc2-66ba-4b89-9767-12e43a092722.png",
   "openingSealImageUrl": "https://www.image2url.com/r2/default/images/1783181278121-9f63126d-669b-46e3-920c-2ea585dc28d7.png",
-  "openingVideoUrl": "https://www.image2url.com/r2/default/videos/1787736032087-bb97a04f-2775-4ab2-8812-d6b91ac9f91d.mp4",
+  "openingVideoUrl": "https://videotourl.com/videos/1792858122885-35844e32-1f17-4a54-99ec-355b153e2220.mp4",
   "envelopeIconUrl": "fsdb://fsdb_1783192687294_4mhgeux",
   "musicUrl": "https://www.image2url.com/r2/default/audio/1787668714348-1be87241-d799-46f1-be7c-f6a4a16b3b1c.mp3",
   "heroImageUrl": "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?q=100&w=3840&auto=format&fit=crop",
@@ -142,8 +183,9 @@
     "instagram": "https://instagram.com",
     "facebook": "https://facebook.com"
   },
+  "showEventAddressAndMap": false,
+  "showFamilyDetails": true,
   "is_remix": true,
   "remix_instance_id": "remix_5e09f781",
-  "remix_applet_id": "5e09f781-4da3-4952-b789-521e70e51b5c",
-  "showEventAddressAndMap": false
+  "remix_applet_id": "5e09f781-4da3-4952-b789-521e70e51b5c"
 }
