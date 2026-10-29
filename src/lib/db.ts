@@ -165,8 +165,6 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
     if (!cfg || typeof cfg !== "object") return true;
     const str = JSON.stringify(cfg);
     if (/tishi|trishi|hitakshi|devendra|pradeep/i.test(str)) return true;
-    if (cfg.groom?.name && !cfg.groom.name.includes("Aditya")) return true;
-    if (cfg.bride?.name && !cfg.bride.name.includes("Pooja")) return true;
     return false;
   };
 

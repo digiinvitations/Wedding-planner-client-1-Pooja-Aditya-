@@ -245,14 +245,6 @@ export default function App() {
           console.warn("[App] Discarded obsolete server config with legacy names");
           return;
         }
-        if (serverConfig.groom?.name && !serverConfig.groom.name.includes("Aditya")) {
-          console.warn("[App] Discarded server config with mismatched groom name");
-          return;
-        }
-        if (serverConfig.bride?.name && !serverConfig.bride.name.includes("Pooja")) {
-          console.warn("[App] Discarded server config with mismatched bride name");
-          return;
-        }
         setConfig(sanitizeParentLineages({
           ...defaultWeddingConfig,
           ...serverConfig,
