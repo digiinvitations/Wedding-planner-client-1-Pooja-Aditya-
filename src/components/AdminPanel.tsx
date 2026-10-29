@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   X, Trash2, Image as ImageIcon, Calendar, Settings, Database, Map, CheckCircle2,
   Download, Upload, ShieldCheck, Heart, Sparkles, Shirt, Building2, MessageSquare,
-  Users, Phone, User, Plus, Crown, Send, RefreshCw, FileText, Type
+  Users, Phone, User, Plus, Crown, Send, RefreshCw, FileText, Type, EyeOff
 } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { WeddingConfig } from "../weddingConfig";
@@ -30,6 +30,8 @@ interface AdminPanelProps {
   title?: string;
   onToggleFloatingEditButton?: (visible: boolean) => void;
   isFloatingEditButtonVisible?: boolean;
+  onHideAdminEditButtons?: () => void;
+  hideAdminEditButtons?: boolean;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({ 
@@ -41,7 +43,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   initialTab,
   title,
   onToggleFloatingEditButton,
-  isFloatingEditButtonVisible = false
+  isFloatingEditButtonVisible = false,
+  onHideAdminEditButtons,
+  hideAdminEditButtons = false
 }) => {
   const getDefaultTab = () => {
     if (mode === "admin") return initialTab || "workspace";
@@ -243,6 +247,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   onChange={handleImportFile} 
                   className="hidden" 
                 />
+                {onHideAdminEditButtons && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onHideAdminEditButtons();
+                      onClose();
+                    }}
+                    title="Completely hide Edit panel & Admin panel buttons from website (unlock by clicking family photo 5 times)"
+                    className="bg-[#641D2E] hover:bg-[#85253C] text-[#dec47f] border border-[#dec47f]/40 px-3 py-2 rounded-xl text-sm font-bold shadow-sm transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <EyeOff size={16} /> <span className="hidden sm:inline">Hide Panels</span>
+                  </button>
+                )}
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   title="Import Data"
@@ -466,6 +483,34 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             }`}
                           >
                             {(editConfig.showFloatingEditButton ?? isFloatingEditButtonVisible) ? "✓ Visible / Unhidden" : "Hidden (Click to Unhide)"}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Hide Edit Panel & Admin Panel Buttons Control */}
+                      <div className="pt-4 border-t border-[#C9A45C]/20 bg-[#FFF9F3]/60 p-4 rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div>
+                            <span className="text-xs font-bold text-[#641D2E] uppercase tracking-wider block flex items-center gap-1.5">
+                              <EyeOff size={14} className="text-[#B94E2F]" />
+                              Hide Edit Panel &amp; Admin Panel Buttons
+                            </span>
+                            <span className="text-[11px] text-[#765E52] block mt-0.5">
+                              Completely hide both Edit and Admin buttons from the website. Only unlock by clicking the family photo 5 times.
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (onHideAdminEditButtons) {
+                                onHideAdminEditButtons();
+                              }
+                              onClose();
+                            }}
+                            className="bg-[#641D2E] hover:bg-[#B94E2F] text-[#dec47f] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border border-[#dec47f]/40 cursor-pointer"
+                          >
+                            <EyeOff size={14} />
+                            Hide Buttons
                           </button>
                         </div>
                       </div>

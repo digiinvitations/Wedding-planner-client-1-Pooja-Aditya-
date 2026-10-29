@@ -386,6 +386,48 @@ export default function App() {
       return false;
     }
   });
+
+  // Completely hide Edit & Admin Panel buttons state (unlocked by clicking family photo 5 times)
+  const [hideAdminEditButtons, setHideAdminEditButtons] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("hide_admin_edit_buttons") === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  const handleHideAdminEditButtons = () => {
+    setHideAdminEditButtons(true);
+    try {
+      localStorage.setItem("hide_admin_edit_buttons", "true");
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const familyPhotoClickCountRef = useRef(0);
+  const familyPhotoClickTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleFamilyPhotoClick = () => {
+    familyPhotoClickCountRef.current += 1;
+    if (familyPhotoClickTimerRef.current) {
+      clearTimeout(familyPhotoClickTimerRef.current);
+    }
+    // Reset click count after 3.5 seconds of inactivity
+    familyPhotoClickTimerRef.current = setTimeout(() => {
+      familyPhotoClickCountRef.current = 0;
+    }, 3500);
+
+    if (familyPhotoClickCountRef.current >= 5) {
+      familyPhotoClickCountRef.current = 0;
+      setHideAdminEditButtons(false);
+      try {
+        localStorage.setItem("hide_admin_edit_buttons", "false");
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+  };
   
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -1302,21 +1344,7 @@ export default function App() {
             className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
           >
             <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-lg relative overflow-hidden">
-              {/* Transportation Disclaimer at Top */}
-              <div className="bg-[#FFF9F3] border-2 border-[#C9A45C]/50 rounded-2xl p-4 sm:p-5 mb-6 text-center shadow-xs">
-                <span 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.disclaimer ? Math.round(typo.hotelStay.disclaimer * 0.85) : 13, 13) }}
-                  className="font-sans font-bold text-[#B94E2F] uppercase tracking-wider block mb-1.5"
-                >
-                  Disclaimers
-                </span>
-                <p 
-                  style={{ fontSize: getFontSize(typo.hotelStay?.disclaimer, 16) }}
-                  className="font-serif-premium text-[#641D2E] font-bold leading-relaxed"
-                >
-                  Accommodation and transportation is only provided to guests coming from outside Maharashtra or India.
-                </p>
-              </div>
+
 
               <div className="text-center mb-6 bg-[#FFF9F3] border border-[#C9A45C]/40 p-4 sm:p-5 rounded-2xl shadow-xs overflow-hidden">
                 <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#B94E2F] font-bold mb-1.5 block">
@@ -1800,7 +1828,10 @@ export default function App() {
               transition={{ duration: 1 }}
               className="py-8 px-6 text-center flex flex-col items-center bg-[#FFF9F3] relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
             >
-              <div className="w-full max-w-sm bg-white p-4 rounded-3xl border-2 border-[#C9A45C]/50 shadow-lg relative overflow-hidden">
+              <div 
+                onClick={handleFamilyPhotoClick}
+                className="w-full max-w-sm bg-white p-4 rounded-3xl border-2 border-[#C9A45C]/50 shadow-lg relative overflow-hidden select-none"
+              >
                 <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#C9A45C]" />
                 <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#C9A45C]" />
                 <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#C9A45C]" />
@@ -1809,7 +1840,8 @@ export default function App() {
                 <img 
                   src="https://cdn.phototourl.com/member/2026-10-28-4f10b2ea-e21e-4d2d-90b7-404b5a6321b3.jpg" 
                   alt="Family Caricature" 
-                  className="w-full aspect-[4/3] object-cover rounded-2xl mb-3 shadow-xs"
+                  className="w-full aspect-[4/3] object-cover rounded-2xl mb-3 shadow-xs select-none"
+                  onClick={handleFamilyPhotoClick}
                 />
                 <span className="font-serif-premium italic text-sm text-[#641D2E] font-semibold block">
                   &ldquo;Looking forward to celebrating with you&rdquo;
@@ -1874,7 +1906,7 @@ export default function App() {
 
       {/* 13. FLOATING BUTTONS */}
       {/* Floating "Edit Your Invitation" Button (Bottom Left) - can be hidden, only unhidden via Admin Panel */}
-      {isOpened && showFloatingEditInvitation && (
+      {isOpened && showFloatingEditInvitation && !hideAdminEditButtons && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1971,8 +2003,8 @@ export default function App() {
         weddingDate={config.weddingDate}
       />
 
-      {/* End of Website Buttons: Only visible at the very end after cards are scratched, no other text */}
-      {isOpened && allHeartsScratched && (
+      {/* End of Website Buttons: Only visible at the very end after cards are scratched and when not hidden */}
+      {isOpened && allHeartsScratched && !hideAdminEditButtons && (
         <div className="w-full text-center pb-12 pt-6 relative z-10 flex flex-col items-center justify-center">
           {!showEditLogin && !showAdminLogin ? (
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -2156,6 +2188,8 @@ export default function App() {
             console.warn(e);
           }
         }}
+        onHideAdminEditButtons={handleHideAdminEditButtons}
+        hideAdminEditButtons={hideAdminEditButtons}
       />
 
     </div>

@@ -265,6 +265,7 @@ export interface WeddingConfig {
   showFloatingEditButton?: boolean;
   showEventAddressAndMap?: boolean;
   showFamilyDetails?: boolean;
+  hideAdminEditButtons?: boolean;
   clientWorkspace?: string;
 }
 
