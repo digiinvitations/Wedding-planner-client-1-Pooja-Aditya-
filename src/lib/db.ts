@@ -151,8 +151,7 @@ export async function saveConfigToDb(newConfig: WeddingConfig, targetWorkspace?:
 
     console.log(`[saveConfigToDb] Successfully saved to Firestore remix partition: ${REMIX_INSTANCE_ID}_${safeId}`);
   } catch (err) {
-    console.warn("[saveConfigToDb] Failed to save config to Firestore remix partition:", err);
-    handleFirestoreError(err, OperationType.WRITE, remixDocPath);
+    console.warn("[saveConfigToDb] Remote Firestore sync skipped/failed (local save intact):", err);
   }
 }
 

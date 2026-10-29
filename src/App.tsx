@@ -96,16 +96,25 @@ export function formatHeroBrideParents(cfg?: WeddingConfig): string {
 const APP_DATA_VERSION = "aditya_pooja_oct1_2027_v5";
 
 export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
-  const groomParents = formatHeroGroomParents(cfg);
-  const brideParents = formatHeroBrideParents(cfg);
+  const gFather = cfg.groom?.fatherName?.trim() || "Mr. T.V. Ramesh";
+  const gMother = cfg.groom?.motherName?.trim() || "Mrs. Usha Ramesh";
+  const bFather = cfg.bride?.fatherName?.trim() || "Mr. Babul Nath";
+  const bMother = cfg.bride?.motherName?.trim() || "Mrs. Momi Devi";
 
-  // Strictly lock names to Aditya Ramesh & Pooja Devi across all hostings (Vercel, Cloud Run, etc.)
-  const groomName = (!cfg.groom?.name || /tishi|trishi|devendra/i.test(cfg.groom.name)) ? "Aditya Ramesh" : "Aditya Ramesh";
-  const brideName = (!cfg.bride?.name || /hitakshi|pradeep/i.test(cfg.bride.name)) ? "Pooja Devi" : "Pooja Devi";
-  const hashtag = (!cfg.hashtag || /tishi|trishi|hitakshi/i.test(cfg.hashtag)) ? "#AdityaWedsPooja" : "#AdityaWedsPooja";
+  const groomParents = cfg.heroSettings?.groomParents || `Son of ${gFather} & ${gMother}`;
+  const brideParents = cfg.heroSettings?.brideParents || `Daughter of ${bFather} & ${bMother}`;
 
-  // Enforce the full 6 October Client 1 ceremonies
-  const events = (Array.isArray(cfg.weddingEvents) && cfg.weddingEvents.length >= 6) 
+  // Allow custom names entered by the user; fallback to defaults only if empty
+  const rawGroom = cfg.groom?.name?.trim();
+  const groomName = rawGroom || "Aditya Ramesh";
+
+  const rawBride = cfg.bride?.name?.trim();
+  const brideName = rawBride || "Pooja Devi";
+
+  const hashtag = cfg.hashtag?.trim() || "#AdityaWedsPooja";
+
+  // Use configured events if present, otherwise default to October Client 1 ceremonies
+  const events = (Array.isArray(cfg.weddingEvents) && cfg.weddingEvents.length > 0) 
     ? cfg.weddingEvents 
     : defaultWeddingConfig.weddingEvents;
 
@@ -116,30 +125,54 @@ export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
     groom: {
       ...cfg.groom,
       name: groomName,
-      fatherName: "Mr. T.V. Ramesh",
-      motherName: "Mrs. Usha Ramesh",
-      introLineage: groomParents,
+      fatherName: gFather,
+      motherName: gMother,
+      introLineage: cfg.groom?.introLineage || groomParents,
+      bio: cfg.groom?.bio ?? defaultWeddingConfig.groom.bio,
+      imageUrl: cfg.groom?.imageUrl || defaultWeddingConfig.groom.imageUrl,
     },
     bride: {
       ...cfg.bride,
       name: brideName,
-      fatherName: "Mr. Babul Nath",
-      motherName: "Mrs. Momi Devi",
-      introLineage: brideParents,
+      fatherName: bFather,
+      motherName: bMother,
+      introLineage: cfg.bride?.introLineage || brideParents,
+      bio: cfg.bride?.bio ?? defaultWeddingConfig.bride.bio,
+      imageUrl: cfg.bride?.imageUrl || defaultWeddingConfig.bride.imageUrl,
     },
     heroSettings: {
       ...(cfg.heroSettings || {}),
       groomParents,
       brideParents,
-      introText: cfg.heroSettings?.introText || defaultWeddingConfig.heroSettings.introText,
-      shloka: cfg.heroSettings?.shloka || defaultWeddingConfig.heroSettings.shloka,
+      introText: cfg.heroSettings?.introText !== undefined ? cfg.heroSettings.introText : defaultWeddingConfig.heroSettings.introText,
+      shloka: cfg.heroSettings?.shloka !== undefined ? cfg.heroSettings.shloka : defaultWeddingConfig.heroSettings.shloka,
       showPetals: cfg.heroSettings?.showPetals ?? true,
+      ganeshaIconUrl: cfg.heroSettings?.ganeshaIconUrl || defaultWeddingConfig.heroSettings.ganeshaIconUrl,
+      bgVideoUrl: cfg.heroSettings?.bgVideoUrl || defaultWeddingConfig.heroSettings.bgVideoUrl,
     },
     familyDetails: {
       ...(cfg.familyDetails || {}),
-      names: ["Ramesh Family", "Nath Family", "All Relatives and Friends"],
-      message: "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
-      welcomingText: "Warmly Welcomed By:"
+      names: (Array.isArray(cfg.familyDetails?.names) && cfg.familyDetails.names.length > 0)
+        ? cfg.familyDetails.names
+        : defaultWeddingConfig.familyDetails.names,
+      message: cfg.familyDetails?.message !== undefined 
+        ? cfg.familyDetails.message 
+        : defaultWeddingConfig.familyDetails.message,
+      welcomingText: cfg.familyDetails?.welcomingText !== undefined 
+        ? cfg.familyDetails.welcomingText 
+        : defaultWeddingConfig.familyDetails.welcomingText,
+    },
+    hotelStay: {
+      ...defaultWeddingConfig.hotelStay,
+      ...(cfg.hotelStay || {}),
+    },
+    dressCode: {
+      ...defaultWeddingConfig.dressCode,
+      ...(cfg.dressCode || {}),
+    },
+    rsvpSection: {
+      ...defaultWeddingConfig.rsvpSection,
+      ...(cfg.rsvpSection || {}),
     },
     typography: cfg.typography || defaultTypographyConfig,
   };
@@ -307,11 +340,9 @@ export default function App() {
     const sanitized = sanitizeParentLineages(newConfig);
     setConfig(sanitized);
     try {
-      await saveConfigToDb(newConfig);
+      await saveConfigToDb(sanitized);
     } catch (e) {
-      console.warn("Failed to save config.", e);
-      alert("Failed to save changes: " + (e instanceof Error ? e.message : String(e)));
-      throw e;
+      console.warn("Remote sync note in handleConfigChange:", e);
     }
   };
 

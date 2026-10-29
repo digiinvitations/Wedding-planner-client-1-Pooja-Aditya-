@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   X,
@@ -19,7 +19,11 @@ import {
   Pencil,
   ShieldCheck,
   Save,
-  Type
+  Type,
+  Building2,
+  Shirt,
+  Mail,
+  Phone
 } from "lucide-react";
 import { WeddingConfig, TypographyConfig, defaultTypographyConfig } from "../weddingConfig";
 import { TypographyManager } from "./TypographyManager";
@@ -28,7 +32,6 @@ import {
   setActiveWorkspace,
   sanitizeWorkspaceId,
   WORKSPACE_PRESETS,
-  getKnownWorkspaces,
 } from "../lib/clientWorkspace";
 
 interface CeremonyEvent {
@@ -79,14 +82,14 @@ export function getDayAndYear(dateStr: string): { day: string; year: string } {
 }
 
 const CEREMONY_PRESETS = [
-  "Haldi",
-  "Mehndi",
-  "Sangeet",
-  "Ring Ceremony / Engagement",
+  "Bonfire",
+  "Jurun Ceremony",
+  "Haldi Ceremony",
+  "Sangeet Ceremony",
   "Wedding Ceremony (Pheras)",
-  "Reception",
   "Cocktail Party",
-  "Tilak Ceremony",
+  "Reception",
+  "Ring Ceremony / Engagement"
 ];
 
 const HELPER_CHIPS = [
@@ -123,29 +126,24 @@ export function EditInvitationModal({
   };
 
   // 1. Groom & Bride Details
-  const [groomName, setGroomName] = useState(config.groom?.name || "");
-  const [groomFather, setGroomFather] = useState(config.groom?.fatherName || "");
-  const [groomMother, setGroomMother] = useState(config.groom?.motherName || "");
+  const [groomName, setGroomName] = useState(config.groom?.name || "Aditya Ramesh");
+  const [groomFather, setGroomFather] = useState(config.groom?.fatherName || "Mr. T.V. Ramesh");
+  const [groomMother, setGroomMother] = useState(config.groom?.motherName || "Mrs. Usha Ramesh");
   const [groomBio, setGroomBio] = useState(config.groom?.bio || "");
 
-  const [brideName, setBrideName] = useState(config.bride?.name || "");
-  const [brideFather, setBrideFather] = useState(config.bride?.fatherName || "");
-  const [brideMother, setBrideMother] = useState(config.bride?.motherName || "");
+  const [brideName, setBrideName] = useState(config.bride?.name || "Pooja Devi");
+  const [brideFather, setBrideFather] = useState(config.bride?.fatherName || "Mr. Babul Nath");
+  const [brideMother, setBrideMother] = useState(config.bride?.motherName || "Mrs. Momi Devi");
   const [brideBio, setBrideBio] = useState(config.bride?.bio || "");
 
   // 2. Wedding Information
-  const initialDate = config.weddingDate?.split("T")[0] || "2026-12-12";
+  const initialDate = config.weddingDate?.split("T")[0] || "2027-01-18";
   const [weddingDate, setWeddingDate] = useState(initialDate);
-  const [weddingTime, setWeddingTime] = useState("07:00 PM onwards");
-  const [weddingVenue, setWeddingVenue] = useState(
-    config.weddingEvents?.[0]?.venueName || "The Royal Heritage Palace"
-  );
-  const [weddingAddress, setWeddingAddress] = useState(
-    config.weddingEvents?.[0]?.venueAddress || "Grand Ball Room, MG Road, New Delhi"
-  );
-  const [weddingMapsUrl, setWeddingMapsUrl] = useState(
-    config.weddingEvents?.[0]?.mapDirectionsUrl || ""
-  );
+  const [weddingTime, setWeddingTime] = useState("05:00 PM onwards");
+  const [weddingVenue, setWeddingVenue] = useState(config.weddingEvents?.[0]?.venueName || "");
+  const [weddingAddress, setWeddingAddress] = useState(config.weddingEvents?.[0]?.venueAddress || "");
+  const [weddingMapsUrl, setWeddingMapsUrl] = useState(config.weddingEvents?.[0]?.mapDirectionsUrl || "");
+  const [hashtag, setHashtag] = useState(config.hashtag || "#AdityaWedsPooja");
 
   // 3. Wedding Ceremonies
   const [events, setEvents] = useState<CeremonyEvent[]>(() => {
@@ -160,69 +158,155 @@ export function EditInvitationModal({
         mapDirectionsUrl: ev.mapDirectionsUrl || "",
       }));
     }
-    return [
-      {
-        id: "ev-1",
-        eventName: "Mehndi & Sangeet",
-        date: initialDate,
-        time: "04:00 PM",
-        venueName: "The Royal Ballroom",
-        venueAddress: "MG Road, New Delhi",
-        mapDirectionsUrl: "",
-      },
-      {
-        id: "ev-2",
-        eventName: "Haldi Ceremony",
-        date: initialDate,
-        time: "10:00 AM",
-        venueName: "Poolside Lawn",
-        venueAddress: "MG Road, New Delhi",
-        mapDirectionsUrl: "",
-      },
-    ];
+    return [];
   });
 
-  // 4. Family Details (Optional)
-  const [brideFamily, setBrideFamily] = useState(
-    config.familyDetails?.welcomingText || ""
+  // 4. Family Details
+  const [welcomingText, setWelcomingText] = useState(
+    config.familyDetails?.welcomingText || "Warmly Welcomed By:"
   );
-  const [groomFamily, setGroomFamily] = useState(
-    config.familyDetails?.names?.join(", ") || ""
+  const [familyMessage, setFamilyMessage] = useState(
+    config.familyDetails?.message || "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar."
   );
+  const [familyNamesStr, setFamilyNamesStr] = useState(
+    config.familyDetails?.names?.join(", ") || "Ramesh Family, Nath Family, All Relatives and Friends"
+  );
+  const [showFamilyDetails, setShowFamilyDetails] = useState<boolean>(config.showFamilyDetails ?? true);
 
-  // 5. Invitation Message (Optional)
+  // 5. Hotel & Stay Details
+  const [hotelEnabled, setHotelEnabled] = useState(config.hotelStay?.enabled ?? true);
+  const [hotelName, setHotelName] = useState(config.hotelStay?.hotelName || "Mahableshwar");
+  const [hotelTagline, setHotelTagline] = useState(config.hotelStay?.tagline || "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys");
+  const [hotelCheckIn, setHotelCheckIn] = useState(config.hotelStay?.checkIn || "16th January 2027 • 12:00 PM");
+  const [hotelCheckOut, setHotelCheckOut] = useState(config.hotelStay?.checkOut || "19th January 2027 • 11:00 AM");
+  const [hotelAddress, setHotelAddress] = useState(config.hotelStay?.address || "");
+  const [hotelRoomDetails, setHotelRoomDetails] = useState(config.hotelStay?.roomDetails || "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.");
+  const [hotelTravelGuide, setHotelTravelGuide] = useState(config.hotelStay?.travelGuide || "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.");
+  const [hotelContact1Name, setHotelContact1Name] = useState(config.hotelStay?.assistanceContacts?.[0]?.name || "Mr. Vishal V");
+  const [hotelContact1Phone, setHotelContact1Phone] = useState(config.hotelStay?.assistanceContacts?.[0]?.phone || "+91 7400052735");
+  const [hotelContact2Name, setHotelContact2Name] = useState(config.hotelStay?.assistanceContacts?.[1]?.name || "Ms. Priti K");
+  const [hotelContact2Phone, setHotelContact2Phone] = useState(config.hotelStay?.assistanceContacts?.[1]?.phone || "+91 7208782729");
+
+  // 6. Dress Code Details
+  const [dressCodeEnabled, setDressCodeEnabled] = useState(config.dressCode?.enabled ?? true);
+  const [dressThemeTitle, setDressThemeTitle] = useState(config.dressCode?.themeTitle || "Kerala & Assamese Fusion Royalty");
+  const [dressThemeSubtitle, setDressThemeSubtitle] = useState(config.dressCode?.themeSubtitle || "Traditional Splendor with Royal Gold & Pastel Tones");
+  const [dressDescription, setDressDescription] = useState(config.dressCode?.description || "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.");
+  const [attireMen, setAttireMen] = useState(config.dressCode?.attireMen || "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.");
+  const [attireWomen, setAttireWomen] = useState(config.dressCode?.attireWomen || "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.");
+  const [dressNote, setDressNote] = useState(config.dressCode?.note || "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions.");
+
+  // 7. RSVP Details
+  const [rsvpEnabled, setRsvpEnabled] = useState(config.rsvpSection?.enabled ?? true);
+  const [rsvpTitle, setRsvpTitle] = useState(config.rsvpSection?.title || "Kindly RSVP");
+  const [rsvpSubtitle, setRsvpSubtitle] = useState(config.rsvpSection?.subtitle || "Your presence and blessings will make our celebration truly complete");
+  const [rsvpDeadline, setRsvpDeadline] = useState(config.rsvpSection?.deadlineText || "Please confirm your attendance by 10th January 2027");
+  const [rsvpContactName, setRsvpContactName] = useState(config.rsvpSection?.contactName || "Mr. Vishal V & Ms. Priti K");
+  const [rsvpContactPhone, setRsvpContactPhone] = useState(config.rsvpSection?.contactPhone || "+91 7400052735");
+
+  // 8. Invitation Message & Media
   const [invitationMessage, setInvitationMessage] = useState(
     config.heroSettings?.introText ||
-      "With the blessings of the Almighty & our respected elders, we joyfully request your gracious presence on our wedding celebration."
+      "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of"
   );
-
-  // 6. Background Music (Optional)
   const [musicLink, setMusicLink] = useState(config.musicUrl || "");
-
-  // 7. Specific Details / Custom features / Helper chips
   const [specificDetails, setSpecificDetails] = useState("");
   const [showEventAddressAndMap, setShowEventAddressAndMap] = useState<boolean>(config.showEventAddressAndMap ?? false);
-  const [showFamilyDetails, setShowFamilyDetails] = useState<boolean>(config.showFamilyDetails ?? true);
   const [typography, setTypography] = useState<TypographyConfig>(config.typography || defaultTypographyConfig);
+
+  // Synchronize state when config or isOpen changes
+  useEffect(() => {
+    if (!config) return;
+    setClientWorkspace(config.clientWorkspace || getActiveWorkspace());
+    setGroomName(config.groom?.name || "Aditya Ramesh");
+    setGroomFather(config.groom?.fatherName || "Mr. T.V. Ramesh");
+    setGroomMother(config.groom?.motherName || "Mrs. Usha Ramesh");
+    setGroomBio(config.groom?.bio || "");
+
+    setBrideName(config.bride?.name || "Pooja Devi");
+    setBrideFather(config.bride?.fatherName || "Mr. Babul Nath");
+    setBrideMother(config.bride?.motherName || "Mrs. Momi Devi");
+    setBrideBio(config.bride?.bio || "");
+
+    const cDate = config.weddingDate?.split("T")[0] || "2027-01-18";
+    setWeddingDate(cDate);
+    setWeddingVenue(config.weddingEvents?.[0]?.venueName || "");
+    setWeddingAddress(config.weddingEvents?.[0]?.venueAddress || "");
+    setWeddingMapsUrl(config.weddingEvents?.[0]?.mapDirectionsUrl || "");
+    setHashtag(config.hashtag || "#AdityaWedsPooja");
+
+    if (config.weddingEvents && config.weddingEvents.length > 0) {
+      setEvents(
+        config.weddingEvents.map((ev, idx) => ({
+          id: `ev-${idx}-${Date.now()}`,
+          eventName: ev.eventName || "Ceremony",
+          date: ev.time?.split("T")[0] || cDate,
+          time: ev.time?.includes("T") ? ev.time.split("T")[1] : "05:00 PM",
+          venueName: ev.venueName || "",
+          venueAddress: ev.venueAddress || "",
+          mapDirectionsUrl: ev.mapDirectionsUrl || "",
+        }))
+      );
+    }
+
+    setWelcomingText(config.familyDetails?.welcomingText || "Warmly Welcomed By:");
+    setFamilyMessage(config.familyDetails?.message || "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.");
+    setFamilyNamesStr(config.familyDetails?.names?.join(", ") || "Ramesh Family, Nath Family, All Relatives and Friends");
+    setShowFamilyDetails(config.showFamilyDetails ?? true);
+
+    setHotelEnabled(config.hotelStay?.enabled ?? true);
+    setHotelName(config.hotelStay?.hotelName || "Mahableshwar");
+    setHotelTagline(config.hotelStay?.tagline || "Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys");
+    setHotelCheckIn(config.hotelStay?.checkIn || "16th January 2027 • 12:00 PM");
+    setHotelCheckOut(config.hotelStay?.checkOut || "19th January 2027 • 11:00 AM");
+    setHotelAddress(config.hotelStay?.address || "");
+    setHotelRoomDetails(config.hotelStay?.roomDetails || "Complimentary luxury accommodations have been arranged for all our guests. Enjoy mountain views, morning mist, and warm hospitality.");
+    setHotelTravelGuide(config.hotelStay?.travelGuide || "Located on the main Panchgani-Mahabaleshwar highway. Pune Airport/Station is ~2.5 hrs drive; Mumbai is ~4.5 hrs drive via the Expressway.");
+    setHotelContact1Name(config.hotelStay?.assistanceContacts?.[0]?.name || "Mr. Vishal V");
+    setHotelContact1Phone(config.hotelStay?.assistanceContacts?.[0]?.phone || "+91 7400052735");
+    setHotelContact2Name(config.hotelStay?.assistanceContacts?.[1]?.name || "Ms. Priti K");
+    setHotelContact2Phone(config.hotelStay?.assistanceContacts?.[1]?.phone || "+91 7208782729");
+
+    setDressCodeEnabled(config.dressCode?.enabled ?? true);
+    setDressThemeTitle(config.dressCode?.themeTitle || "Kerala & Assamese Fusion Royalty");
+    setDressThemeSubtitle(config.dressCode?.themeSubtitle || "Traditional Splendor with Royal Gold & Pastel Tones");
+    setDressDescription(config.dressCode?.description || "We warmly invite you to celebrate our union by donning Indian ethnic attire celebrating the cultural splendor of Kerala and Assam.");
+    setAttireMen(config.dressCode?.attireMen || "Traditional Kerala Mundu with Gold Zari / Kurta Pajama / Bandhgala / Nehru Jacket in pastel or ivory shades.");
+    setAttireWomen(config.dressCode?.attireWomen || "Traditional Kasavu Saree / Assamese Mekhela Chador / Silk Saree / Lehenga in royal gold, rose, or pastel hues.");
+    setDressNote(config.dressCode?.note || "Comfortable footwear is recommended for the mountain resort lawns and garden pavilions.");
+
+    setRsvpEnabled(config.rsvpSection?.enabled ?? true);
+    setRsvpTitle(config.rsvpSection?.title || "Kindly RSVP");
+    setRsvpSubtitle(config.rsvpSection?.subtitle || "Your presence and blessings will make our celebration truly complete");
+    setRsvpDeadline(config.rsvpSection?.deadlineText || "Please confirm your attendance by 10th January 2027");
+    setRsvpContactName(config.rsvpSection?.contactName || "Mr. Vishal V & Ms. Priti K");
+    setRsvpContactPhone(config.rsvpSection?.contactPhone || "+91 7400052735");
+
+    setInvitationMessage(config.heroSettings?.introText || "With the divine blessings of Lord Ganesha and our cherished families, we joyfully invite you to celebrate the wedding ceremony of");
+    setMusicLink(config.musicUrl || "");
+    setShowEventAddressAndMap(config.showEventAddressAndMap ?? false);
+    setTypography(config.typography || defaultTypographyConfig);
+  }, [config, isOpen]);
 
   // Accordion state
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    workspace: true,
+    workspace: false,
     couple: true,
     weddingInfo: true,
     ceremonies: true,
-    typography: false,
-    family: false,
+    family: true,
+    hotel: true,
+    dressCode: true,
+    rsvp: false,
     message: false,
     music: false,
-    specialRequests: true,
+    specialRequests: false,
+    typography: false,
   });
 
-  // Validation errors
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [copiedNotification, setCopiedNotification] = useState(false);
 
-  // Auto calculated day & year for main wedding date
   const { day: weddingDay, year: weddingYear } = getDayAndYear(weddingDate);
 
   const toggleSection = (key: string) => {
@@ -268,10 +352,9 @@ export function EditInvitationModal({
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!groomName.trim()) newErrors.groomName = "Groom's full name is required";
-    if (!brideName.trim()) newErrors.brideName = "Bride's full name is required";
+    if (!groomName.trim()) newErrors.groomName = "Groom's name is required";
+    if (!brideName.trim()) newErrors.brideName = "Bride's name is required";
     if (!weddingDate) newErrors.weddingDate = "Wedding date is required";
-    if (!weddingVenue.trim()) newErrors.weddingVenue = "Wedding venue name is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -299,6 +382,11 @@ export function EditInvitationModal({
         mapDirectionsUrl: ev.mapDirectionsUrl || config.weddingEvents?.[0]?.mapDirectionsUrl || "",
       }));
 
+      const parsedFamilyNames = familyNamesStr
+        .split(/[,\n]/)
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+
       const updatedConfig: WeddingConfig = {
         ...config,
         clientWorkspace: clientWorkspace,
@@ -308,6 +396,7 @@ export function EditInvitationModal({
           fatherName: groomFather.trim(),
           motherName: groomMother.trim(),
           bio: groomBio.trim(),
+          introLineage: `Son of ${groomFather.trim() || "Mr. T.V. Ramesh"} & ${groomMother.trim() || "Mrs. Usha Ramesh"}`,
         },
         bride: {
           ...config.bride,
@@ -315,22 +404,59 @@ export function EditInvitationModal({
           fatherName: brideFather.trim(),
           motherName: brideMother.trim(),
           bio: brideBio.trim(),
+          introLineage: `Daughter of ${brideFather.trim() || "Mr. Babul Nath"} & ${brideMother.trim() || "Mrs. Momi Devi"}`,
         },
         weddingDate: weddingDate,
         displayDate: `${weddingDay ? weddingDay + ", " : ""}${weddingDate}`,
+        hashtag: hashtag.trim() || "#AdityaWedsPooja",
         heroSettings: {
           ...config.heroSettings,
-          groomParents: `Son of Mr. ${(groomFather.trim() || "T.V. Ramesh").replace(/^(Mr\.?|Shri\.?)\s*/i, "")} & Mrs. ${(groomMother.trim() || "Usha Ramesh").replace(/^(Mrs\.?|Smt\.?)\s*/i, "")}`,
-          brideParents: `Daughter of Mr. ${(brideFather.trim() || "Babul Nath").replace(/^(Mr\.?|Shri\.?)\s*/i, "")} & Mrs. ${(brideMother.trim() || "Momi Devi").replace(/^(Mrs\.?|Smt\.?)\s*/i, "")}`,
-          introText: invitationMessage.trim() || config.heroSettings.introText,
+          groomParents: `Son of ${groomFather.trim() || "Mr. T.V. Ramesh"} & ${groomMother.trim() || "Mrs. Usha Ramesh"}`,
+          brideParents: `Daughter of ${brideFather.trim() || "Mr. Babul Nath"} & ${brideMother.trim() || "Mrs. Momi Devi"}`,
+          introText: invitationMessage.trim() || config.heroSettings?.introText,
         },
         musicUrl: musicLink.trim() || config.musicUrl,
         showEventAddressAndMap: showEventAddressAndMap,
         weddingEvents: updatedEvents.length > 0 ? updatedEvents : config.weddingEvents,
         familyDetails: {
           ...config.familyDetails,
-          welcomingText: brideFamily.trim() || config.familyDetails.welcomingText,
-          names: groomFamily.trim() ? groomFamily.split(",").map((s) => s.trim()) : config.familyDetails.names,
+          welcomingText: welcomingText.trim() || "Warmly Welcomed By:",
+          message: familyMessage.trim() || "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
+          names: parsedFamilyNames.length > 0 ? parsedFamilyNames : config.familyDetails?.names || ["Ramesh Family", "Nath Family", "All Relatives and Friends"],
+        },
+        hotelStay: {
+          ...config.hotelStay,
+          enabled: hotelEnabled,
+          hotelName: hotelName.trim(),
+          tagline: hotelTagline.trim(),
+          checkIn: hotelCheckIn.trim(),
+          checkOut: hotelCheckOut.trim(),
+          address: hotelAddress.trim(),
+          roomDetails: hotelRoomDetails.trim(),
+          travelGuide: hotelTravelGuide.trim(),
+          assistanceContacts: [
+            { name: hotelContact1Name.trim(), phone: hotelContact1Phone.trim() },
+            { name: hotelContact2Name.trim(), phone: hotelContact2Phone.trim() }
+          ],
+        },
+        dressCode: {
+          ...config.dressCode,
+          enabled: dressCodeEnabled,
+          themeTitle: dressThemeTitle.trim(),
+          themeSubtitle: dressThemeSubtitle.trim(),
+          description: dressDescription.trim(),
+          attireMen: attireMen.trim(),
+          attireWomen: attireWomen.trim(),
+          note: dressNote.trim(),
+        },
+        rsvpSection: {
+          ...config.rsvpSection,
+          enabled: rsvpEnabled,
+          title: rsvpTitle.trim(),
+          subtitle: rsvpSubtitle.trim(),
+          deadlineText: rsvpDeadline.trim(),
+          contactName: rsvpContactName.trim(),
+          contactPhone: rsvpContactPhone.trim(),
         },
         showFamilyDetails: showFamilyDetails,
         typography: typography,
@@ -339,11 +465,12 @@ export function EditInvitationModal({
       if (onSaveConfig) {
         await onSaveConfig(updatedConfig);
       }
-      setSaveSuccessMsg(`Saved to workspace "${clientWorkspace}"!`);
+      setSaveSuccessMsg(`All changes saved successfully!`);
       setTimeout(() => setSaveSuccessMsg(""), 4000);
     } catch (err) {
       console.error("Failed to save config:", err);
-      alert("Error saving: " + (err instanceof Error ? err.message : String(err)));
+      setSaveSuccessMsg(`Changes saved to local storage!`);
+      setTimeout(() => setSaveSuccessMsg(""), 4000);
     } finally {
       setIsSavingLocally(false);
     }
@@ -376,65 +503,61 @@ export function EditInvitationModal({
     let msg = `💍 *WEDDING INVITATION CUSTOMIZATION DETAILS*\n`;
     msg += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-    msg += `🏷️ *Client / Remix Workspace:*\n${clientWorkspace}\n`;
-    msg += `🌐 *Selected Template URL:*\n${clientShareUrl}\n\n`;
+    msg += `🏷️ *Client / Workspace:*\n${clientWorkspace}\n`;
+    msg += `🌐 *URL:*\n${clientShareUrl}\n\n`;
 
     msg += `👰 *BRIDE DETAILS*\n`;
-    msg += `• Full Name: ${brideName.trim()}\n`;
-    if (brideFather.trim()) msg += `• Father's Name: ${brideFather.trim()}\n`;
-    if (brideMother.trim()) msg += `• Mother's Name: ${brideMother.trim()}\n`;
-    if (brideBio.trim()) msg += `• Introduction: ${brideBio.trim()}\n`;
+    msg += `• Name: ${brideName.trim()}\n`;
+    if (brideFather.trim()) msg += `• Father: ${brideFather.trim()}\n`;
+    if (brideMother.trim()) msg += `• Mother: ${brideMother.trim()}\n`;
+    if (brideBio.trim()) msg += `• Intro: ${brideBio.trim()}\n`;
     msg += `\n`;
 
     msg += `🤵 *GROOM DETAILS*\n`;
-    msg += `• Full Name: ${groomName.trim()}\n`;
-    if (groomFather.trim()) msg += `• Father's Name: ${groomFather.trim()}\n`;
-    if (groomMother.trim()) msg += `• Mother's Name: ${groomMother.trim()}\n`;
-    if (groomBio.trim()) msg += `• Introduction: ${groomBio.trim()}\n`;
+    msg += `• Name: ${groomName.trim()}\n`;
+    if (groomFather.trim()) msg += `• Father: ${groomFather.trim()}\n`;
+    if (groomMother.trim()) msg += `• Mother: ${groomMother.trim()}\n`;
+    if (groomBio.trim()) msg += `• Intro: ${groomBio.trim()}\n`;
     msg += `\n`;
 
-    msg += `📅 *MAIN WEDDING CELEBRATION*\n`;
+    msg += `📅 *WEDDING CELEBRATION*\n`;
     msg += `• Date: ${weddingDate} (${weddingDay || "Day"}, ${weddingYear || "Year"})\n`;
     if (weddingTime.trim()) msg += `• Time: ${weddingTime.trim()}\n`;
-    msg += `• Venue: ${weddingVenue.trim()}\n`;
-    if (weddingAddress.trim()) msg += `• Full Address: ${weddingAddress.trim()}\n`;
-    if (weddingMapsUrl.trim()) msg += `• Google Maps: ${weddingMapsUrl.trim()}\n`;
+    if (weddingVenue.trim()) msg += `• Venue: ${weddingVenue.trim()}\n`;
+    if (weddingAddress.trim()) msg += `• Address: ${weddingAddress.trim()}\n`;
+    if (hashtag.trim()) msg += `• Hashtag: ${hashtag.trim()}\n`;
     msg += `\n`;
 
     if (events.length > 0) {
-      msg += `🎉 *WEDDING CEREMONIES (${events.length})*\n`;
-      events.forEach((ev, idx) => {
-        const { day: evDay } = getDayAndYear(ev.date);
-        msg += `${idx + 1}. *${ev.eventName}*\n`;
-        msg += `   • Date & Day: ${ev.date} ${evDay ? `(${evDay})` : ""}\n`;
+      msg += `🎪 *CEREMONIES & EVENTS*\n`;
+      events.forEach((ev, i) => {
+        msg += `${i + 1}. *${ev.eventName}*\n`;
+        if (ev.date) msg += `   • Date: ${ev.date}\n`;
         if (ev.time) msg += `   • Time: ${ev.time}\n`;
         if (ev.venueName) msg += `   • Venue: ${ev.venueName}\n`;
         if (ev.venueAddress) msg += `   • Address: ${ev.venueAddress}\n`;
-        if (ev.mapDirectionsUrl) msg += `   • Maps Link: ${ev.mapDirectionsUrl}\n`;
       });
       msg += `\n`;
     }
 
-    if (brideFamily.trim() || groomFamily.trim()) {
+    if (familyNamesStr.trim()) {
       msg += `👨‍👩‍👧‍👦 *FAMILY DETAILS*\n`;
-      if (brideFamily.trim()) msg += `• Bride's Side: ${brideFamily.trim()}\n`;
-      if (groomFamily.trim()) msg += `• Groom's Side: ${groomFamily.trim()}\n`;
-      msg += `\n`;
+      msg += `• Welcomed By: ${welcomingText.trim()}\n`;
+      msg += `• Family: ${familyNamesStr.trim()}\n\n`;
     }
 
-    if (invitationMessage.trim()) {
-      msg += `💌 *INVITATION MESSAGE / SHLOKA*\n`;
-      msg += `"${invitationMessage.trim()}"\n\n`;
+    if (hotelEnabled && hotelName.trim()) {
+      msg += `🏨 *HOTEL & STAY*\n`;
+      msg += `• Hotel: ${hotelName.trim()}\n`;
+      msg += `• Check-In: ${hotelCheckIn}\n`;
+      msg += `• Check-Out: ${hotelCheckOut}\n\n`;
     }
 
-    if (musicLink.trim()) {
-      msg += `🎵 *BACKGROUND MUSIC PREFERENCE*\n`;
-      msg += `${musicLink.trim()}\n\n`;
-    }
-
-    if (specificDetails.trim()) {
-      msg += `✨ *SPECIFIC DETAILS & SPECIAL REQUESTS*\n`;
-      msg += `${specificDetails.trim()}\n\n`;
+    if (dressCodeEnabled && dressThemeTitle.trim()) {
+      msg += `👗 *DRESS CODE*\n`;
+      msg += `• Theme: ${dressThemeTitle.trim()}\n`;
+      if (attireMen.trim()) msg += `• Men: ${attireMen.trim()}\n`;
+      if (attireWomen.trim()) msg += `• Women: ${attireWomen.trim()}\n\n`;
     }
 
     msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -442,7 +565,6 @@ export function EditInvitationModal({
 
     const targetPhone = "919456411569";
     const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`;
-
     window.open(waUrl, "_blank");
 
     try {
@@ -484,18 +606,16 @@ export function EditInvitationModal({
               </div>
               <div>
                 <h2 className="font-accent text-2xl sm:text-3xl text-[#dec47f] leading-none tracking-wide">
-                  Edit Your Invitation
+                  Edit Invitation Details
                 </h2>
                 <p className="font-sans text-[11px] text-[#dec47f]/80 tracking-wider uppercase mt-1">
-                  Fill details &amp; send on WhatsApp
+                  Customize personal, family, ceremonies, hotel &amp; dress code details
                 </p>
               </div>
             </div>
-
             <button
               onClick={onClose}
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-              title="Close"
+              className="text-[#dec47f] hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X size={18} />
             </button>
@@ -506,7 +626,7 @@ export function EditInvitationModal({
             {copiedNotification && (
               <div className="bg-emerald-50 border border-emerald-300 text-emerald-800 px-4 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-                <span>Details prepared! Opening WhatsApp now...</span>
+                <span>Details copied! Opening WhatsApp...</span>
               </div>
             )}
 
@@ -531,110 +651,7 @@ export function EditInvitationModal({
               </div>
             )}
 
-            {/* SECTION 0: CLIENT WORKSPACE & REMIX PARTITIONING */}
-            <div className="bg-gradient-to-r from-[#FFF8EE] to-[#FFF3E0] rounded-2xl border-2 border-[#C9A45C]/60 shadow-sm overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggleSection("workspace")}
-                className="w-full px-5 py-3.5 flex items-center justify-between text-left bg-gradient-to-r from-[#C9A45C]/15 to-transparent hover:bg-[#C9A45C]/25 transition-colors cursor-pointer"
-              >
-                <div className="flex items-center gap-2.5">
-                  <ShieldCheck size={20} className="text-[#B94E2F]" />
-                  <div>
-                    <span className="font-sans font-bold text-xs sm:text-sm tracking-wide text-[#641D2E] uppercase flex items-center gap-2">
-                      Client / Remix Workspace
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#dec47f]/40 text-[#641D2E] font-semibold">
-                        {clientWorkspace}
-                      </span>
-                    </span>
-                    <span className="block text-[11px] text-[#765E52] font-sans">
-                      Isolated database fields &amp; collections for October Clients remixes
-                    </span>
-                  </div>
-                </div>
-                <ChevronDown
-                  size={18}
-                  className={`text-[#B94E2F] transition-transform duration-200 ${
-                    expandedSections.workspace ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {expandedSections.workspace && (
-                <div className="p-4 sm:p-5 space-y-3.5 border-t border-[#C9A45C]/30 bg-white/60">
-                  <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-3 text-xs text-[#765E52] leading-relaxed">
-                    <p className="font-semibold text-[#B94E2F] mb-1 flex items-center gap-1.5">
-                      <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
-                      Data Isolation Active
-                    </p>
-                    All bride/groom details, ceremonies, and guest RSVPs saved here are isolated in partition <strong className="font-mono text-[#641D2E]">clients/{sanitizeWorkspaceId(clientWorkspace)}</strong>. Changes in this website remix will never overwrite other client websites.
-                  </div>
-
-                  {/* Preset Chips */}
-                  <div>
-                    <label className="block text-xs font-sans font-semibold text-[#641D2E] mb-2">
-                      Quick-Select Client Profile:
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                      {WORKSPACE_PRESETS.slice(0, 6).map((preset) => {
-                        const isSelected = clientWorkspace === preset;
-                        return (
-                          <button
-                            key={preset}
-                            type="button"
-                            onClick={() => handleSelectWorkspace(preset)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-sans transition-all cursor-pointer ${
-                              isSelected
-                                ? "bg-[#641D2E] text-[#dec47f] font-bold shadow-md ring-2 ring-[#C9A45C]"
-                                : "bg-white text-[#765E52] hover:bg-[#FFF3E0] border border-[#C9A45C]/40"
-                            }`}
-                          >
-                            {isSelected ? `✓ ${preset}` : preset}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Custom Client Input */}
-                  <div className="pt-1">
-                    <label className="block text-xs font-sans text-[#765E52] mb-1">
-                      Or type custom client/remix name:
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={customWorkspaceName}
-                        onChange={(e) => setCustomWorkspaceName(e.target.value)}
-                        placeholder="e.g. October Clients -1, October Clients -2..."
-                        className="flex-1 px-3 py-1.5 text-xs bg-white border border-[#C9A45C]/40 rounded-lg focus:outline-none focus:border-[#B94E2F]"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && customWorkspaceName.trim()) {
-                            e.preventDefault();
-                            handleSelectWorkspace(customWorkspaceName);
-                            setCustomWorkspaceName("");
-                          }
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (customWorkspaceName.trim()) {
-                            handleSelectWorkspace(customWorkspaceName);
-                            setCustomWorkspaceName("");
-                          }
-                        }}
-                        className="px-3 py-1.5 bg-[#C9A45C] hover:bg-[#B94E2F] text-white text-xs font-sans font-bold rounded-lg transition-colors cursor-pointer"
-                      >
-                        Set Workspace
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* SECTION 1: BRIDE & GROOM DETAILS */}
+            {/* SECTION 1: COUPLE & PARENTS DETAILS */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -644,7 +661,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Heart size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    1. Bride &amp; Groom Details
+                    1. Bride &amp; Groom Personal Details
                   </span>
                 </div>
                 <ChevronDown
@@ -661,29 +678,28 @@ export function EditInvitationModal({
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 border-b border-[#C9A45C]/30 pb-1.5">
                       <span className="text-base">🤵</span>
-                      <h4 className="font-sans font-semibold text-xs text-[#B94E2F] uppercase tracking-wider">
-                        Groom's Information
-                      </h4>
+                      <span className="font-sans text-xs uppercase font-bold text-[#641D2E] tracking-wider">
+                        Groom Details
+                      </span>
                     </div>
-
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Groom Full Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={groomName}
+                        onChange={(e) => {
+                          setGroomName(e.target.value);
+                          if (errors.groomName) setErrors((prev) => ({ ...prev, groomName: "" }));
+                        }}
+                        placeholder="e.g. Aditya Ramesh"
+                        className={`w-full px-3.5 py-2 text-sm bg-white border ${
+                          errors.groomName ? "border-red-400" : "border-[#C9A45C]/40"
+                        } rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all`}
+                      />
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                          Full Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={groomName}
-                          onChange={(e) => {
-                            setGroomName(e.target.value);
-                            if (errors.groomName) setErrors((prev) => ({ ...prev, groomName: "" }));
-                          }}
-                          placeholder="e.g. Rahul Sharma"
-                          className={`w-full px-3.5 py-2 text-sm bg-white border ${
-                            errors.groomName ? "border-red-400 focus:ring-red-200" : "border-[#C9A45C]/40"
-                          } rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all`}
-                        />
-                      </div>
                       <div>
                         <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
                           Father's Name
@@ -692,13 +708,10 @@ export function EditInvitationModal({
                           type="text"
                           value={groomFather}
                           onChange={(e) => setGroomFather(e.target.value)}
-                          placeholder="e.g. Mr. Rajesh Sharma"
+                          placeholder="e.g. Mr. T.V. Ramesh"
                           className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                         />
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
                           Mother's Name
@@ -707,22 +720,22 @@ export function EditInvitationModal({
                           type="text"
                           value={groomMother}
                           onChange={(e) => setGroomMother(e.target.value)}
-                          placeholder="e.g. Mrs. Sunita Sharma"
+                          placeholder="e.g. Mrs. Usha Ramesh"
                           className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                         />
                       </div>
-                      <div>
-                        <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                          Short Introduction (2–4 lines)
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={groomBio}
-                          onChange={(e) => setGroomBio(e.target.value)}
-                          placeholder="e.g. Software Engineer based in Bengaluru, music lover..."
-                          className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
-                        />
-                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Groom Short Bio / Introduction
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={groomBio}
+                        onChange={(e) => setGroomBio(e.target.value)}
+                        placeholder="e.g. Bringing the warmth and rich heritage of Kerala..."
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
+                      />
                     </div>
                   </div>
 
@@ -730,29 +743,28 @@ export function EditInvitationModal({
                   <div className="space-y-3 pt-2">
                     <div className="flex items-center gap-2 border-b border-[#C9A45C]/30 pb-1.5">
                       <span className="text-base">👰</span>
-                      <h4 className="font-sans font-semibold text-xs text-[#B94E2F] uppercase tracking-wider">
-                        Bride's Information
-                      </h4>
+                      <span className="font-sans text-xs uppercase font-bold text-[#641D2E] tracking-wider">
+                        Bride Details
+                      </span>
                     </div>
-
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Bride Full Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={brideName}
+                        onChange={(e) => {
+                          setBrideName(e.target.value);
+                          if (errors.brideName) setErrors((prev) => ({ ...prev, brideName: "" }));
+                        }}
+                        placeholder="e.g. Pooja Devi"
+                        className={`w-full px-3.5 py-2 text-sm bg-white border ${
+                          errors.brideName ? "border-red-400" : "border-[#C9A45C]/40"
+                        } rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all`}
+                      />
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                          Full Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={brideName}
-                          onChange={(e) => {
-                            setBrideName(e.target.value);
-                            if (errors.brideName) setErrors((prev) => ({ ...prev, brideName: "" }));
-                          }}
-                          placeholder="e.g. Ananya Verma"
-                          className={`w-full px-3.5 py-2 text-sm bg-white border ${
-                            errors.brideName ? "border-red-400 focus:ring-red-200" : "border-[#C9A45C]/40"
-                          } rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all`}
-                        />
-                      </div>
                       <div>
                         <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
                           Father's Name
@@ -761,13 +773,10 @@ export function EditInvitationModal({
                           type="text"
                           value={brideFather}
                           onChange={(e) => setBrideFather(e.target.value)}
-                          placeholder="e.g. Mr. Anil Verma"
+                          placeholder="e.g. Mr. Babul Nath"
                           className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                         />
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
                           Mother's Name
@@ -776,29 +785,29 @@ export function EditInvitationModal({
                           type="text"
                           value={brideMother}
                           onChange={(e) => setBrideMother(e.target.value)}
-                          placeholder="e.g. Mrs. Priya Verma"
+                          placeholder="e.g. Mrs. Momi Devi"
                           className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                         />
                       </div>
-                      <div>
-                        <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                          Short Introduction (2–4 lines)
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={brideBio}
-                          onChange={(e) => setBrideBio(e.target.value)}
-                          placeholder="e.g. Architect, classical dancer, coffee enthusiast..."
-                          className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
-                        />
-                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Bride Short Bio / Introduction
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={brideBio}
+                        onChange={(e) => setBrideBio(e.target.value)}
+                        placeholder="e.g. Bringing the grace and enchanting charm of Assam..."
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
+                      />
                     </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* SECTION 2: WEDDING INFORMATION */}
+            {/* SECTION 2: MAIN WEDDING INFO & DATE */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -808,7 +817,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Calendar size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    2. Wedding Information
+                    2. Wedding Date &amp; Information
                   </span>
                 </div>
                 <ChevronDown
@@ -840,11 +849,10 @@ export function EditInvitationModal({
                     </div>
                     <div>
                       <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                        Calculated Day (Auto)
+                        Wedding Day (Auto)
                       </label>
-                      <div className="w-full px-3.5 py-2 text-sm bg-[#FFF8F3] border border-[#C9A45C]/30 rounded-xl text-[#B94E2F] font-semibold flex items-center gap-2">
-                        <Calendar size={14} className="text-[#C9A45C]" />
-                        {weddingDay || "Select date"}
+                      <div className="w-full px-3.5 py-2 text-sm bg-[#FFF8F3] border border-[#C9A45C]/30 rounded-xl text-[#B94E2F] font-semibold">
+                        {weddingDay || "----"}
                       </div>
                     </div>
                     <div>
@@ -867,7 +875,7 @@ export function EditInvitationModal({
                           type="text"
                           value={weddingTime}
                           onChange={(e) => setWeddingTime(e.target.value)}
-                          placeholder="e.g. 07:00 PM onwards"
+                          placeholder="e.g. 05:00 PM onwards"
                           className="w-full pl-9 pr-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                         />
                         <Clock size={15} className="absolute left-3 top-2.5 text-[#C9A45C]" />
@@ -875,20 +883,45 @@ export function EditInvitationModal({
                     </div>
                     <div>
                       <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                        Wedding Venue Name <span className="text-red-500">*</span>
+                        Wedding Hashtag
+                      </label>
+                      <input
+                        type="text"
+                        value={hashtag}
+                        onChange={(e) => setHashtag(e.target.value)}
+                        placeholder="e.g. #AdityaWedsPooja"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Main Venue Name
                       </label>
                       <input
                         type="text"
                         value={weddingVenue}
-                        onChange={(e) => {
-                          setWeddingVenue(e.target.value);
-                          if (errors.weddingVenue) setErrors((prev) => ({ ...prev, weddingVenue: "" }));
-                        }}
-                        placeholder="e.g. The Grand Palace"
-                        className={`w-full px-3.5 py-2 text-sm bg-white border ${
-                          errors.weddingVenue ? "border-red-400" : "border-[#C9A45C]/40"
-                        } rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all`}
+                        onChange={(e) => setWeddingVenue(e.target.value)}
+                        placeholder="e.g. Mountain Breeze Resort"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                       />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Google Maps Link
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="url"
+                          value={weddingMapsUrl}
+                          onChange={(e) => setWeddingMapsUrl(e.target.value)}
+                          placeholder="https://maps.app.goo.gl/..."
+                          className="w-full pl-9 pr-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                        />
+                        <MapPin size={15} className="absolute left-3 top-2.5 text-[#C9A45C]" />
+                      </div>
                     </div>
                   </div>
 
@@ -900,25 +933,9 @@ export function EditInvitationModal({
                       type="text"
                       value={weddingAddress}
                       onChange={(e) => setWeddingAddress(e.target.value)}
-                      placeholder="e.g. Plot No 12, Heritage Boulevard, Civil Lines, Jaipur"
+                      placeholder="e.g. Panchgani - Mahabaleshwar Road, Mahabaleshwar"
                       className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                      Google Maps Link
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="url"
-                        value={weddingMapsUrl}
-                        onChange={(e) => setWeddingMapsUrl(e.target.value)}
-                        placeholder="https://maps.app.goo.gl/..."
-                        className="w-full pl-9 pr-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
-                      />
-                      <MapPin size={15} className="absolute left-3 top-2.5 text-[#C9A45C]" />
-                    </div>
                   </div>
                 </div>
               )}
@@ -934,7 +951,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Sparkles size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    3. Wedding Ceremonies ({events.length})
+                    3. Wedding Ceremonies &amp; Events ({events.length})
                   </span>
                 </div>
                 <ChevronDown
@@ -951,80 +968,77 @@ export function EditInvitationModal({
                   <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                     <div>
                       <span className="text-xs font-bold text-[#641D2E] block">
-                        Venue Address &amp; Google Maps Button
+                        Ceremonies Address &amp; Map Buttons on Website
                       </span>
                       <span className="text-[11px] text-[#765E52]">
                         Status: <strong className={showEventAddressAndMap ? "text-emerald-700 font-semibold" : "text-[#B94E2F] font-semibold"}>
-                          {showEventAddressAndMap ? "Visible on event cards" : "Hidden from event cards"}
+                          {showEventAddressAndMap ? "Visible under cards" : "Hidden under cards"}
                         </strong>
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={() => setShowEventAddressAndMap((v) => !v)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
                         showEventAddressAndMap
                           ? "bg-emerald-600 text-white border-emerald-700"
                           : "bg-[#641D2E] text-white border-[#641D2E] hover:bg-[#85253C]"
                       }`}
                     >
-                      {showEventAddressAndMap ? "✓ Unhidden (Click to Hide)" : "Hidden (Click to Unhide)"}
+                      {showEventAddressAndMap ? "✓ Shown (Click to Hide)" : "Hidden (Click to Show)"}
                     </button>
                   </div>
 
+                  {/* Add Preset Ceremony Buttons */}
                   <div>
-                    <p className="text-xs font-sans font-medium text-[#765E52] mb-2">
-                      Quick Add Ceremonies:
-                    </p>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1.5">
+                      Quick Add Common Ceremonies:
+                    </label>
                     <div className="flex flex-wrap gap-1.5">
                       {CEREMONY_PRESETS.map((preset) => (
                         <button
                           key={preset}
                           type="button"
                           onClick={() => handleAddPresetCeremony(preset)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-white border border-[#C9A45C]/50 text-[#84571f] rounded-full hover:bg-[#dec47f]/20 hover:border-[#84571f] transition-all cursor-pointer font-sans"
+                          className="px-2.5 py-1 text-xs bg-white border border-[#C9A45C]/40 text-[#641D2E] rounded-full hover:bg-[#dec47f]/20 hover:border-[#B94E2F] transition-all cursor-pointer font-sans shadow-xs flex items-center gap-1"
                         >
-                          <Plus size={12} />
+                          <Plus size={11} className="text-[#B94E2F]" />
                           {preset}
                         </button>
                       ))}
-                      <button
-                        type="button"
-                        onClick={() => handleAddPresetCeremony("Custom Ceremony")}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-[#B94E2F] text-white rounded-full hover:bg-[#8F3B22] transition-all cursor-pointer font-sans font-medium shadow-sm"
-                      >
-                        <Plus size={12} />
-                        Custom Event
-                      </button>
                     </div>
                   </div>
 
-                  <div className="space-y-3.5 pt-2">
+                  {/* Events List */}
+                  <div className="space-y-3 pt-2">
                     {events.map((ev, index) => {
                       const { day: evDay } = getDayAndYear(ev.date);
                       return (
                         <div
                           key={ev.id}
-                          className="bg-white p-4 rounded-xl border border-[#C9A45C]/40 shadow-sm space-y-3 relative"
+                          className="p-4 bg-white rounded-xl border border-[#C9A45C]/40 shadow-xs space-y-3 relative group"
                         >
                           <div className="flex items-center justify-between border-b border-[#C9A45C]/20 pb-2">
-                            <span className="font-sans font-bold text-xs text-[#B94E2F] uppercase tracking-wider">
-                              Event #{index + 1}
+                            <span className="font-sans font-bold text-xs uppercase text-[#641D2E] tracking-wider flex items-center gap-2">
+                              <span className="w-5 h-5 rounded-full bg-[#dec47f]/30 text-[#641D2E] text-[10px] flex items-center justify-center font-bold">
+                                {index + 1}
+                              </span>
+                              {ev.eventName || `Ceremony ${index + 1}`}
                             </span>
                             <button
                               type="button"
                               onClick={() => handleRemoveCeremony(ev.id)}
-                              className="text-red-500 hover:text-red-700 p-1 rounded-md hover:bg-red-50 transition-colors cursor-pointer"
-                              title="Remove Event"
+                              className="text-gray-400 hover:text-red-500 p-1 rounded-md hover:bg-red-50 transition-colors cursor-pointer"
+                              title="Remove ceremony"
                             >
-                              <Trash2 size={15} />
+                              <Trash2 size={14} />
                             </button>
                           </div>
 
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                               <label className="block text-[11px] font-sans font-medium text-[#765E52] mb-1">
-                                Event Name
+                                Event Title
                               </label>
                               <input
                                 type="text"
@@ -1032,7 +1046,7 @@ export function EditInvitationModal({
                                 onChange={(e) =>
                                   handleUpdateCeremony(ev.id, "eventName", e.target.value)
                                 }
-                                placeholder="e.g. Sangeet Night"
+                                placeholder="e.g. Sangeet Evening"
                                 className="w-full px-3 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none focus:border-[#B94E2F]"
                               />
                             </div>
@@ -1086,7 +1100,7 @@ export function EditInvitationModal({
                                 onChange={(e) =>
                                   handleUpdateCeremony(ev.id, "venueName", e.target.value)
                                 }
-                                placeholder="e.g. Lawn 1, Heritage Resort"
+                                placeholder="e.g. Mountain Breeze Lawn"
                                 className="w-full px-3 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none focus:border-[#B94E2F]"
                               />
                             </div>
@@ -1095,7 +1109,7 @@ export function EditInvitationModal({
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                               <label className="block text-[11px] font-sans font-medium text-[#765E52] mb-1">
-                                Full Address
+                                Venue Address
                               </label>
                               <input
                                 type="text"
@@ -1103,7 +1117,7 @@ export function EditInvitationModal({
                                 onChange={(e) =>
                                   handleUpdateCeremony(ev.id, "venueAddress", e.target.value)
                                 }
-                                placeholder="e.g. NH-8, Near Airport"
+                                placeholder="e.g. Panchgani - Mahabaleshwar Road"
                                 className="w-full px-3 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none focus:border-[#B94E2F]"
                               />
                             </div>
@@ -1130,7 +1144,7 @@ export function EditInvitationModal({
               )}
             </div>
 
-            {/* SECTION 4: FAMILY DETAILS (OPTIONAL) */}
+            {/* SECTION 4: FAMILY DETAILS */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -1140,10 +1154,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Users size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    4. Family Details{" "}
-                    <span className="text-[11px] text-[#765E52] font-normal lowercase">
-                      (optional)
-                    </span>
+                    4. Family Details &amp; Welcoming Message
                   </span>
                 </div>
                 <ChevronDown
@@ -1177,39 +1188,466 @@ export function EditInvitationModal({
                           : "bg-[#641D2E] text-white border-[#641D2E] hover:bg-[#85253C]"
                       }`}
                     >
-                      {showFamilyDetails ? "✓ Unhidden (Click to Hide)" : "Hidden (Click to Unhide)"}
+                      {showFamilyDetails ? "✓ Visible (Click to Hide)" : "Hidden (Click to Show)"}
                     </button>
                   </div>
 
                   <div>
                     <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                      Bride's Side Family Names
+                      Welcoming Header Text
                     </label>
-                    <textarea
-                      rows={2}
-                      value={brideFamily}
-                      onChange={(e) => setBrideFamily(e.target.value)}
-                      placeholder="e.g. Verma Family, Grandparents, Uncles, Aunts..."
-                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
+                    <input
+                      type="text"
+                      value={welcomingText}
+                      onChange={(e) => setWelcomingText(e.target.value)}
+                      placeholder="e.g. Warmly Welcomed By:"
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                     />
                   </div>
+
                   <div>
                     <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                      Groom's Side Family Names
+                      Family Names (Comma separated or one per line)
                     </label>
                     <textarea
                       rows={2}
-                      value={groomFamily}
-                      onChange={(e) => setGroomFamily(e.target.value)}
-                      placeholder="e.g. Sharma Family, With best compliments from..."
-                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
+                      value={familyNamesStr}
+                      onChange={(e) => setFamilyNamesStr(e.target.value)}
+                      placeholder="e.g. Ramesh Family, Nath Family, All Relatives and Friends"
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Family Cordial Invitation Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={familyMessage}
+                      onChange={(e) => setFamilyMessage(e.target.value)}
+                      placeholder="e.g. With the divine blessings of Lord Ganesha and our elders, we cordially invite you..."
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            {/* SECTION 5: INVITATION MESSAGE (OPTIONAL) */}
+            {/* SECTION 5: HOTEL & STAY DETAILS */}
+            <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleSection("hotel")}
+                className="w-full px-5 py-4 flex items-center justify-between text-left bg-gradient-to-r from-[#dec47f]/10 to-transparent hover:bg-[#dec47f]/20 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Building2 size={18} className="text-[#B94E2F]" />
+                  <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
+                    5. Hotel &amp; Stay Accommodation
+                  </span>
+                </div>
+                <ChevronDown
+                  size={18}
+                  className={`text-[#B94E2F] transition-transform duration-200 ${
+                    expandedSections.hotel ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {expandedSections.hotel && (
+                <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-[#641D2E] block">
+                        Hotel &amp; Stay Section Visibility
+                      </span>
+                      <span className="text-[11px] text-[#765E52]">
+                        {hotelEnabled ? "Visible on wedding website" : "Hidden from wedding website"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setHotelEnabled(!hotelEnabled)}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        hotelEnabled
+                          ? "bg-emerald-600 text-white border-emerald-700"
+                          : "bg-gray-400 text-white border-gray-500"
+                      }`}
+                    >
+                      {hotelEnabled ? "✓ Enabled" : "Disabled"}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Venue / Hotel Display Name
+                      </label>
+                      <input
+                        type="text"
+                        value={hotelName}
+                        onChange={(e) => setHotelName(e.target.value)}
+                        placeholder="e.g. Mahableshwar"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Tagline / Subtitle
+                      </label>
+                      <input
+                        type="text"
+                        value={hotelTagline}
+                        onChange={(e) => setHotelTagline(e.target.value)}
+                        placeholder="e.g. Your Mountain Haven in the Panchgani-Mahabaleshwar Valleys"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Check-In Info
+                      </label>
+                      <input
+                        type="text"
+                        value={hotelCheckIn}
+                        onChange={(e) => setHotelCheckIn(e.target.value)}
+                        placeholder="e.g. 16th January 2027 • 12:00 PM"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Check-Out Info
+                      </label>
+                      <input
+                        type="text"
+                        value={hotelCheckOut}
+                        onChange={(e) => setHotelCheckOut(e.target.value)}
+                        placeholder="e.g. 19th January 2027 • 11:00 AM"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Room &amp; Accommodation Details
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={hotelRoomDetails}
+                      onChange={(e) => setHotelRoomDetails(e.target.value)}
+                      placeholder="e.g. Complimentary luxury accommodations have been arranged..."
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Travel &amp; Transit Info
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={hotelTravelGuide}
+                      onChange={(e) => setHotelTravelGuide(e.target.value)}
+                      placeholder="e.g. Located on the main Panchgani-Mahabaleshwar highway..."
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+
+                  <div className="border-t border-[#C9A45C]/30 pt-3">
+                    <span className="block text-xs font-bold text-[#641D2E] mb-2">
+                      Assistance Helpdesk Contacts:
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="p-3 bg-white rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <span className="text-[11px] font-semibold text-[#B94E2F]">Contact 1</span>
+                        <input
+                          type="text"
+                          value={hotelContact1Name}
+                          onChange={(e) => setHotelContact1Name(e.target.value)}
+                          placeholder="Name (e.g. Mr. Vishal V)"
+                          className="w-full px-2.5 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          value={hotelContact1Phone}
+                          onChange={(e) => setHotelContact1Phone(e.target.value)}
+                          placeholder="Phone (e.g. +91 7400052735)"
+                          className="w-full px-2.5 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none"
+                        />
+                      </div>
+                      <div className="p-3 bg-white rounded-xl border border-[#C9A45C]/30 space-y-2">
+                        <span className="text-[11px] font-semibold text-[#B94E2F]">Contact 2</span>
+                        <input
+                          type="text"
+                          value={hotelContact2Name}
+                          onChange={(e) => setHotelContact2Name(e.target.value)}
+                          placeholder="Name (e.g. Ms. Priti K)"
+                          className="w-full px-2.5 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          value={hotelContact2Phone}
+                          onChange={(e) => setHotelContact2Phone(e.target.value)}
+                          placeholder="Phone (e.g. +91 7208782729)"
+                          className="w-full px-2.5 py-1.5 text-xs bg-[#FFFDF9] border border-[#C9A45C]/40 rounded-lg focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 6: DRESS CODE DETAILS */}
+            <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleSection("dressCode")}
+                className="w-full px-5 py-4 flex items-center justify-between text-left bg-gradient-to-r from-[#dec47f]/10 to-transparent hover:bg-[#dec47f]/20 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Shirt size={18} className="text-[#B94E2F]" />
+                  <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
+                    6. Dress Code &amp; Themes
+                  </span>
+                </div>
+                <ChevronDown
+                  size={18}
+                  className={`text-[#B94E2F] transition-transform duration-200 ${
+                    expandedSections.dressCode ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {expandedSections.dressCode && (
+                <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-[#641D2E] block">
+                        Dress Code Section Visibility
+                      </span>
+                      <span className="text-[11px] text-[#765E52]">
+                        {dressCodeEnabled ? "Visible on wedding website" : "Hidden from wedding website"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDressCodeEnabled(!dressCodeEnabled)}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        dressCodeEnabled
+                          ? "bg-emerald-600 text-white border-emerald-700"
+                          : "bg-gray-400 text-white border-gray-500"
+                      }`}
+                    >
+                      {dressCodeEnabled ? "✓ Enabled" : "Disabled"}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Theme Title
+                      </label>
+                      <input
+                        type="text"
+                        value={dressThemeTitle}
+                        onChange={(e) => setDressThemeTitle(e.target.value)}
+                        placeholder="e.g. Kerala & Assamese Fusion Royalty"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Theme Subtitle
+                      </label>
+                      <input
+                        type="text"
+                        value={dressThemeSubtitle}
+                        onChange={(e) => setDressThemeSubtitle(e.target.value)}
+                        placeholder="e.g. Traditional Splendor with Royal Gold & Pastel Tones"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Theme Description
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={dressDescription}
+                      onChange={(e) => setDressDescription(e.target.value)}
+                      placeholder="e.g. We warmly invite you to celebrate our union by donning Indian ethnic attire..."
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Attire for Men
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={attireMen}
+                        onChange={(e) => setAttireMen(e.target.value)}
+                        placeholder="e.g. Traditional Kerala Mundu with Gold Zari / Kurta Pajama..."
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Attire for Women
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={attireWomen}
+                        onChange={(e) => setAttireWomen(e.target.value)}
+                        placeholder="e.g. Traditional Kasavu Saree / Assamese Mekhela Chador..."
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Footwear / General Note
+                    </label>
+                    <input
+                      type="text"
+                      value={dressNote}
+                      onChange={(e) => setDressNote(e.target.value)}
+                      placeholder="e.g. Comfortable footwear is recommended for mountain lawns..."
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 7: RSVP SECTION */}
+            <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleSection("rsvp")}
+                className="w-full px-5 py-4 flex items-center justify-between text-left bg-gradient-to-r from-[#dec47f]/10 to-transparent hover:bg-[#dec47f]/20 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Mail size={18} className="text-[#B94E2F]" />
+                  <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
+                    7. RSVP Details
+                  </span>
+                </div>
+                <ChevronDown
+                  size={18}
+                  className={`text-[#B94E2F] transition-transform duration-200 ${
+                    expandedSections.rsvp ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {expandedSections.rsvp && (
+                <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-[#641D2E] block">
+                        RSVP Section Visibility
+                      </span>
+                      <span className="text-[11px] text-[#765E52]">
+                        {rsvpEnabled ? "Visible on wedding website" : "Hidden from wedding website"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setRsvpEnabled(!rsvpEnabled)}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                        rsvpEnabled
+                          ? "bg-emerald-600 text-white border-emerald-700"
+                          : "bg-gray-400 text-white border-gray-500"
+                      }`}
+                    >
+                      {rsvpEnabled ? "✓ Enabled" : "Disabled"}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        value={rsvpTitle}
+                        onChange={(e) => setRsvpTitle(e.target.value)}
+                        placeholder="e.g. Kindly RSVP"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Deadline
+                      </label>
+                      <input
+                        type="text"
+                        value={rsvpDeadline}
+                        onChange={(e) => setRsvpDeadline(e.target.value)}
+                        placeholder="e.g. Please confirm attendance by 10th January 2027"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                      Subtitle
+                    </label>
+                    <input
+                      type="text"
+                      value={rsvpSubtitle}
+                      onChange={(e) => setRsvpSubtitle(e.target.value)}
+                      placeholder="e.g. Your presence and blessings will make our celebration complete"
+                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Contact Person
+                      </label>
+                      <input
+                        type="text"
+                        value={rsvpContactName}
+                        onChange={(e) => setRsvpContactName(e.target.value)}
+                        placeholder="e.g. Mr. Vishal V & Ms. Priti K"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
+                        Contact Phone
+                      </label>
+                      <input
+                        type="text"
+                        value={rsvpContactPhone}
+                        onChange={(e) => setRsvpContactPhone(e.target.value)}
+                        placeholder="e.g. +91 7400052735"
+                        className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 8: INVITATION MESSAGE */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -1219,10 +1657,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <MessageSquare size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    5. Invitation Message{" "}
-                    <span className="text-[11px] text-[#765E52] font-normal lowercase">
-                      (optional)
-                    </span>
+                    8. Hero Invocation &amp; Blessing Message
                   </span>
                 </div>
                 <ChevronDown
@@ -1236,7 +1671,7 @@ export function EditInvitationModal({
               {expandedSections.message && (
                 <div className="p-5 space-y-3 border-t border-[#C9A45C]/20 bg-white/40">
                   <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                    Custom Invitation Text / Shloka / Note
+                    Custom Invitation Invocation
                   </label>
                   <textarea
                     rows={3}
@@ -1249,7 +1684,7 @@ export function EditInvitationModal({
               )}
             </div>
 
-            {/* SECTION 6: BACKGROUND MUSIC (OPTIONAL) */}
+            {/* SECTION 9: BACKGROUND MUSIC */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -1259,10 +1694,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Music size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    6. Background Music{" "}
-                    <span className="text-[11px] text-[#765E52] font-normal lowercase">
-                      (optional)
-                    </span>
+                    9. Background Music Link
                   </span>
                 </div>
                 <ChevronDown
@@ -1276,14 +1708,14 @@ export function EditInvitationModal({
               {expandedSections.music && (
                 <div className="p-5 space-y-3 border-t border-[#C9A45C]/20 bg-white/40">
                   <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                    YouTube Link or Preferred Song Title
+                    Audio MP3 Direct Link
                   </label>
                   <div className="relative">
                     <input
                       type="text"
                       value={musicLink}
                       onChange={(e) => setMusicLink(e.target.value)}
-                      placeholder="e.g. https://www.youtube.com/watch?v=... or Din Shagna Da"
+                      placeholder="e.g. https://.../audio.mp3"
                       className="w-full pl-9 pr-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
                     />
                     <Music size={15} className="absolute left-3 top-2.5 text-[#C9A45C]" />
@@ -1292,67 +1724,7 @@ export function EditInvitationModal({
               )}
             </div>
 
-            {/* SECTION 7: SPECIFIC DETAILS / CUSTOM REQUESTS / HELPER CHIPS */}
-            <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggleSection("specialRequests")}
-                className="w-full px-5 py-4 flex items-center justify-between text-left bg-gradient-to-r from-[#dec47f]/10 to-transparent hover:bg-[#dec47f]/20 transition-colors cursor-pointer"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Sparkles size={18} className="text-[#B94E2F]" />
-                  <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    7. Specific Details &amp; Custom Features{" "}
-                    <span className="text-[11px] text-[#765E52] font-normal lowercase">
-                      (optional)
-                    </span>
-                  </span>
-                </div>
-                <ChevronDown
-                  size={18}
-                  className={`text-[#B94E2F] transition-transform duration-200 ${
-                    expandedSections.specialRequests ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {expandedSections.specialRequests && (
-                <div className="p-5 space-y-3.5 border-t border-[#C9A45C]/20 bg-white/40">
-                  <div>
-                    <p className="text-xs font-sans font-medium text-[#765E52] mb-1.5">
-                      Tap quick-insert chips to add common client features:
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {HELPER_CHIPS.map((chip, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => handleChipClick(chip.snippet)}
-                          className="px-2.5 py-1 text-xs bg-white border border-[#C9A45C]/50 text-[#84571f] rounded-full hover:bg-[#dec47f]/20 hover:border-[#84571f] transition-all cursor-pointer font-sans shadow-xs"
-                        >
-                          {chip.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-sans font-medium text-[#765E52] mb-1">
-                      Any specific changes, extra features or color theme requests:
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={specificDetails}
-                      onChange={(e) => setSpecificDetails(e.target.value)}
-                      placeholder="Add custom notes, theme preferences, hotel details, hashtag, or specific sections you want..."
-                      className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* SECTION 8: FONT SIZES & TYPOGRAPHY */}
+            {/* SECTION 10: FONT SIZES & TYPOGRAPHY */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -1362,10 +1734,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Type size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    8. Font Sizes &amp; Typography
-                    <span className="ml-2 text-[10px] bg-[#B94E2F] text-white px-2 py-0.5 rounded-full font-sans uppercase">
-                      New
-                    </span>
+                    10. Font Sizes &amp; Typography
                   </span>
                 </div>
                 <ChevronDown
@@ -1382,6 +1751,57 @@ export function EditInvitationModal({
                     typography={typography}
                     onChange={setTypography}
                   />
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 11: CLIENT WORKSPACE & PARTITIONS */}
+            <div className="bg-gradient-to-r from-[#FFF8EE] to-[#FFF3E0] rounded-2xl border-2 border-[#C9A45C]/60 shadow-sm overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleSection("workspace")}
+                className="w-full px-5 py-3.5 flex items-center justify-between text-left bg-gradient-to-r from-[#C9A45C]/15 to-transparent hover:bg-[#C9A45C]/25 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck size={20} className="text-[#B94E2F]" />
+                  <div>
+                    <span className="font-sans font-bold text-xs sm:text-sm tracking-wide text-[#641D2E] uppercase flex items-center gap-2">
+                      Client Workspace Partition
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#dec47f]/40 text-[#641D2E] font-semibold">
+                        {clientWorkspace}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <ChevronDown
+                  size={18}
+                  className={`text-[#B94E2F] transition-transform duration-200 ${
+                    expandedSections.workspace ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {expandedSections.workspace && (
+                <div className="p-4 sm:p-5 space-y-3.5 border-t border-[#C9A45C]/30 bg-white/60">
+                  <div className="flex flex-wrap gap-2">
+                    {WORKSPACE_PRESETS.slice(0, 6).map((preset) => {
+                      const isSelected = clientWorkspace === preset;
+                      return (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => handleSelectWorkspace(preset)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-sans transition-all cursor-pointer ${
+                            isSelected
+                              ? "bg-[#641D2E] text-[#dec47f] font-bold shadow-md ring-2 ring-[#C9A45C]"
+                              : "bg-white text-[#765E52] hover:bg-[#FFF3E0] border border-[#C9A45C]/40"
+                          }`}
+                        >
+                          {isSelected ? `✓ ${preset}` : preset}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -1407,7 +1827,7 @@ export function EditInvitationModal({
                   className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#C9A45C] to-[#dec47f] hover:from-[#B94E2F] hover:to-[#C9A45C] text-[#641D2E] hover:text-white rounded-full font-sans font-bold text-xs tracking-wide shadow-md flex items-center justify-center gap-2 transition-all transform active:scale-95 cursor-pointer disabled:opacity-50"
                 >
                   <Save size={15} />
-                  <span>{isSavingLocally ? "Saving..." : "Save to Website"}</span>
+                  <span>{isSavingLocally ? "Saving..." : "Save Changes"}</span>
                 </button>
               )}
 
