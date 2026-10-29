@@ -40,7 +40,7 @@ import {
   Sliders
 } from "lucide-react";
 
-import { weddingConfig as defaultWeddingConfig, WeddingConfig, defaultTypographyConfig } from "./weddingConfig";
+import { weddingConfig as defaultWeddingConfig, WeddingConfig, defaultTypographyConfig, defaultGroomFamilyMembers, defaultBrideFamilyMembers } from "./weddingConfig";
 import { GaneshaIcon } from "./components/GaneshaIcon";
 import { OrnateFrame } from "./components/OrnateFrame";
 import { EnvelopeCover } from "./components/EnvelopeCover";
@@ -149,7 +149,10 @@ export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
       showPetals: cfg.heroSettings?.showPetals ?? true,
       ganeshaIconUrl: cfg.heroSettings?.ganeshaIconUrl || defaultWeddingConfig.heroSettings.ganeshaIconUrl,
       bgVideoUrl: cfg.heroSettings?.bgVideoUrl || defaultWeddingConfig.heroSettings.bgVideoUrl,
+      groomFamilyMembers: cfg.heroSettings?.groomFamilyMembers !== undefined ? cfg.heroSettings.groomFamilyMembers : defaultGroomFamilyMembers,
+      brideFamilyMembers: cfg.heroSettings?.brideFamilyMembers !== undefined ? cfg.heroSettings.brideFamilyMembers : defaultBrideFamilyMembers,
     },
+    showFamilyDetails: false,
     familyDetails: {
       ...(cfg.familyDetails || {}),
       names: (Array.isArray(cfg.familyDetails?.names) && cfg.familyDetails.names.length > 0)
@@ -916,9 +919,10 @@ export default function App() {
                     style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
                     className="text-[#641D2E] font-bold mt-2 mb-4 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    <p>D/O Mr Babul Nath &amp; Momi Devi</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Akash Jyoti Nath (Brother)</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Upasana Devi (Sister in law)</p>
+                    <p>{config.bride.introLineage || (config.heroSettings?.brideParents ? config.heroSettings.brideParents : `D/O Mr ${config.bride.fatherName} & ${config.bride.motherName}`)}</p>
+                    {(config.heroSettings?.brideFamilyMembers !== undefined ? config.heroSettings.brideFamilyMembers : defaultBrideFamilyMembers).map((mem, idx) => (
+                      <p key={idx} className="font-normal normal-case text-xs text-[#765E52]">{mem}</p>
+                    ))}
                   </div>
                   
                   {/* Separator */}
@@ -939,9 +943,10 @@ export default function App() {
                     style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
                     className="text-[#641D2E] font-bold mt-2 mb-2 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    <p>S/O Mr T.V.Ramesh &amp; Usha Ramesh</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</p>
+                    <p>{config.groom.introLineage || (config.heroSettings?.groomParents ? config.heroSettings.groomParents : `S/O Mr ${config.groom.fatherName} & ${config.groom.motherName}`)}</p>
+                    {(config.heroSettings?.groomFamilyMembers !== undefined ? config.heroSettings.groomFamilyMembers : defaultGroomFamilyMembers).map((mem, idx) => (
+                      <p key={idx} className="font-normal normal-case text-xs text-[#765E52]">{mem}</p>
+                    ))}
                   </div>
                 </>
               ) : (
@@ -957,9 +962,10 @@ export default function App() {
                     style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
                     className="text-[#641D2E] font-bold mt-2 mb-4 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    <p>S/O Mr T.V.Ramesh &amp; Usha Ramesh</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</p>
+                    <p>{config.groom.introLineage || (config.heroSettings?.groomParents ? config.heroSettings.groomParents : `S/O Mr ${config.groom.fatherName} & ${config.groom.motherName}`)}</p>
+                    {(config.heroSettings?.groomFamilyMembers !== undefined ? config.heroSettings.groomFamilyMembers : defaultGroomFamilyMembers).map((mem, idx) => (
+                      <p key={idx} className="font-normal normal-case text-xs text-[#765E52]">{mem}</p>
+                    ))}
                   </div>
                   
                   {/* Separator */}
@@ -980,9 +986,10 @@ export default function App() {
                     style={{ fontSize: getFontSize(typo.hero?.parents, 13) }}
                     className="text-[#641D2E] font-bold mt-2 mb-2 uppercase tracking-wider text-center space-y-0.5 leading-snug"
                   >
-                    <p>D/O Mr Babul Nath &amp; Momi Devi</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Akash Jyoti Nath (Brother)</p>
-                    <p className="font-normal normal-case text-xs text-[#765E52]">Upasana Devi (Sister in law)</p>
+                    <p>{config.bride.introLineage || (config.heroSettings?.brideParents ? config.heroSettings.brideParents : `D/O Mr ${config.bride.fatherName} & ${config.bride.motherName}`)}</p>
+                    {(config.heroSettings?.brideFamilyMembers !== undefined ? config.heroSettings.brideFamilyMembers : defaultBrideFamilyMembers).map((mem, idx) => (
+                      <p key={idx} className="font-normal normal-case text-xs text-[#765E52]">{mem}</p>
+                    ))}
                   </div>
                 </>
               )}
@@ -1747,126 +1754,6 @@ export default function App() {
                 )}
               </div>
 
-            </div>
-          </motion.section>
-        )}
-
-        {/* Floral Section Separator */}
-        {allHeartsScratched && (config.showFamilyDetails !== false) && <SectionSeparator />}
-
-        {/* 8. FAMILY DETAILS SECTION */}
-        {allHeartsScratched && (config.showFamilyDetails !== false) && (
-          <motion.section 
-            id="family-details"
-            initial={{ opacity: 0 }} 
-            whileInView={{ opacity: 1 }} 
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="py-16 px-4 md:px-8 relative z-10 w-full max-w-[calc(100dvh*9/16)] mx-auto"
-          >
-            <div className="bg-white/85 backdrop-blur-xl border border-[#C9A45C]/40 rounded-[2.5rem] p-6 sm:p-8 shadow-xl relative overflow-hidden">
-              <div className="text-center mb-8">
-                <span 
-                  style={{ fontSize: getFontSize(typo.familyDetails?.heading ? Math.round(typo.familyDetails.heading * 0.35) : 14, 14) }}
-                  className="font-sans uppercase tracking-[0.3em] text-[#C9A45C] font-bold mb-2 block"
-                >
-                  OUR FAMILIES &amp; LOVED ONES
-                </span>
-                <h3 
-                  style={{ fontSize: getFontSize(typo.familyDetails?.heading, 40) }}
-                  className="font-display text-[#B94E2F] font-bold uppercase tracking-wider"
-                >
-                  Family Details
-                </h3>
-                {/* User quote addition */}
-                <p 
-                  style={{ fontSize: getFontSize(typo.familyDetails?.quote, 19) }}
-                  className="font-serif-premium italic text-[#641D2E] font-semibold tracking-wide mt-3.5"
-                >
-                  &ldquo;With heart full of love and immense joy&rdquo;
-                </p>
-                <div className="flex items-center justify-center mt-3.5">
-                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
-                  <div className="w-1.5 h-1.5 rotate-45 border border-[#C9A45C] mx-2.5" />
-                  <div className="w-12 h-[1px] bg-[#C9A45C]/40" />
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                {/* Groom's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                    <h4 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
-                      className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
-                    >
-                      Aditya Ramesh
-                    </h4>
-                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                      Groom
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
-                    <p 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
-                      className="font-bold text-[#641D2E]"
-                    >
-                      S/O Mr T.V.Ramesh &amp; Usha Ramesh
-                    </p>
-                    <div 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
-                      className="space-y-2 pt-1 font-medium"
-                    >
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Megha Ramesh (Sister) &amp; Sekhar Kothanath (Brother in law)</span>
-                      </p>
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Xerxes Randeria (Brother) &amp; Ayesha Nicole Ali (Sister)</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bride's Family Card */}
-                <div className="bg-[#FFF9F3] border border-[#C9A45C]/40 rounded-2xl p-5 sm:p-7 shadow-xs relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#C9A45C]/25">
-                    <h4 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.memberName, 30) }}
-                      className="font-display font-bold text-[#641D2E] uppercase tracking-wide"
-                    >
-                      Pooja Devi
-                    </h4>
-                    <span className="font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B94E2F] bg-[#B94E2F]/10 px-3 py-1.5 rounded-full">
-                      Bride
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 font-serif-premium text-[#4B3A35] leading-relaxed">
-                    <p 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.parents, 19) }}
-                      className="font-bold text-[#641D2E]"
-                    >
-                      D/O Mr Babul Nath &amp; Momi Devi
-                    </p>
-                    <div 
-                      style={{ fontSize: getFontSize(typo.familyDetails?.relatives, 16) }}
-                      className="space-y-2 pt-1 font-medium"
-                    >
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Akash Jyoti Nath (Brother)</span>
-                      </p>
-                      <p className="flex items-start gap-2.5">
-                        <span className="text-[#C9A45C] mt-1 text-base">•</span>
-                        <span>Upasana Devi (Sister in law)</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </motion.section>
         )}

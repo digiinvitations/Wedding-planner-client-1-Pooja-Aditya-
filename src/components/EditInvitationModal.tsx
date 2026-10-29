@@ -171,7 +171,19 @@ export function EditInvitationModal({
   const [familyNamesStr, setFamilyNamesStr] = useState(
     config.familyDetails?.names?.join(", ") || "Ramesh Family, Nath Family, All Relatives and Friends"
   );
-  const [showFamilyDetails, setShowFamilyDetails] = useState<boolean>(config.showFamilyDetails ?? true);
+  const [showFamilyDetails, setShowFamilyDetails] = useState<boolean>(config.showFamilyDetails ?? false);
+  const [groomHeroFamilyStr, setGroomHeroFamilyStr] = useState(
+    (config.heroSettings?.groomFamilyMembers || [
+      "Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)",
+      "Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
+    ]).join("\n")
+  );
+  const [brideHeroFamilyStr, setBrideHeroFamilyStr] = useState(
+    (config.heroSettings?.brideFamilyMembers || [
+      "Akash Jyoti Nath (Brother)",
+      "Upasana Devi (Sister in law)"
+    ]).join("\n")
+  );
 
   // 5. Hotel & Stay Details
   const [hotelEnabled, setHotelEnabled] = useState(config.hotelStay?.enabled ?? true);
@@ -252,7 +264,19 @@ export function EditInvitationModal({
     setWelcomingText(config.familyDetails?.welcomingText || "Warmly Welcomed By:");
     setFamilyMessage(config.familyDetails?.message || "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.");
     setFamilyNamesStr(config.familyDetails?.names?.join(", ") || "Ramesh Family, Nath Family, All Relatives and Friends");
-    setShowFamilyDetails(config.showFamilyDetails ?? true);
+    setShowFamilyDetails(config.showFamilyDetails ?? false);
+    setGroomHeroFamilyStr(
+      (config.heroSettings?.groomFamilyMembers || [
+        "Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)",
+        "Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
+      ]).join("\n")
+    );
+    setBrideHeroFamilyStr(
+      (config.heroSettings?.brideFamilyMembers || [
+        "Akash Jyoti Nath (Brother)",
+        "Upasana Devi (Sister in law)"
+      ]).join("\n")
+    );
 
     setHotelEnabled(config.hotelStay?.enabled ?? true);
     setHotelName(config.hotelStay?.hotelName || "Mahableshwar");
@@ -414,6 +438,8 @@ export function EditInvitationModal({
           groomParents: `Son of ${groomFather.trim() || "Mr. T.V. Ramesh"} & ${groomMother.trim() || "Mrs. Usha Ramesh"}`,
           brideParents: `Daughter of ${brideFather.trim() || "Mr. Babul Nath"} & ${brideMother.trim() || "Mrs. Momi Devi"}`,
           introText: invitationMessage.trim() || config.heroSettings?.introText,
+          groomFamilyMembers: groomHeroFamilyStr.split("\n").map(s => s.trim()).filter(Boolean),
+          brideFamilyMembers: brideHeroFamilyStr.split("\n").map(s => s.trim()).filter(Boolean),
         },
         musicUrl: musicLink.trim() || config.musicUrl,
         showEventAddressAndMap: showEventAddressAndMap,
@@ -737,6 +763,20 @@ export function EditInvitationModal({
                         className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
                       />
                     </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1 flex items-center justify-between">
+                        <span>Hero Section Family Members (Brother / Sister / In-laws)</span>
+                        <span className="text-[10px] text-[#B94E2F] italic">one per line</span>
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={groomHeroFamilyStr}
+                        onChange={(e) => setGroomHeroFamilyStr(e.target.value)}
+                        placeholder="e.g. Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)&#10;Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
+                        className="w-full px-3.5 py-2 text-xs bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none leading-relaxed font-sans"
+                      />
+                      <p className="text-[10px] text-[#765E52] mt-0.5">Displayed directly below the groom's parents in the Hero section.</p>
+                    </div>
                   </div>
 
                   {/* Bride Section */}
@@ -801,6 +841,20 @@ export function EditInvitationModal({
                         placeholder="e.g. Bringing the grace and enchanting charm of Assam..."
                         className="w-full px-3.5 py-2 text-sm bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none"
                       />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-sans font-medium text-[#765E52] mb-1 flex items-center justify-between">
+                        <span>Hero Section Family Members (Brother / Sister / In-laws)</span>
+                        <span className="text-[10px] text-[#B94E2F] italic">one per line</span>
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={brideHeroFamilyStr}
+                        onChange={(e) => setBrideHeroFamilyStr(e.target.value)}
+                        placeholder="e.g. Akash Jyoti Nath (Brother)&#10;Upasana Devi (Sister in law)"
+                        className="w-full px-3.5 py-2 text-xs bg-white border border-[#C9A45C]/40 rounded-xl focus:outline-none focus:border-[#B94E2F] transition-all resize-none leading-relaxed font-sans"
+                      />
+                      <p className="text-[10px] text-[#765E52] mt-0.5">Displayed directly below the bride's parents in the Hero section.</p>
                     </div>
                   </div>
                 </div>
@@ -1144,7 +1198,7 @@ export function EditInvitationModal({
               )}
             </div>
 
-            {/* SECTION 4: FAMILY DETAILS */}
+            {/* SECTION 4: WELCOMING NOTE & MESSAGE */}
             <div className="bg-white/80 rounded-2xl border border-[#C9A45C]/30 shadow-sm overflow-hidden">
               <button
                 type="button"
@@ -1154,7 +1208,7 @@ export function EditInvitationModal({
                 <div className="flex items-center gap-2.5">
                   <Users size={18} className="text-[#B94E2F]" />
                   <span className="font-sans font-bold text-sm tracking-wide text-[#641D2E] uppercase">
-                    4. Family Details &amp; Welcoming Message
+                    4. Welcoming Note &amp; Cordial Message
                   </span>
                 </div>
                 <ChevronDown
@@ -1167,29 +1221,8 @@ export function EditInvitationModal({
 
               {expandedSections.family && (
                 <div className="p-5 space-y-4 border-t border-[#C9A45C]/20 bg-white/40">
-                  {/* Family Section Visibility Toggle */}
-                  <div className="bg-white p-3.5 rounded-xl border border-[#C9A45C]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                    <div>
-                      <span className="text-xs font-bold text-[#641D2E] block">
-                        Family Details Section on Website
-                      </span>
-                      <span className="text-[11px] text-[#765E52]">
-                        Status: <strong className={showFamilyDetails ? "text-emerald-700 font-semibold" : "text-[#B94E2F] font-semibold"}>
-                          {showFamilyDetails ? "Visible on wedding website" : "Hidden from wedding website"}
-                        </strong>
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowFamilyDetails((v) => !v)}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
-                        showFamilyDetails
-                          ? "bg-emerald-600 text-white border-emerald-700"
-                          : "bg-[#641D2E] text-white border-[#641D2E] hover:bg-[#85253C]"
-                      }`}
-                    >
-                      {showFamilyDetails ? "✓ Visible (Click to Hide)" : "Hidden (Click to Show)"}
-                    </button>
+                  <div className="bg-amber-50 border border-amber-200 p-3.5 rounded-xl text-xs text-amber-900 leading-relaxed">
+                    ℹ️ <strong>Note:</strong> The standalone family section has been removed from the website. Family members (brothers, sisters, and in-laws) are showcased directly in the top <strong>Hero section</strong> under Bride &amp; Groom (editable in <strong>Section 1</strong> above).
                   </div>
 
                   <div>

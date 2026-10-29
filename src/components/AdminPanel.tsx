@@ -300,6 +300,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <button onClick={() => setActiveTab("workspace")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "workspace" ? "bg-[#641D2E] text-[#dec47f] shadow-md border border-[#dec47f]/40 font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <ShieldCheck size={18} className="text-[#C9A45C]" /> Client Workspace
                     </button>
+                    <button onClick={() => setActiveTab("couple")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "couple" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
+                      <Crown size={18} /> Couple &amp; Hero Family
+                    </button>
                     <button onClick={() => setActiveTab("typography")} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors shrink-0 ${activeTab === "typography" ? "bg-[#B94E2F] text-white shadow-md font-bold" : "text-[#765E52] hover:bg-[#B94E2F]/10"}`}> 
                       <Type size={18} /> Font Sizes &amp; Typography
                     </button>
@@ -704,6 +707,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             placeholder="Son of Mr. T.V. Ramesh & Mrs. Usha Ramesh"
                           />
                         </div>
+                        <div className="md:col-span-2 pt-2 border-t border-[#C9A45C]/20">
+                          <label className="block text-[11px] font-semibold text-[#641D2E] mb-1.5 uppercase tracking-wide flex items-center justify-between">
+                            <span>Hero Section Family Members (Brother / Sister / In-laws)</span>
+                            <span className="text-[10px] text-[#B94E2F] font-normal lowercase italic">one per line</span>
+                          </label>
+                          <textarea 
+                            rows={3}
+                            value={(editConfig.heroSettings?.groomFamilyMembers !== undefined
+                              ? editConfig.heroSettings.groomFamilyMembers
+                              : [
+                                  "Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)",
+                                  "Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
+                                ]
+                            ).join("\n")}
+                            onChange={e => {
+                              const lines = e.target.value.split("\n");
+                              setEditConfig(c => ({
+                                ...c,
+                                heroSettings: {
+                                  ...c.heroSettings,
+                                  groomFamilyMembers: lines
+                                }
+                              }));
+                            }}
+                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#B94E2F] font-sans leading-relaxed"
+                            placeholder={"Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)\nXerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"}
+                          />
+                          <p className="text-[10px] text-[#765E52] mt-1">
+                            These names appear under the Groom's parents in the Hero section. You can edit, replace, add, or delete any names.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -782,6 +816,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#B94E2F]"
                             placeholder="Daughter of Mr. Babul Nath & Mrs. Momi Devi"
                           />
+                        </div>
+                        <div className="md:col-span-2 pt-2 border-t border-[#C9A45C]/20">
+                          <label className="block text-[11px] font-semibold text-[#641D2E] mb-1.5 uppercase tracking-wide flex items-center justify-between">
+                            <span>Hero Section Family Members (Brother / Sister / In-laws)</span>
+                            <span className="text-[10px] text-[#B94E2F] font-normal lowercase italic">one per line</span>
+                          </label>
+                          <textarea 
+                            rows={3}
+                            value={(editConfig.heroSettings?.brideFamilyMembers !== undefined
+                              ? editConfig.heroSettings.brideFamilyMembers
+                              : [
+                                  "Akash Jyoti Nath (Brother)",
+                                  "Upasana Devi (Sister in law)"
+                                ]
+                            ).join("\n")}
+                            onChange={e => {
+                              const lines = e.target.value.split("\n");
+                              setEditConfig(c => ({
+                                ...c,
+                                heroSettings: {
+                                  ...c.heroSettings,
+                                  brideFamilyMembers: lines
+                                }
+                              }));
+                            }}
+                            className="w-full bg-white border border-[#C9A45C]/30 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[#B94E2F] font-sans leading-relaxed"
+                            placeholder={"Akash Jyoti Nath (Brother)\nUpasana Devi (Sister in law)"}
+                          />
+                          <p className="text-[10px] text-[#765E52] mt-1">
+                            These names appear under the Bride's parents in the Hero section. You can edit, replace, add, or delete any names.
+                          </p>
                         </div>
                       </div>
                     </div>

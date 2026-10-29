@@ -214,6 +214,8 @@ export interface WeddingConfig {
     showPetals: boolean;
     ganeshaIconUrl?: string;
     bgVideoUrl?: string;
+    groomFamilyMembers?: string[];
+    brideFamilyMembers?: string[];
   };
   gallerySubtitle: string;
   galleryImages: {
@@ -268,6 +270,16 @@ export interface WeddingConfig {
   hideAdminEditButtons?: boolean;
   clientWorkspace?: string;
 }
+
+export const defaultGroomFamilyMembers: string[] = [
+  "Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)",
+  "Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
+];
+
+export const defaultBrideFamilyMembers: string[] = [
+  "Akash Jyoti Nath (Brother)",
+  "Upasana Devi (Sister in law)"
+];
 
 export const weddingConfig: WeddingConfig = configData as unknown as WeddingConfig;
 
