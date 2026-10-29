@@ -96,16 +96,25 @@ export function formatHeroBrideParents(cfg?: WeddingConfig): string {
 export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
   const groomParents = formatHeroGroomParents(cfg);
   const brideParents = formatHeroBrideParents(cfg);
+
+  // Strictly lock names to Aditya Ramesh & Pooja Devi across all hostings (Vercel, Cloud Run, etc.)
+  const groomName = (!cfg.groom?.name || /trishi/i.test(cfg.groom.name)) ? "Aditya Ramesh" : cfg.groom.name;
+  const brideName = (!cfg.bride?.name || /hitakshi/i.test(cfg.bride.name)) ? "Pooja Devi" : cfg.bride.name;
+  const hashtag = (!cfg.hashtag || /trishi|hitakshi/i.test(cfg.hashtag)) ? "#AdityaWedsPooja" : cfg.hashtag;
+
   return {
     ...cfg,
+    hashtag,
     groom: {
       ...cfg.groom,
+      name: groomName,
       fatherName: "Mr. T.V. Ramesh",
       motherName: "Mrs. Usha Ramesh",
       introLineage: groomParents,
     },
     bride: {
       ...cfg.bride,
+      name: brideName,
       fatherName: "Mr. Babul Nath",
       motherName: "Mrs. Momi Devi",
       introLineage: brideParents,
@@ -118,6 +127,12 @@ export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
       shloka: cfg.heroSettings?.shloka || "",
       showPetals: cfg.heroSettings?.showPetals ?? true,
     },
+    familyDetails: {
+      ...(cfg.familyDetails || {}),
+      names: ["Ramesh Family", "Nath Family", "All Relatives and Friends"],
+      message: "With the divine blessings of Lord Ganesha and our elders, we cordially invite you and your family to grace our Wedding Ceremony in Mahabaleshwar.",
+      welcomingText: "Warmly Welcomed By:"
+    },
     typography: cfg.typography || defaultTypographyConfig,
   };
 }
@@ -128,18 +143,23 @@ export default function App() {
     try {
       const stored = localStorage.getItem("wedding_config");
       if (stored) {
-        const configData = JSON.parse(stored);
-        const sanitized = sanitizeParentLineages({
-          ...defaultWeddingConfig,
-          ...configData,
-          weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
-          galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
-          groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
-          bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
-          typography: configData.typography || defaultTypographyConfig,
-        });
-        localStorage.setItem("wedding_config", JSON.stringify(sanitized));
-        return sanitized;
+        if (/trishi|hitakshi/i.test(stored)) {
+          localStorage.removeItem("wedding_config");
+          localStorage.removeItem("wedding_client_workspace");
+        } else {
+          const configData = JSON.parse(stored);
+          const sanitized = sanitizeParentLineages({
+            ...defaultWeddingConfig,
+            ...configData,
+            weddingEvents: Array.isArray(configData.weddingEvents) ? configData.weddingEvents : defaultWeddingConfig.weddingEvents,
+            galleryImages: configData.galleryImages || defaultWeddingConfig.galleryImages,
+            groom: { ...defaultWeddingConfig.groom, ...(configData.groom || {}) },
+            bride: { ...defaultWeddingConfig.bride, ...(configData.bride || {}) },
+            typography: configData.typography || defaultTypographyConfig,
+          });
+          localStorage.setItem("wedding_config", JSON.stringify(sanitized));
+          return sanitized;
+        }
       }
     } catch (e) {
       console.warn("Failed to load config from localStorage", e);
@@ -166,6 +186,10 @@ export default function App() {
     // 1. Fetch permanent config from backend server on mount
     fetchConfigFromDb().then((serverConfig) => {
       if (serverConfig) {
+        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+          console.warn("[App] Discarded obsolete server config with legacy names");
+          return;
+        }
         setConfig(sanitizeParentLineages({
           ...defaultWeddingConfig,
           ...serverConfig,

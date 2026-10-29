@@ -169,11 +169,15 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
       const docData = remixDocSnap.data();
       const serverConfig = (docData.remix_wedding_config || docData.data) as WeddingConfig;
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        console.log(`[fetchConfigFromDb] Found config in remix_websites/${REMIX_INSTANCE_ID}/workspaces/${safeId}`);
-        localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
-        localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
-        window.dispatchEvent(new Event("wedding_config_updated"));
-        return serverConfig;
+        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+          console.warn(`[fetchConfigFromDb] Discarded obsolete config with legacy names from ${safeId}`);
+        } else {
+          console.log(`[fetchConfigFromDb] Found config in remix_websites/${REMIX_INSTANCE_ID}/workspaces/${safeId}`);
+          localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
+          localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
+          window.dispatchEvent(new Event("wedding_config_updated"));
+          return serverConfig;
+        }
       }
     }
 
@@ -182,11 +186,15 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
       const docData = altRemixSnap.data();
       const serverConfig = (docData.remix_wedding_config || docData.data) as WeddingConfig;
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        console.log(`[fetchConfigFromDb] Found config in remix_wedding_clients/${REMIX_INSTANCE_ID}_${safeId}`);
-        localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
-        localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
-        window.dispatchEvent(new Event("wedding_config_updated"));
-        return serverConfig;
+        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+          console.warn(`[fetchConfigFromDb] Discarded obsolete config with legacy names from ${REMIX_INSTANCE_ID}_${safeId}`);
+        } else {
+          console.log(`[fetchConfigFromDb] Found config in remix_wedding_clients/${REMIX_INSTANCE_ID}_${safeId}`);
+          localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
+          localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
+          window.dispatchEvent(new Event("wedding_config_updated"));
+          return serverConfig;
+        }
       }
     }
   } catch (err) {
@@ -200,11 +208,15 @@ export async function fetchConfigFromDb(targetWorkspace?: string): Promise<Weddi
     if (res.ok) {
       const serverConfig = await res.json();
       if (serverConfig && Object.keys(serverConfig).length > 0) {
-        console.log(`[fetchConfigFromDb] Config found on Express backend remix partition for client "${workspace}".`);
-        localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
-        localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
-        window.dispatchEvent(new Event("wedding_config_updated"));
-        return serverConfig;
+        if (/trishi|hitakshi/i.test(JSON.stringify(serverConfig))) {
+          console.warn("[fetchConfigFromDb] Discarded backend config with legacy names");
+        } else {
+          console.log(`[fetchConfigFromDb] Config found on Express backend remix partition for client "${workspace}".`);
+          localStorage.setItem(getConfigStorageKey(workspace), JSON.stringify(serverConfig));
+          localStorage.setItem("wedding_config", JSON.stringify(serverConfig));
+          window.dispatchEvent(new Event("wedding_config_updated"));
+          return serverConfig;
+        }
       }
     }
   } catch (fallbackErr) {
