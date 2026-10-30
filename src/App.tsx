@@ -93,7 +93,7 @@ export function formatHeroBrideParents(cfg?: WeddingConfig): string {
   return `Daughter of Mr. ${fRaw} & Mrs. ${mRaw}`;
 }
 
-const APP_DATA_VERSION = "aditya_pooja_oct1_2027_v5";
+const APP_DATA_VERSION = "aditya_pooja_oct1_2027_v6_official";
 
 export function sanitizeParentLineages(cfg: WeddingConfig): WeddingConfig {
   const gFather = cfg.groom?.fatherName?.trim() || "Mr. T.V. Ramesh";

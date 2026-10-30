@@ -272,7 +272,7 @@ export interface WeddingConfig {
 }
 
 export const defaultGroomFamilyMembers: string[] = [
-  "Megha Ramesh (Sister) & Sekhar Kothanath (Brother in law)",
+  "Megha Ramesh (Sister) & Shekher Kothanath (Brother in law)",
   "Xerxes Randeria (Brother) & Ayesha Nicole Ali (Sister)"
 ];
 
